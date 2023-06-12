@@ -1,165 +1,164 @@
 <template>
-  <div>
-      <Header />
-      <nav class="breadcrumb-wrapper">
-          <div class="container-fluid">
-              <ol class="breadcrumb">
-                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Main</span></a>
-                      <meta itemprop="position" content="1" />
-                  </li>
-                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="#"><span itemprop="name">Browser</span></a></li>
-                  <li class="breadcrumb-item" itemprop="itemListElement"><span itemprop="name">HV-MTL</span>
-                      <meta itemprop="position" content="3" />
-                  </li>
-              </ol>
-          </div>
-      </nav>
-      <form method="get" action="./api/vessels.php" id="vessels">
-          <div class="topline">
-              <div class="wrapper3">
-                  <div class="menubox">
-                      <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
-                  </div>
-                  <div class="searchbar">
-                      <div class="search-form">
-                          <div class="form-group">
-                              <input class="form-control" type="text" placeholder="Search by Wallet or Vessel-ID" aria-label="Suche" name="quicksearch" value>
-                              <div class="btn"></div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="topsort" id="sorting">
-                      <div class="select-sort">
-                          <select name="sortBy" id="sorting">
-                              <option value="pricelowtohigh">Price low to high</option>
-                              <option value="pricelowtohigh">Price low to high</option>
-                              <option value="pricehightolow">Price high to low</option>
-                              <option value="idlowtohigh">ID low to high</option>
-                              <option value="idhightolow">ID high to low</option>
-                              <option value="listingnewtoold">Listing new to old</option>
-                              <option value="listingoldtonew">Listing old to new</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="d-flex align-items-start" method="get">
-                  <input type="hidden" name="page" id="currentPage" value="1">
-                  <div class="w-360px sidebar sticky-top">
-                      <div class="wrapper center-block">
-                          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                              <div class="panel panel-default">
-                                  <div class="panel-heading" role="tab" id="headingTwo">
-                                      <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Status</a></h4>
-                                  </div>
-                                  <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                      <div class="panel-body">
-                                          <div class="checkbox"><label><input type="checkbox" name="show_all" value="All">
-                                                  <div></div><span>Show All</span>
-                                              </label></div><br>
-                                          <h5>Option</h5>
-                                          <div class="checkbox"><label><input type="checkbox" name="getallids" value="1">
-                                                  <div></div><span>Export IDs</span>
-                                              </label></div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="panel panel-default">
-                                  <div class="panel-heading" role="tab" id="headingTwo">
-                                      <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Price</a></h4>
-                                  </div>
-                                  <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                      <div class="panel-body noborder">
-                                          <h5>Price Range in ETH</h5>
-                                          <div class="filterhalf">
-                                              <div><input type="number" value placeholder="Min" class="price_range" name="price_range_downlimit"></div>
-                                              <div><input type="number" value placeholder="Max" class="price_range" name="price_range_uplimit"></div>
-                                          </div>
-                                          <h5>Currency</h5>
-                                          <div class="checkbox"><label><input type="checkbox" name="currency[]" value="ETH">
-                                                  <div></div><span>ETH</span>
-                                              </label></div>
-                                          <div class="checkbox"><label><input type="checkbox" name="currency[]" value="APE">
-                                                  <div></div><span>APE</span>
-                                              </label></div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <hr>
-                              <div class="wrapper center-block">
-                                  <div class="panel panel-default">
-                                      <div class="panel-heading" role="tab" id="headCat">
-                                          <h4 class="panel-title">
-                                              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colCat" aria-expanded="false" aria-controls="colCat">
-                                                  <div class="svgbox"></div> Role
-                                              </a>
-                                          </h4>
-                                      </div>
-                                      <div id="colCat" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headCat">
-                                          <div class="panel-body">
-                                              <div class="checkbox"><label><input type="checkbox" name="category[]" value="Enchanter">
-                                                      <div></div><span>Enchanter</span>
-                                                  </label></div><br>
-                                              <div class="checkbox"><label><input type="checkbox" name="category[]" value="Farmer">
-                                                      <div></div><span>Farmer</span>
-                                                  </label></div><br>
-                                              <div class="checkbox"><label><input type="checkbox" name="category[]" value="Hunter">
-                                                      <div></div><span>Hunter</span>
-                                                  </label></div><br>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="panel panel-default">
-                                      <div class="panel-heading" role="tab" id="headCat">
-                                          <h4 class="panel-title">
-                                              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colRelic" aria-expanded="false" aria-controls="colRelic">
-                                                  <div class="svgbox"></div> Relic
-                                              </a>
-                                          </h4>
-                                      </div>
-                                      <div id="colRelic" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headCat">
-                                          <div class="panel-body">
-                                              <div class="checkbox"><label><input type="checkbox" name="relic[]" value="KodaPendant">
-                                                      <div></div><span>KodaPendant</span>
-                                                  </label></div><br>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="panel panel-default">
-                                      <div class="panel-heading" role="tab" id="headLoc">
-                                          <h4 class="panel-title">
-                                              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colLoc" aria-expanded="false" aria-controls="colLoc">
-                                                  <div class="svgbox"></div> ID
-                                              </a>
-                                          </h4>
-                                      </div>
-                                      <div id="colLoc" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headLoc">
-                                          <div class="panel-body">
-                                              <h5>Vessel-ID</h5><input type="number" placeholder value class="price_range" name="vesselid">
-                                              <h5>ID Range</h5>
-                                              <div class="filterhalf">
-                                                  <div><input type="number" value placeholder="0" class="price_range" name="id_range_downlimit"></div>
-                                                  <div><input type="number" value placeholder="99999" class="price_range" name="id_range_uplimit"></div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="w-100" id="main-content">
-                      <div class="results" id="content">
-                          <div class="results-found">
-                              <div class="col-12">
-                                  <div id="activefilters" class="align-items-left mb-3"></div>
-                              </div>
-                          </div>
-                          <div class="col-12">
-                              <div id="allids"></div>
-                          </div>
-                          <div class="list-wrapper">
+    <div>
+        <Header />
+        <nav class="breadcrumb-wrapper">
+            <div class="container-fluid">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Main</span></a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="#"><span itemprop="name">Browser</span></a></li>
+                    <li class="breadcrumb-item" itemprop="itemListElement"><span itemprop="name">HV-MTL</span>
+                        <meta itemprop="position" content="3" />
+                    </li>
+                </ol>
+            </div>
+        </nav>
+        <div class="topline">
+            <div class="wrapper3">
+                <div class="menubox">
+                    <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
+                </div>
+                <div class="searchbar">
+                    <div class="search-form">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Search by Wallet or Vessel-ID" aria-label="Suche" name="quicksearch" value>
+                            <div class="btn"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topsort" id="sorting">
+                    <div class="select-sort">
+                        <select name="sortBy" id="sorting">
+                            <option value="pricelowtohigh">Price low to high</option>
+                            <option value="pricelowtohigh">Price low to high</option>
+                            <option value="pricehightolow">Price high to low</option>
+                            <option value="idlowtohigh">ID low to high</option>
+                            <option value="idhightolow">ID high to low</option>
+                            <option value="listingnewtoold">Listing new to old</option>
+                            <option value="listingoldtonew">Listing old to new</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-start" method="get">
+                <input type="hidden" name="page" id="currentPage" value="1">
+                <div class="w-360px sidebar sticky-top">
+                    <div class="wrapper center-block">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Status</a></h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <div class="checkbox"><label><input type="checkbox" name="show_all" value="All">
+                                                <div></div><span>Show All</span>
+                                            </label></div><br>
+                                        <h5>Option</h5>
+                                        <div class="checkbox"><label><input type="checkbox" name="getallids" value="1">
+                                                <div></div><span>Export IDs</span>
+                                            </label></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Price</a></h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="panel-body noborder">
+                                        <h5>Price Range in ETH</h5>
+                                        <div class="filterhalf">
+                                            <div><input type="number" value placeholder="Min" class="price_range" name="price_range_downlimit"></div>
+                                            <div><input type="number" value placeholder="Max" class="price_range" name="price_range_uplimit"></div>
+                                        </div>
+                                        <h5>Currency</h5>
+                                        <div class="checkbox"><label><input type="checkbox" name="currency[]" value="ETH">
+                                                <div></div><span>ETH</span>
+                                            </label></div>
+                                        <div class="checkbox"><label><input type="checkbox" name="currency[]" value="APE">
+                                                <div></div><span>APE</span>
+                                            </label></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="wrapper center-block">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headCat">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colCat" aria-expanded="false" aria-controls="colCat">
+                                                <div class="svgbox"></div> Role
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="colCat" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headCat">
+                                        <div class="panel-body">
+                                            <div class="checkbox"><label><input type="checkbox" name="category[]" value="Enchanter">
+                                                    <div></div><span>Enchanter</span>
+                                                </label></div><br>
+                                            <div class="checkbox"><label><input type="checkbox" name="category[]" value="Farmer">
+                                                    <div></div><span>Farmer</span>
+                                                </label></div><br>
+                                            <div class="checkbox"><label><input type="checkbox" name="category[]" value="Hunter">
+                                                    <div></div><span>Hunter</span>
+                                                </label></div><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headCat">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colRelic" aria-expanded="false" aria-controls="colRelic">
+                                                <div class="svgbox"></div> Relic
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="colRelic" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headCat">
+                                        <div class="panel-body">
+                                            <div class="checkbox"><label><input type="checkbox" name="relic[]" value="KodaPendant">
+                                                    <div></div><span>KodaPendant</span>
+                                                </label></div><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headLoc">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colLoc" aria-expanded="false" aria-controls="colLoc">
+                                                <div class="svgbox"></div> ID
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="colLoc" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headLoc">
+                                        <div class="panel-body">
+                                            <h5>Vessel-ID</h5><input type="number" placeholder value class="price_range" name="vesselid">
+                                            <h5>ID Range</h5>
+                                            <div class="filterhalf">
+                                                <div><input type="number" value placeholder="0" class="price_range" name="id_range_downlimit"></div>
+                                                <div><input type="number" value placeholder="99999" class="price_range" name="id_range_uplimit"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100" id="main-content">
+                    <div class="results" id="content">
+                        <div class="results-found">
+                            <div class="col-12">
+                                <div id="activefilters" class="align-items-left mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div id="allids"></div>
+                        </div>
+                        <div class="list-wrapper">
                             <div id="results" class="row align-items-center mb-3">
-                                <div class="col-auto"  v-for="nft in nfts" :key="nft.token_id">
+                                <div class="col-auto" v-for="nft in nfts" :key="nft.token_id">
                                     <a href="otherside-relics/id/0" class="list list-item-relic">
                                         <div class="topside">
                                             <div class="marketprice">{{ nftPrice[nft.token_id] }} ETH</div>
@@ -175,26 +174,42 @@
                                     </a>
                                 </div>
                             </div>
+                            <!-- <div id="page_links" class="pt-3">
+                                <button @click="gotoPage(currentPage - 1)">上一页</button>
+                                <span>当前页：{{ currentPage }}</span>
+                                <button @click="gotoPage(currentPage + 1)">下一页</button>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item"><a href="#" data-page="1" class="page-link disabled">Previous</a></li>
+                                        <li class="page-item"><a href="#" data-page="1" class="page-link active">1</a></li>
+                                        <li class="page-item"><a href="#" data-page="2" class="page-link disabled">Next</a></li>
+                                    </ul>
+                                </nav>
+                            </div> -->
                             <div id="page_links" class="pt-3">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
-                                            <li class="page-item"><a href="#" data-page="1" class="page-link disabled">Previous</a></li>
-                                            <li class="page-item"><a href="#" data-page="1" class="page-link active">1</a></li>
-                                            <li class="page-item"><a href="#" data-page="2" class="page-link disabled">Next</a></li>
-                                        </ul>
-                                    </nav>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </form>
-  </div>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(currentPage - 1)">Previous</a>
+                                        </li>
+                                        <li class="page-item" v-for="page in totalPages" :key="page">
+                                            <a href="#" class="page-link" :class="{ active: currentPage === page }" @click.prevent="gotoPage(page)">{{ page }}</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages }" @click.prevent="gotoPage(currentPage + 1)">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
 
@@ -207,50 +222,47 @@ export default {
     return {
       nfts: [],
       nftPrice: {},
+      offset: 0, // 当前的偏移量
+      limit: 100, // 每页的 NFT 数量
+      totalPages: 0, // 总页数
     };
   },
-  mounted() {
-    const collectionSlug = 'hv-mtl'; // 替换为您的合集 slug
-    const limit = 100; // 设置要获取的 NFT 数量
-
-    axios
-      .get(`https://api.opensea.io/api/v1/assets?collection=${collectionSlug}&limit=${limit}&order_direction=asc&order_by=pk`)
-      .then((response) => {
-        this.nfts = response.data.assets;
-
-        // 获取每个 NFT 令牌的价格
-        this.fetchNFTPrices();
-      })
-      .catch((error) => {
-        console.error('获取 NFT 数据时出错:', error);
-      });
+  computed: {
+    currentPage() {
+      // 计算当前的页码
+      return this.offset / this.limit + 1;
+    },
   },
   methods: {
-    fetchNFTPrices() {
-      // 遍历每个 NFT 并获取其当前的市场价格
-      this.nfts.forEach((nft) => {
-        const assetContractAddress = nft.asset_contract.address;
-        const tokenId = nft.token_id;
+    fetchNFTs() {
+      const apiKey = '8d6c9ede2a294c6c9e3f23214dbb24d2';
+      const collectionSlug = 'hv-mtl'; // 替换为您的合集 slug
 
-        const options = {
-        method: 'GET',
-        url: `https://api.blockspan.com/v1/nfts/contract/${assetContractAddress}/token/${tokenId}`,
-        params: { chain: 'eth-main' },
-        headers: { accept: 'application/json', 'X-API-KEY': '8ONy1MvdvWScw2XzAUCUhEV3fo0Raw2Z' }
-        };
+      axios
+        .get(`https://api.opensea.io/api/v1/assets?collection=${collectionSlug}&offset=${this.offset}&limit=${this.limit}&include_orders=false`, { headers: { 'X-API-KEY': apiKey } })
+        .then((response) => {
+            this.nfts = response.data.assets;
+            if (response.data.total && !isNaN(response.data.total)) {
+            this.totalPages = Math.ceil(response.data.total / this.limit);
+            } else {
+            console.error('Response data total is not a number:', response.data.total);
+            this.totalPages = 0; // Or a default number
+            }
+        })
+        .catch((error) => {
+            console.error('获取 NFT 数据时出错:', error);
+        });
 
-        axios
-          .request(options)
-          .then((response) => {
-            const tokenPrice = response.data.recent_price.price;
-            // console.log(tokenPrice);
-            this.$set(this.nftPrice, tokenId, tokenPrice);
-          })
-          .catch((error) => {
-            console.error('获取令牌价格时出错:', error);
-          });
-      });
     },
+    gotoPage(page) {
+      // 更改 offset 并获取新的 NFTs
+      this.offset = (page - 1) * this.limit;
+      this.fetchNFTs();
+    },
+  },
+  mounted() {
+    // 在组件挂载时获取第一页的 NFTs
+    this.fetchNFTs();
   },
 };
 </script>
