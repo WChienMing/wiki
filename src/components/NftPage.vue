@@ -158,8 +158,8 @@
                         </div>
                         <div class="list-wrapper">
                             <div id="results" class="row align-items-center mb-3">
-                                <div class="col-auto" v-for="nft in nfts" :key="nft.token_id">
-                                    <a href="otherside-relics/id/0" class="list list-item-relic">
+                                <div class="col-auto"  v-for="nft in nfts" :key="nft.token_id">
+                                    <a :href="'/NftDetails?id=' + nft.token_id" class="list list-item-relic">
                                         <div class="topside">
                                             <div class="marketprice">{{ nftPrice[nft.token_id] }} ETH</div>
                                         </div>
