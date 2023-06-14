@@ -190,13 +190,19 @@
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
                                         <li class="page-item">
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(currentPage - 1)">Previous</a>
+                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(1)">首页</a>
                                         </li>
-                                        <li class="page-item" v-for="page in totalPages" :key="page">
+                                        <li class="page-item" v-if="visiblePages[0] > 1">
+                                            <a href="#" class="page-link" @click.prevent="gotoPage(visiblePages[0] - 1)">...</a>
+                                        </li>
+                                        <li class="page-item" v-for="page in visiblePages" :key="page">
                                             <a href="#" class="page-link" :class="{ active: currentPage === page }" @click.prevent="gotoPage(page)">{{ page }}</a>
                                         </li>
+                                        <li class="page-item" v-if="visiblePages[visiblePages.length - 1] < totalPages">
+                                            <a href="#" class="page-link" @click.prevent="gotoPage(visiblePages[visiblePages.length - 1] + 1)">...</a>
+                                        </li>
                                         <li class="page-item">
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages }" @click.prevent="gotoPage(currentPage + 1)">Next</a>
+                                            <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages }" @click.prevent="gotoPage(totalPages)">末页</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -208,6 +214,7 @@
         </div>
     </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -222,47 +229,51 @@ export default {
     return {
       nfts: [],
       nftPrice: {},
-      offset: 0, // 当前的偏移量
+      currentPage: 1, // 当前页码
       limit: 100, // 每页的 NFT 数量
       totalPages: 0, // 总页数
+      contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D', // 替换为你的合约地址
+      totalSupply: 27376, // 总的供应量
     };
   },
   computed: {
-    currentPage() {
-      // 计算当前的页码
-      return this.offset / this.limit + 1;
-    },
+    visiblePages() {
+      const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
+      const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
+      return Array.from({length: end - start + 1}, (_, i) => start + i);
+    }
   },
   methods: {
     fetchNFTs() {
       const apiKey = '8d6c9ede2a294c6c9e3f23214dbb24d2';
-      const collectionSlug = 'hv-mtl'; // 替换为您的合集 slug
+      let startId = (this.currentPage - 1) * this.limit + 1;
+      let endId = this.currentPage * this.limit;
+      let tokenIds = Array.from({length: endId - startId + 1}, (_, i) => startId + i);
 
+      // 将 tokenIds 转换为请求参数的形式
+      const tokenIdsParams = tokenIds.map(id => `token_ids=${id}`).join('&');
+
+      // 获取 NFTs
       axios
-        .get(`https://api.opensea.io/api/v1/assets?collection=${collectionSlug}&offset=${this.offset}&limit=${this.limit}&include_orders=false`, { headers: { 'X-API-KEY': apiKey } })
+        .get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&${tokenIdsParams}`, { headers: { 'X-API-KEY': apiKey } })
         .then((response) => {
-            this.nfts = response.data.assets;
-            if (response.data.total && !isNaN(response.data.total)) {
-            this.totalPages = Math.ceil(response.data.total / this.limit);
-            } else {
-            console.error('Response data total is not a number:', response.data.total);
-            this.totalPages = 0; // Or a default number
-            }
+          this.nfts = response.data.assets;
         })
         .catch((error) => {
-            console.error('获取 NFT 数据时出错:', error);
+          console.error('获取 NFT 数据时出错:', error);
         });
-
     },
     gotoPage(page) {
-      // 更改 offset 并获取新的 NFTs
-      this.offset = (page - 1) * this.limit;
+      // 更改当前页码并获取新的 NFTs
+      this.currentPage = page;
       this.fetchNFTs();
     },
   },
   mounted() {
     // 在组件挂载时获取第一页的 NFTs
     this.fetchNFTs();
+    // 计算总页数
+    this.totalPages = Math.ceil(this.totalSupply / this.limit);
   },
 };
 </script>
