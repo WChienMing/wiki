@@ -89,7 +89,7 @@
                                     <div class="panel-heading" role="tab" id="headCat">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colCat" aria-expanded="false" aria-controls="colCat">
-                                                <div class="svgbox"></div> Role
+                                                 Role
                                             </a>
                                         </h4>
                                     </div>
@@ -111,7 +111,7 @@
                                     <div class="panel-heading" role="tab" id="headCat">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colRelic" aria-expanded="false" aria-controls="colRelic">
-                                                <div class="svgbox"></div> Relic
+                                                Relic
                                             </a>
                                         </h4>
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="panel-heading" role="tab" id="headLoc">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colLoc" aria-expanded="false" aria-controls="colLoc">
-                                                <div class="svgbox"></div> ID
+                                                 ID
                                             </a>
                                         </h4>
                                     </div>
@@ -158,68 +158,39 @@
                         </div>
                         <div class="list-wrapper">
                             <div id="results" class="row align-items-center mb-3">
-                                <div class="col-auto"  v-for="nft in nfts" :key="nft.token_id">
-                                    <a :href="'/NftDetails?id=' + nft.token_id" class="list list-item-relic">
+                                <div class="col-auto"  v-for="nft in nfts" :key="nft.tokenId">
+                                    <a :href="'/NftDetails?id=' + nft.tokenId" class="list list-item-relic">
                                         <div class="topside">
-                                            <div class="marketprice">{{ nftPrice[nft.token_id] }} ETH</div>
+                                        <div class="marketprice"> ETH</div>
                                         </div>
-                                        <div class="image"><img :src="nft.image_url" alt="NFT"></div>
+                                        <div class="image"><img :src="nft.image" alt="NFT"></div>
                                         <div class="bottomside">
-                                            <div class="basics">
-                                                <div class="box">
-                                                    <div class="text">#{{ nft.token_id }}</div>
-                                                </div>
+                                        <div class="basics">
+                                            <div class="box">
+                                            <div class="text">#{{ nft.tokenId }}</div>
                                             </div>
+                                        </div>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <!-- <div id="page_links" class="pt-3">
-                                <button @click="gotoPage(currentPage - 1)">上一页</button>
-                                <span>当前页：{{ currentPage }}</span>
-                                <button @click="gotoPage(currentPage + 1)">下一页</button>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li class="page-item"><a href="#" data-page="1" class="page-link disabled">Previous</a></li>
-                                        <li class="page-item"><a href="#" data-page="1" class="page-link active">1</a></li>
-                                        <li class="page-item"><a href="#" data-page="2" class="page-link disabled">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </div> -->
                             <div id="page_links" class="pt-3">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
                                         <li class="page-item">
-<<<<<<< Updated upstream
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(1)">首页</a>
+                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(1)">First</a>
                                         </li>
                                         <li class="page-item" v-if="visiblePages[0] > 1">
                                             <a href="#" class="page-link" @click.prevent="gotoPage(visiblePages[0] - 1)">...</a>
                                         </li>
                                         <li class="page-item" v-for="page in visiblePages" :key="page">
                                             <a href="#" class="page-link" :class="{ active: currentPage === page }" @click.prevent="gotoPage(page)">{{ page }}</a>
-=======
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(1)">First</a>
-                                        </li>
-                                        <li class="page-item" v-if="currentPage > 3">
-                                            <a href="#" class="page-link" @click.prevent="gotoPage(currentPage - 3)">...</a>
-                                        </li>
-                                        <li class="page-item" v-for="page in 5" :key="page" v-if="page >= currentPage - 2 && page <= currentPage + 2">
-                                            <a href="#" class="page-link" :class="{ active: currentPage === (currentPage - 3 + page) }" @click.prevent="gotoPage(currentPage - 3 + page)">{{ currentPage - 3 + page }}</a>
-                                        </li>
-                                        <li class="page-item" v-if="currentPage < totalPages - 2">
-                                            <a href="#" class="page-link" @click.prevent="gotoPage(currentPage + 3)">...</a>
->>>>>>> Stashed changes
                                         </li>
                                         <li class="page-item" v-if="visiblePages[visiblePages.length - 1] < totalPages">
                                             <a href="#" class="page-link" @click.prevent="gotoPage(visiblePages[visiblePages.length - 1] + 1)">...</a>
                                         </li>
                                         <li class="page-item">
-<<<<<<< Updated upstream
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages }" @click.prevent="gotoPage(totalPages)">末页</a>
-=======
                                             <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages }" @click.prevent="gotoPage(totalPages)">Last</a>
->>>>>>> Stashed changes
                                         </li>
                                     </ul>
                                 </nav>
@@ -245,81 +216,86 @@ export default {
   data() {
     return {
       nfts: [],
-      nftPrice: {},
-<<<<<<< Updated upstream
-      currentPage: 1, // 当前页码
-      limit: 100, // 每页的 NFT 数量
-=======
-      offset: 0, // 当前的偏移量
-      limit: 300, // 每页的 NFT 数量
->>>>>>> Stashed changes
-      totalPages: 0, // 总页数
+      currentPage: 1, // 当前的页码
+      limit: 100, // 每页的NFT数量，设置为30或更小的数字
+      totalPages: 0, // 总的页数
       contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D', // 替换为你的合约地址
-      totalSupply: 27376, // 总的供应量
+      totalSupply: 27300, // 替换为你的NFT的总供应量
     };
   },
   computed: {
     visiblePages() {
       const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
       const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
-      return Array.from({length: end - start + 1}, (_, i) => start + i);
-    }
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    },
   },
   methods: {
     fetchNFTs() {
-      const apiKey = '8d6c9ede2a294c6c9e3f23214dbb24d2';
-      let startId = (this.currentPage - 1) * this.limit + 1;
-      let endId = this.currentPage * this.limit;
-      let tokenIds = Array.from({length: endId - startId + 1}, (_, i) => startId + i);
+  let startToken = (this.currentPage - 1) * this.limit + 1;
 
-<<<<<<< Updated upstream
-      // 将 tokenIds 转换为请求参数的形式
-      const tokenIdsParams = tokenIds.map(id => `token_ids=${id}`).join('&');
+  // 清空当前的NFTs数组
+  this.nfts = [];
+  
+  axios
+    .get(`https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
+    .then((response) => {
+      // 仅从Alchemy API获取tokenId
+      const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
 
-=======
->>>>>>> Stashed changes
-      // 获取 NFTs
-      axios
-        .get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&${tokenIdsParams}`, { headers: { 'X-API-KEY': apiKey } })
-        .then((response) => {
-          this.nfts = response.data.assets;
-        })
+      // 拆分token_ids数组为多个小数组，每个小数组最多包含30个元素
+      const tokenIdsChunks = [];
+      while (nftsId.length > 0) {
+        tokenIdsChunks.push(nftsId.splice(0, 20));
+      }
+
+      // 使用OpenSea API获取图片
+      const promises = tokenIdsChunks.map(chunk => {
+        const tokenIds = chunk.join('&token_ids=');
+        return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`);
+      });
+
+      // 并行发送多个请求
+      axios.all(promises)
+        .then(axios.spread((...responses) => {
+          // 将获取到的NFT数据添加到'nfts'数组
+          responses.forEach(response => {
+            const assets = response.data.assets;
+            this.nfts.push(
+              ...assets.map(asset => ({
+                tokenId: asset.token_id,
+                image: asset.image_url
+              }))
+            );
+          });
+
+          // 按tokenId排序
+          this.nfts.sort((a, b) => a.tokenId - b.tokenId);
+        }))
         .catch((error) => {
-          console.error('获取 NFT 数据时出错:', error);
+          console.error('获取NFT数据时出错：', error);
         });
-<<<<<<< Updated upstream
-=======
+    })
+    .catch((error) => {
+      console.error('获取NFT数据时出错：', error);
+    });
+},
 
-      // 获取 total_supply
-      axios
-        .get(`https://api.opensea.io/api/v1/collection/${collectionSlug}`)
-        .then((response) => {
-            console.log(response);
-          if (response.data.collection && response.data.collection.stats.total_supply && !isNaN(response.data.collection.stats.total_supply)) {
-            this.totalPages = Math.ceil(response.data.collection.stats.total_supply / this.limit);
-          } else {
-            console.error('Response data stats.total_supply is not a number:', response.data.collection ? response.data.collection.stats.total_supply : 'N/A');
-            this.totalPages = 0; // Or a default number
-          }
-        })
-        .catch((error) => {
-          console.error('获取 total_supply 时出错:', error);
-        });
->>>>>>> Stashed changes
-    },
     gotoPage(page) {
-      // 更改当前页码并获取新的 NFTs
+      // 更改当前的页码并获取新的NFTs
       this.currentPage = page;
       this.fetchNFTs();
     },
   },
   mounted() {
-    // 在组件挂载时获取第一页的 NFTs
+    // 在组件加载时获取第一页的NFTs
     this.fetchNFTs();
-    // 计算总页数
+    // 计算总的页数
     this.totalPages = Math.ceil(this.totalSupply / this.limit);
   },
 };
+
+
 </script>
 
 <style>
