@@ -249,11 +249,14 @@ export default {
         tokenIdsChunks.push(nftsId.splice(0, 20));
       }
 
-      // 使用OpenSea API获取图片
-      const promises = tokenIdsChunks.map(chunk => {
+        const promises = tokenIdsChunks.map(chunk => {
         const tokenIds = chunk.join('&token_ids=');
-        return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`);
-      });
+        return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
+            headers: {
+            'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2'
+            }
+        });
+        });
 
       // 并行发送多个请求
       axios.all(promises)
