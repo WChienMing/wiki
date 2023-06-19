@@ -209,7 +209,7 @@ import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
 
 export default {
-  name: 'InfoPage',
+  name: 'NftPage',
   components: {
     Header,
   },

@@ -1,131 +1,167 @@
 <template>
-    <div>
-        <Header />
-        <nav class="breadcrumb-wrapper">
-            <div class="container-fluid">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Main</span></a>
-                        <meta itemprop="position" content="1" />
-                    </li>
-                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="#"><span itemprop="name">Browser</span></a></li>
-                    <li class="breadcrumb-item" itemprop="itemListElement"><span itemprop="name">HV-MTL</span>
-                        <meta itemprop="position" content="3" />
-                    </li>
-                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">Otherdeed {{ urlId }}</span>
-                        <meta itemprop="position" content="3" />
-                    </li>
-                </ol>
-            </div>
-        </nav>
-        <div class="main">
-            <div class="container">
-            <div class="row align-items-center">
-            <div class="col-md-12 plots">
-            <div class="row">
-            <div class="col-md-8">
-            <div style="display:block;"><h1>Otherdeed {{ urlId }} </h1></div>
-            <div class="owner">Owned by <a href="wallet/0xdf4e0f7e6cbcb5a1b78fd0f3a71aff8e2a782112" title="0xdf4e0f7e6cbcb5a1b78fd0f3a71aff8e2a782112">ethflash.eth</a> &#x2022; Otherdeed Expanded</div>
-            </div>
-            <div class="col-md-4">
-            <div style="text-align: right; width: 100%; margin-top: 10px;"><a href="https://www.otherside.xyz/explore?id=55324" target="_blank" title="https://www.otherside-wiki.xyz/Open Otherside.xyz"><img src="images/icons/otherside.webp" style="width:20px; margin-bottom: 1px; margin-right: 3px; border-radius:5px;"></a>
-            <a href="https://hood3.xyz/?deed=55324" target="_blank" title="Open hood3"><img src="images/icons/hood3.svg" style="width:20px; margin-bottom: 1px; margin-right: 5px; border-radius:5px;"></a>
-            <a href="https://opensea.io/assets/ethereum/0x790B2cF29Ed4F310bf7641f013C65D4560d28371/55324" target="_blank" title="Open Opensea"><img src="images/icons/opensea.webp" style="width:15px; margin-bottom: 1px; margin-right: 5px;"></a>
-            <a href="https://looksrare.org/collections/0x790B2cF29Ed4F310bf7641f013C65D4560d28371/55324" target="_blank" title="Open Looksrare"><img src="images/icons/looksrare.svg" style="width:15px; margin-bottom: 1px; margin-right: 5px;"></a>
-            <a href="https://x2y2.io/eth/0x790B2cF29Ed4F310bf7641f013C65D4560d28371/55324" target="_blank" title="Open X2Y2"><img src="images/icons/x2y2.svg" style="width:15px; margin-bottom: 1px; margin-right: 5px;"></a></div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-lg-3 col-md-4 nopaddinggeneral">
-            <img src="https://i.seadn.io/gcs/files/2accc75c09ab9d905690fa22fc66dbc7.jpg?w=800&auto=format" class="deed-image">
-            <a href="#" data-toggle="modal" data-target="#averger" class="details_fairvalue"><div class="deed_listings"><div class="icon">Fair value [<span data-bs-toggle="tooltip" data-bs-placement="top" title="The fair value function is a dynamic estimation method that calculates the value of an otherdeed. This is achieved by computing a weighted average sale prices for each trait, where more recent sales carry a higher weight than older ones.">?</span>]</div><div class="listed_price">1.13 ETH</div></div></a>
-            <a href="#" data-toggle="modal" data-target="#floorer" class="details_fairvalue"><div class="deed_listings"><div class="icon">Floor</div><div class="listed_price">0.644 ETH</div></div></a>
-            <a class="details_fairvalue"><div class="deed_listings"><div class="icon">Grail-Score [<span data-bs-toggle="tooltip" data-bs-placement="top" title="Grailscore is a rarity based on the environment+tier, sediment+tier, resource+tier. Highest existing Grailscore is 8069.79 - Lowest is 56.4823.">?</span>]</div><div class="listed_price">144.18 <br>Rank: 76,427</div></div></a>
-            <a class="details_links" href="https://blur.io/asset/0x790b2cf29ed4f310bf7641f013c65d4560d28371/55324" target="_blank">
-            <div class="deed_listings">
-            <div class="icon"><img src="images/icons/blur.webp" style="width:15px; margin-bottom: 1px;"> BLUR</div>
-            <div class="listed_price">Buy for 0.6439 ETH</div>
-            </div>
-            </a>
-            </div>
-            <div class="col-lg-9 col-md-8">
-            <div class="row nopaddingmobile">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-            <a class="details" href="otherdeed/sediment">
-            <h2>Sediment</h2>
-            <div class="box"><div class="text">Infinite Expanse</div><div class="tier">* * </div></div>
-            </a>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-            <a class="details" href="otherdeed/environment/volcanic/molten">
-            <h2>Environment</h2>
-            <div class="box"><div class="text">Volcanic | Molten</div><div class="tier">* </div></div>
-            </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-6"><a class="resources" href="otherdeed/resource/spikeweed"><div class="image"><img src=""></div><div class="box root"><div class="text">Spikeweed</div><div class="tier">* </div></div><div class="resource_details"><div class="rank_text">Rank</div><div class="rank_number">63/74</div><div class="quantity_text">Quantity</div><div class="quantity_number">11005</div></div><h3>North</h3></a></div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-6"><div class="resources"><p class="none">No resources are grown on the eastern square.</p><h3>East</h3></div></div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-6"><a class="resources" href="otherdeed/resource/nether"><div class="image"><img src=""></div><div class="box root"><div class="text">Nether</div><div class="tier">* * * </div></div><div class="resource_details"><div class="rank_text">Rank</div><div class="rank_number">70/74</div><div class="quantity_text">Quantity</div><div class="quantity_number">11248</div></div><h3>South</h3></a></div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-6"><div class="resources"><p class="none">No resources are grown on the western square.</p><h3>West</h3></div></div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="resources"><p class="none">No koda has chosen this plot as its home.</p><h3>Koda</h3></div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="resources"><p class="none">No artifact was found.</p><h3>Artifact</h3></div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="resources"><p class="none">Koda Origins</p><h3>1 Obelisk Piece</h3></div>
-            </div>
-            </div>
-            </div>
-            <div class="col-md-12 nopaddinggeneral">
-              <div class="item-activity">
-                <div class="headline">Item Activity</div>
-                <div class="header">
-                <div class="market">Platform</div>
-                <div class="price">Price</div>
-                <div class="from">From</div>
-                <div class="to">To</div>
-                <div class="date">Date</div>
-                </div>
-                <div class="body"><div class="market"><img src="images/icons/blur.webp" alt="BLUR" title="BLUR" style="width: 15px;"></div><div class="price"><img src="images/icons/eth.svg" alt="Ether" title="Ether" style="width: 8px;" data-toggle="tooltip" data-placement="top"> 1.71 <br>$2686.13</div>
-                <div class="from"><a href="wallet/0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872" data-toggle="tooltip" data-placement="top" title="0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872"><i class="fa fa-fw fa-external-link"></i> machibigbrother.eth</a></div>
-                <div class="to"><a href="wallet/0xdf4E0f7E6CBCB5a1B78fD0f3a71aff8e2A782112" data-toggle="tooltip" data-placement="top" title="0xdf4E0f7E6CBCB5a1B78fD0f3a71aff8e2A782112"><i class="fa fa-fw fa-external-link"></i> ethflash.eth</a></div>
-                <div class="date"><a href="https://etherscan.io/tx/0xd6a14c0ca64f27b3122b8dfdf015cbb304e5ea352e28ae7e2b58b1ff0a16fdc5" target="_blank" data-toggle="tooltip" data-placement="top" title="February 25, 2023 at 10:57 PM"><i class="fa fa-fw fa-external-link"></i> 4 months ago</a> </div></div>
+  <div>
+      <Header />
+      <nav class="breadcrumb-wrapper">
+          <div class="container-fluid">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Main</span></a>
+                      <meta itemprop="position" content="1" />
+                  </li>
+                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="#"><span itemprop="name">Browser</span></a></li>
+                  <li class="breadcrumb-item" itemprop="itemListElement"><span itemprop="name">HV-MTL #{{ urlId }}</span>
+                      <meta itemprop="position" content="3" />
+                  </li>
+              </ol>
+          </div>
+      </nav>
+      <div class="main">
+          <div class="container">
+              <div class="row align-items-center">
+                  <div class="col-md-12 plots">
+                      <div class="row">
+                          <div class="col-md-8">
+                              <div style="display:block;">
+                                  <h1>HV-MTL #{{ urlId }} </h1>
+                              </div>
+                              <div class="owner">Owned by <a :href="getEtherscanLink" >{{ shortenedOwners.join(', ') }}</a></div>
+                          </div>
+                          <div class="col-md-4">
+                      
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-3 col-md-4 nopaddinggeneral">
+                              <img :src="imageUrl" class="deed-image">
+                              <a href="#" data-toggle="modal" data-target="#floorer" class="details_fairvalue">
+                                  <div class="deed_listings">
+                                      <div class="icon">Floor</div>
+                                      <div class="listed_price">{{ openSeaFloorPrice }} ETH</div>
+                                  </div>
+                              </a>
+                          </div>
+                          <div class="col-lg-9 col-md-8">
+                              <div class="row nopaddingmobile">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-4" v-for="trait in traits" :key="trait.trait_type">
+                                  <a class="details" href="#">
+                                    <h2>{{ trait.trait_type }}</h2>
+                                    <div class="box">
+                                      <div class="text">{{ trait.value }}</div>
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col-md-12 nopaddinggeneral">
+                              <div class="item-activity">
+                                  <div class="headline">Item Activity</div>
+                                  <div class="header">
+                                      <div class="market">Platform</div>
+                                      <div class="price">Price</div>
+                                      <div class="from">From</div>
+                                      <div class="to">To</div>
+                                      <div class="date">Date</div>
+                                  </div>
+                                  <div class="body">
+                                      <div class="market"><img src="" alt="BLUR" title="BLUR" style="width: 15px;"></div>
+                                      <div class="price"><img src="" alt="Ether" title="Ether" style="width: 8px;" data-toggle="tooltip" data-placement="top"> 1.71 <br>$2686.13</div>
+                                      <div class="from"><a href="" data-toggle="tooltip" data-placement="top" title="0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872"><i class="fa fa-fw fa-external-link"></i> machibigbrother.eth</a></div>
+                                      <div class="to"><a href="" data-toggle="tooltip" data-placement="top" title="0xdf4E0f7E6CBCB5a1B78fD0f3a71aff8e2A782112"><i class="fa fa-fw fa-external-link"></i> ethflash.eth</a></div>
+                                      <div class="date"><a href="" target="_blank" data-toggle="tooltip" data-placement="top" title="February 25, 2023 at 10:57 PM"><i class="fa fa-fw fa-external-link"></i> 4 months ago</a> </div>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-        </div>
-    </div>
-  </template>
+          </div>
+      </div>
+  </div>
+</template>
   
-  <script>
-  
-//   import axios from 'axios';
-  import Header from '../components/HeaderSection.vue';
-  
-  export default {
-    name: 'InfoPage',
-    components: {
-      Header,
+<script>
+import axios from 'axios';
+import Header from '../components/HeaderSection.vue';
+
+export default {
+  name: 'NftDetails',
+  components: {
+    Header,
+  },
+  data() {
+    return {
+      urlId: '',
+      traits: [],
+      imageUrl: '',
+      openSeaFloorPrice: null,
+      owners: [],
+    };
+  },
+  computed: {
+    shortenedOwners() {
+      return this.owners.map(owner => `${owner.substring(0, 6)}...${owner.substring(owner.length - 4)}`);
     },
-    data() {
-      return {
-        urlId:'',
+    getEtherscanLink() {
+      return `https://etherscan.io/address/${this.owners.join(',')}`;
+    },
+  },
+  mounted() {
+    this.getUrlId();
+    this.fetchTraits();
+  },
+  methods: {
+    getUrlId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      this.urlId = id;
+    },
+    fetchTraits() {
+      const options = {
+        method: 'GET',
+        url: `https://api.opensea.io/api/v1/asset/0x4b15a9c28034dC83db40CD810001427d3BD7163D/${this.urlId}`,
+        params: { include_orders: 'false' },
+        headers: { 'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2' },
       };
+
+      const openSeaFloorPriceOptions = {
+        method: 'GET',
+        url: 'https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getFloorPrice',
+        params: { contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D' },
+        headers: { accept: 'application/json' },
+      };
+
+      const ownersOptions = {
+        method: 'GET',
+        url: 'https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getOwnersForToken',
+        params: { contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D', tokenId: this.urlId },
+        headers: { accept: 'application/json' },
+      };
+
+      const fetchTraitsPromise = axios.request(options);
+      const openSeaFloorPricePromise = axios.request(openSeaFloorPriceOptions);
+      const ownersPromise = axios.request(ownersOptions);
+
+      axios
+        .all([fetchTraitsPromise, openSeaFloorPricePromise, ownersPromise])
+        .then(
+          axios.spread((traitsResponse, floorPriceResponse, ownersResponse) => {
+            this.traits = traitsResponse.data.traits;
+            this.imageUrl = traitsResponse.data.image_url;
+
+            const openSeaFloorPrice = floorPriceResponse.data.openSea.floorPrice;
+            this.openSeaFloorPrice = openSeaFloorPrice;
+
+            const owners = ownersResponse.data.owners;
+            this.owners = owners;
+          })
+        )
+        .catch((error) => {
+          console.error(error);
+        });
     },
-    mounted() {
-        this.getUrlId();
-    },
-    methods: {
-        getUrlId() {
-          const urlParams = new URLSearchParams(window.location.search);
-          const id = urlParams.get('id');
-          this.urlId = id;
-        }
-    },
-  };
+  },
+};
+
   </script>
   <style>
   .dropdown-menu {min-width: 45rem;}
