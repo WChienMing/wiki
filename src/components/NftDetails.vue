@@ -61,13 +61,12 @@
                                       <div class="to">To</div>
                                       <div class="date">Date</div>
                                   </div>
-                                  <div class="body">
-                                      <div class="market"><img src="" alt="BLUR" title="BLUR" style="width: 15px;"></div>
-                                      <div class="price"><img src="" alt="Ether" title="Ether" style="width: 8px;" data-toggle="tooltip" data-placement="top"> 1.71 <br>$2686.13</div>
-                                      <div class="from"><a href="" data-toggle="tooltip" data-placement="top" title="0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872"><i class="fa fa-fw fa-external-link"></i> machibigbrother.eth</a></div>
-                                      <div class="to"><a href="" data-toggle="tooltip" data-placement="top" title="0xdf4E0f7E6CBCB5a1B78fD0f3a71aff8e2A782112"><i class="fa fa-fw fa-external-link"></i> ethflash.eth</a></div>
-                                      <div class="date"><a href="" target="_blank" data-toggle="tooltip" data-placement="top" title="February 25, 2023 at 10:57 PM"><i class="fa fa-fw fa-external-link"></i> 4 months ago</a> </div>
-                                      
+                                  <div class="body" v-for="(event, index) in events" :key="index">
+                                      <div class="market">{{ event.event_type }}</div>
+                                      <div class="price">{{ event.price }}</div>
+                                      <div class="from">{{ event.from_account ? shortenAddress(event.from_account.address) : '-' }}</div>
+                                      <div class="to">{{ event.to_account ? shortenAddress(event.to_account.address) : '-' }}</div>
+                                      <div class="date">{{ event.event_timestamp }}</div>
                                   </div>
                               </div>
                           </div>
@@ -95,6 +94,10 @@ export default {
       imageUrl: '',
       openSeaFloorPrice: null,
       owners: [],
+      events: [],
+      nextCursor: null,
+      isFetching: false,
+      noMoreData: false,
     };
   },
   computed: {
@@ -108,8 +111,27 @@ export default {
   mounted() {
     this.getUrlId();
     this.fetchTraits();
+    this.fetchEvents();
+    this.$nextTick(() => {
+      const activityDiv = document.querySelector('.item-activity');
+      if (activityDiv) {
+        activityDiv.addEventListener('scroll', this.handleScroll);
+      }
+    });
+  },
+  beforeDestroy() {
+    const activityDiv = document.querySelector('.item-activity');
+    if (activityDiv) {
+      activityDiv.removeEventListener('scroll', this.handleScroll);
+    }
   },
   methods: {
+    shortenAddress(address) {
+    if (!address) return '';
+    const prefix = address.substring(0, 6);
+    const suffix = address.substring(address.length - 4);
+    return `${prefix}...${suffix}`;
+    },
     getUrlId() {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get('id');
@@ -159,10 +181,49 @@ export default {
           console.error(error);
         });
     },
+    fetchEvents() {
+      if (this.isFetching || this.noMoreData) return;
+      
+      this.isFetching = true;
+
+      const eventsOptions = {
+        method: 'GET',
+        url: 'https://api.opensea.io/api/v1/events',
+        params: {
+          only_opensea: 'true',
+          token_id: this.urlId,
+          asset_contract_address: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
+          cursor: this.nextCursor,
+        },
+        headers: { 'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2' },
+      };
+
+      axios
+        .request(eventsOptions)
+        .then(response => {
+          this.events = [...this.events, ...response.data.asset_events];
+          this.nextCursor = response.data.next;
+          this.isFetching = false;
+
+          if (!response.data.next) {
+            this.noMoreData = true;
+          }
+
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    handleScroll(e) {
+      const { target: { scrollTop, clientHeight, scrollHeight } } = e;
+
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.fetchEvents();
+      }
+    },
   },
 };
-
-  </script>
+</script>
   <style>
   .dropdown-menu {min-width: 45rem;}
   .categories-column { background-color: #c5c5c5; padding: 1rem; }
