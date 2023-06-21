@@ -22,12 +22,12 @@
                 <div class="searchbar">
                     <div class="search-form">
                         <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Search by Wallet or Vessel-ID" aria-label="Suche" name="quicksearch" value>
+                            <input class="form-control" type="text" placeholder="Search by HV-MTL ID" aria-label="Suche" name="quicksearch" value>
                             <div class="btn"></div>
                         </div>
                     </div>
                 </div>
-                <div class="topsort" id="sorting">
+                <!-- <div class="topsort" id="sorting">
                     <div class="select-sort">
                         <select name="sortBy" id="sorting">
                             <option value="pricelowtohigh">Price low to high</option>
@@ -39,7 +39,7 @@
                             <option value="listingoldtonew">Listing old to new</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="d-flex align-items-start" method="get">
                 <input type="hidden" name="page" id="currentPage" value="1">

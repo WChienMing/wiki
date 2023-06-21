@@ -55,18 +55,40 @@
                               <div class="item-activity">
                                   <div class="headline">Item Activity</div>
                                   <div class="header">
-                                      <div class="market">Platform</div>
-                                      <div class="price">Price</div>
+                                      <div class="market">Event</div>
                                       <div class="from">From</div>
                                       <div class="to">To</div>
                                       <div class="date">Date</div>
                                   </div>
                                   <div class="body" v-for="(event, index) in events" :key="index">
                                       <div class="market">{{ event.event_type }}</div>
-                                      <div class="price">{{ event.price }}</div>
-                                      <div class="from">{{ event.from_account ? shortenAddress(event.from_account.address) : '-' }}</div>
-                                      <div class="to">{{ event.to_account ? shortenAddress(event.to_account.address) : '-' }}</div>
-                                      <div class="date">{{ event.event_timestamp }}</div>
+                                      <div class="from">
+                                        <a :href="getEtherscanURLFrom(event)">
+                                        
+                                            {{
+                                            event.from_account
+                                              ? (event.from_account.user && event.from_account.user.username
+                                                  ? truncateUsername(event.from_account.user.username, 20)
+                                                  : shortenAddress(event.from_account.address))
+                                              : '-'
+                                            }}
+                  
+                                        </a>
+                                          
+                                      </div>
+
+                                        <div class="to">
+                                          <a :href="getEtherscanURLTo(event)">
+                                          {{
+                                            event.to_account
+                                              ? (event.to_account.user && event.to_account.user.username
+                                                  ? truncateUsername(event.to_account.user.username, 20)
+                                                  : shortenAddress(event.to_account.address))
+                                              : '-'
+                                          }}
+                                          </a>
+                                        </div>
+                                      <div class="date">{{ formatTimeAgo(event.event_timestamp) }}</div>
                                   </div>
                               </div>
                           </div>
@@ -94,7 +116,7 @@ export default {
       imageUrl: '',
       openSeaFloorPrice: null,
       owners: [],
-      events: [],
+      events: [],   
       nextCursor: null,
       isFetching: false,
       noMoreData: false,
@@ -119,6 +141,7 @@ export default {
       }
     });
   },
+
   beforeDestroy() {
     const activityDiv = document.querySelector('.item-activity');
     if (activityDiv) {
@@ -126,6 +149,50 @@ export default {
     }
   },
   methods: {
+    getEtherscanURLFrom(event) {
+      if (event.from_account && event.from_account.address && event.from_account.user.username !== 'NullAddress') {
+        return `https://etherscan.io/address/${event.from_account.address}`;
+      } else {
+        return '#';
+      }
+    },
+    getEtherscanURLTo(event) {
+      if (event.to_account && event.to_account.address && event.to_account.user.username !== 'NullAddress') {
+        return `https://etherscan.io/address/${event.to_account.address}`;
+      } else {
+        return '#';
+      }
+    },
+
+    truncateUsername(username, length) {
+      if (username.length <= length) {
+        return username;
+      }
+      return `${username.substring(0, length)}...`;
+    },
+    formatTimeAgo(dateStr) {
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now - date; // difference in milliseconds
+
+      const diffSeconds = diffMs / 1000;
+      const diffMinutes = diffSeconds / 60;
+      const diffHours = diffMinutes / 60;
+
+      if (diffHours < 1) {
+        return `${Math.floor(diffMinutes)}m ago`;
+      } else if (diffHours < 24) {
+        return `${Math.floor(diffHours)}h ago`;
+      } else {
+        const diffDays = diffHours / 24;
+        if (diffDays < 30) {
+          return `${Math.floor(diffDays)}d ago`;
+        } else {
+          const diffMonths = diffDays / 30;
+          return `${Math.floor(diffMonths)}mo ago`;
+        }
+      }
+    },
     shortenAddress(address) {
     if (!address) return '';
     const prefix = address.substring(0, 6);
@@ -193,6 +260,7 @@ export default {
           only_opensea: 'true',
           token_id: this.urlId,
           asset_contract_address: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
+          event_type: 'transfer',
           cursor: this.nextCursor,
         },
         headers: { 'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2' },
@@ -355,13 +423,13 @@ export default {
   .item-activity{display:block;width:100%;border:1px solid #42454a3b;margin-top:15px;border-radius:4px;padding:0;background-color:#31333840; max-height:500px; overflow-y: scroll;}
   .item-activity .headline{padding:10px;letter-spacing:.1em;word-spacing:.1em;font-size:13px;font-weight:800}
   .item-activity .header{border-top:1px solid #42454a3b;padding:7px;letter-spacing:.1em;word-spacing:.1em;background-color:#19191a}
-  .item-activity .header .market{display:inline-block;font-size:12px;width:10%}
+  .item-activity .header .market{display:inline-block;font-size:12px;width:20%}
   .item-activity .header .price{display:inline-block;font-size:12px;width:15%}
-  .item-activity .header .from{display:inline-block;font-size:12px;width:26%}
-  .item-activity .header .to{display:inline-block;font-size:12px;width:26%}
+  .item-activity .header .from{display:inline-block;font-size:12px;width:30%}
+  .item-activity .header .to{display:inline-block;font-size:12px;width:30%}
   .item-activity .header .date{display:inline-block;font-size:12px;width:20%}
   .item-activity .body{border-top:1px solid #42454a3b;padding:7px;letter-spacing:.1em;font-size:12px}
-  .item-activity .body .market{display:inline-block;font-size:12px;width:10%;vertical-align:middle}
+  .item-activity .body .market{display:inline-block;font-size:12px;width:20%;vertical-align:middle}
   .item-activity .body .price{display:inline-block;font-size:12px;width:15%;vertical-align:middle}
   .item-activity .body .price .salestype{display: inline-block;
       position: relative;
@@ -370,8 +438,8 @@ export default {
       padding: 1px 4px;
       font-size: 70%;
       background-color: #f1b32638}
-  .item-activity .body .from{display:inline-block;font-size:12px;width:26%;vertical-align:middle}
-  .item-activity .body .to{display:inline-block;font-size:12px;width:26%;vertical-align:middle}
+  .item-activity .body .from{display:inline-block;font-size:12px;width:30%;vertical-align:middle}
+  .item-activity .body .to{display:inline-block;font-size:12px;width:30%;vertical-align:middle}
   .item-activity .body .date{display:inline-block;font-size:12px;width:20%;vertical-align:middle}
   .item-activity .body .date a:hover{text-decoration:none;color:#747474}
   .item-activity .body .to a:hover{text-decoration:none;color:#747474}
