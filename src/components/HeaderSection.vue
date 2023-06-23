@@ -33,18 +33,12 @@
                 <div>
                     <div class="cryptocurrencies">
                         <div class="cryptocurrency"><b>ETH 
-                            <span style="color: #d9413e;">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="var(--ci-primary-color, currentColor)" version="1.1" id="Capa_1" viewbox="0 0 24 24" xml:space="preserve">
-                                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                                </svg>
-                            </span></b><span>$ 0.00</span>
+                            </b>
+                            <span :class="isEthPriceUp ? 'price-up' : 'price-down'">$ {{ ethPrice  }}</span>
                         </div>
                         <div class="cryptocurrency"><b>APE 
-                            <span style="color: #d9413e;">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="var(--ci-primary-color, currentColor)" version="1.1" id="Capa_1" viewbox="0 0 24 24" xml:space="preserve">
-                                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                                </svg>
-                            </span></b><span>$ 0.00</span>
+                            </b>
+                            <span :class="isApePriceUp ? 'price-up' : 'price-down'">$ {{ apePrice  }}</span>
                         </div>
                         
                     </div>
@@ -55,11 +49,74 @@
 </template>
   
 <script>
+import axios from "axios";
+
 export default {
-  name: 'HeaderSection',
-}
+  name: "HeaderSection",
+  data() {
+    return {
+      ethPrice: null,
+      apePrice: null,
+      previousEthPrice: null,
+      previousApePrice: null,
+      isEthPriceUp: false,
+      isApePriceUp: false,
+      error: null,
+    };
+  },
+  async mounted() {
+    try {
+      // Fetch initial prices
+      await this.fetchPrices();
+      this.previousEthPrice = this.ethPrice;
+      this.previousApePrice = this.apePrice;
+
+      // Periodically fetch prices to check for changes
+      // setInterval(this.fetchPrices, 60000); // Every minute
+    } catch (error) {
+      this.error = "Error fetching prices";
+      console.error(error);
+    }
+  },
+  methods: {
+    async fetchPrices() {
+      const response = await axios.get(
+        "https://api.coingecko.com/api/v3/coins/markets",
+        {
+          params: {
+            vs_currency: "usd",
+            ids: "ethereum,apecoin",
+          },
+        }
+      );
+      const coins = response.data;
+
+      for (let coin of coins) {
+        if (coin.id === "ethereum") {
+          this.ethPrice = coin.current_price;
+          if (this.previousEthPrice !== null) {
+            this.isEthPriceUp = this.ethPrice > this.previousEthPrice;
+          }
+          this.previousEthPrice = this.ethPrice;
+        } else if (coin.id === "apecoin") {
+          this.apePrice = coin.current_price;
+          if (this.previousApePrice !== null) {
+            this.isApePriceUp = this.apePrice > this.previousApePrice;
+          }
+          this.previousApePrice = this.apePrice;
+        }
+      }
+    },
+  },
+};
 </script>
 <style>
+.price-up {
+  color: green !important;
+}
 
+.price-down {
+  color: red !important;
+}
 </style>
   

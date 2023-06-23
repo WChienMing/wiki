@@ -35,56 +35,56 @@
             <div class="row">
                 <div class="col-md-4 col-xl-4 ml-auto lastsales">
                     <h2>Latest Sales</h2> 
-                    <a class="saleitems" href="otherdeed/plot/81655">
-                        <div class="market"><img src="#" alt="BLUR" title="BLUR"></div>
-                        <div class="image"><img src="https://i.seadn.io/gcs/files/f04c23a5bbc4a7b4a54fc20456e22d98.jpg?w=60&auto=format" alt="#81655" title="#81655"></div>
+                    <a class="saleitems" href="#">
+                        <div class="market"><img src="#" alt="" title="BLUR"></div>
+                        <div class="image"><img src="#" alt="" title="#81655"></div>
                         <div class="noresources">
                             <div>
-                                <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div>
+                                <!-- <div class="box">Rainbow Atmos</div>
+                                <div class="box">Splinter</div> -->
                             </div>
                             <div style="float: left;"></div>
                         </div>
-                        <div class="price"><img src="#" alt="Ether" title="Ether"> 1.02</div>
+                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
                         <div class="date">2 minutes ago</div>
                     </a>
-                    <a class="saleitems" href="otherdeed/plot/81655">
-                        <div class="market"><img src="#" alt="BLUR" title="BLUR"></div>
-                        <div class="image"><img src="https://i.seadn.io/gcs/files/f04c23a5bbc4a7b4a54fc20456e22d98.jpg?w=60&auto=format" alt="#81655" title="#81655"></div>
+                    <a class="saleitems" href="#">
+                        <div class="market"><img src="#" alt="" title="BLUR"></div>
+                        <div class="image"><img src="#" alt="" title="#81655"></div>
                         <div class="noresources">
                             <div>
-                                <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div>
+                                <!-- <div class="box">Rainbow Atmos</div>
+                                <div class="box">Splinter</div> -->
                             </div>
                             <div style="float: left;"></div>
                         </div>
-                        <div class="price"><img src="#" alt="Ether" title="Ether"> 1.02</div>
+                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
                         <div class="date">2 minutes ago</div>
                     </a>
-                    <a class="saleitems" href="otherdeed/plot/81655">
-                        <div class="market"><img src="#" alt="BLUR" title="BLUR"></div>
-                        <div class="image"><img src="https://i.seadn.io/gcs/files/f04c23a5bbc4a7b4a54fc20456e22d98.jpg?w=60&auto=format" alt="#81655" title="#81655"></div>
+                    <a class="saleitems" href="#">
+                        <div class="market"><img src="#" alt="" title="BLUR"></div>
+                        <div class="image"><img src="#" alt="" title="#81655"></div>
                         <div class="noresources">
                             <div>
-                                <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div>
+                                <!-- <div class="box">Rainbow Atmos</div>
+                                <div class="box">Splinter</div> -->
                             </div>
                             <div style="float: left;"></div>
                         </div>
-                        <div class="price"><img src="#" alt="Ether" title="Ether"> 1.02</div>
+                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
                         <div class="date">2 minutes ago</div>
                     </a>
-                    <a class="saleitems" href="otherdeed/plot/81655">
-                        <div class="market"><img src="#" alt="BLUR" title="BLUR"></div>
-                        <div class="image"><img src="https://i.seadn.io/gcs/files/f04c23a5bbc4a7b4a54fc20456e22d98.jpg?w=60&auto=format" alt="#81655" title="#81655"></div>
+                    <a class="saleitems" href="#">
+                        <div class="market"><img src="#" alt="" title="BLUR"></div>
+                        <div class="image"><img src="#" alt="" title="#81655"></div>
                         <div class="noresources">
                             <div>
-                                <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div>
+                                <!-- <div class="box">Rainbow Atmos</div>
+                                <div class="box">Splinter</div> -->
                             </div>
                             <div style="float: left;"></div>
                         </div>
-                        <div class="price"><img src="#" alt="Ether" title="Ether"> 1.02</div>
+                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
                         <div class="date">2 minutes ago</div>
                     </a>
                     <!-- <a class="saleitemsbox" href="./tool/sale-browser">See all Sales</a> -->

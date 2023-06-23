@@ -22,8 +22,9 @@
                 <div class="searchbar">
                     <div class="search-form">
                         <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Search by HV-MTL ID" aria-label="Suche" name="quicksearch" value>
-                            <div class="btn"></div>
+                        <input class="form-control" type="text" placeholder="Search by HV-MTL ID" aria-label="Suche" name="quicksearch" v-model="searchInput">
+                        <div class="btn"></div>
+                        <button @click="handleSearch">Search</button>
                         </div>
                     </div>
                 </div>
@@ -153,10 +154,12 @@
                                 <div id="activefilters" class="align-items-left mb-3"></div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div id="allids"></div>
+                        <div class="list-wrapper" v-if="isLoading">
+                            <div id="results" class="row align-items-center mb-3">
+                            Loading...
+                            </div>
                         </div>
-                        <div class="list-wrapper">
+                        <div class="list-wrapper" v-else>
                             <div id="results" class="row align-items-center mb-3">
                                 <div class="col-auto"  v-for="nft in nfts" :key="nft.tokenId">
                                     <a :href="'/NftDetails?id=' + nft.tokenId" class="list list-item-relic">
@@ -216,11 +219,14 @@ export default {
   data() {
     return {
       nfts: [],
-      currentPage: 1, // 当前的页码
-      limit: 100, // 每页的NFT数量，设置为30或更小的数字
-      totalPages: 0, // 总的页数
-      contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D', // 替换为你的合约地址
-      totalSupply: 27300, // 替换为你的NFT的总供应量
+      currentPage: 1,
+      limit: 100,
+      totalPages: 0,
+      contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
+      totalSupply: 27300,
+      isLoading: false,
+      searchInput: '', // Store search input
+      searchResults: [], // Store search results
     };
   },
   computed: {
@@ -232,68 +238,66 @@ export default {
   },
   methods: {
     fetchNFTs() {
-  let startToken = (this.currentPage - 1) * this.limit + 1;
+      let startToken = (this.currentPage - 1) * this.limit + 1;
 
-  // 清空当前的NFTs数组
-  this.nfts = [];
-  
-  axios
-    .get(`https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
-    .then((response) => {
-      // 仅从Alchemy API获取tokenId
-      const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
+      this.isLoading = true;
+      this.nfts = [];
 
-      // 拆分token_ids数组为多个小数组，每个小数组最多包含30个元素
-      const tokenIdsChunks = [];
-      while (nftsId.length > 0) {
-        tokenIdsChunks.push(nftsId.splice(0, 20));
-      }
-
-        const promises = tokenIdsChunks.map(chunk => {
-        const tokenIds = chunk.join('&token_ids=');
-        return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
-            headers: {
-            'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2'
-            }
-        });
-        });
-
-      // 并行发送多个请求
-      axios.all(promises)
-        .then(axios.spread((...responses) => {
-          // 将获取到的NFT数据添加到'nfts'数组
-          responses.forEach(response => {
-            const assets = response.data.assets;
-            this.nfts.push(
-              ...assets.map(asset => ({
-                tokenId: asset.token_id,
-                image: asset.image_url
-              }))
-            );
+      axios
+        .get(`https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
+        .then((response) => {
+          const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
+          const tokenIdsChunks = [];
+          while (nftsId.length > 0) {
+            tokenIdsChunks.push(nftsId.splice(0, 20));
+          }
+          const promises = tokenIdsChunks.map(chunk => {
+            const tokenIds = chunk.join('&token_ids=');
+            return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
+              headers: {
+                'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2',
+              },
+            });
           });
 
-          // 按tokenId排序
-          this.nfts.sort((a, b) => a.tokenId - b.tokenId);
-        }))
+          axios
+            .all(promises)
+            .then(axios.spread((...responses) => {
+              responses.forEach(response => {
+                const assets = response.data.assets;
+                this.nfts.push(
+                  ...assets.map(asset => ({
+                    tokenId: asset.token_id,
+                    image: asset.image_url,
+                  }))
+                );
+              });
+              this.nfts.sort((a, b) => a.tokenId - b.tokenId);
+            }))
+            .catch((error) => {
+              console.error('获取NFT数据时出错：', error);
+            });
+        })
         .catch((error) => {
           console.error('获取NFT数据时出错：', error);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
-    })
-    .catch((error) => {
-      console.error('获取NFT数据时出错：', error);
-    });
-},
+    },
 
     gotoPage(page) {
-      // 更改当前的页码并获取新的NFTs
       this.currentPage = page;
       this.fetchNFTs();
     },
+
+    handleSearch() {
+      this.searchResults = this.nfts.filter(nft => nft.tokenId.toString() === this.searchInput);
+      console.log(this.searchResults)
+    },
   },
   mounted() {
-    // 在组件加载时获取第一页的NFTs
     this.fetchNFTs();
-    // 计算总的页数
     this.totalPages = Math.ceil(this.totalSupply / this.limit);
   },
 };
