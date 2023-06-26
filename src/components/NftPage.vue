@@ -22,25 +22,18 @@
                 <div class="searchbar">
                     <div class="search-form">
                         <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Search by HV-MTL ID" aria-label="Suche" name="quicksearch" v-model="searchInput">
-                        <div class="btn"></div>
-                        <button @click="handleSearch">Search</button>
+                            <input class="form-control" type="text" placeholder="Search by HV-MTL ID" aria-label="Suche" name="quicksearch" v-model="searchId">
                         </div>
                     </div>
                 </div>
                 <!-- <div class="topsort" id="sorting">
                     <div class="select-sort">
-                        <select name="sortBy" id="sorting">
-                            <option value="pricelowtohigh">Price low to high</option>
-                            <option value="pricelowtohigh">Price low to high</option>
-                            <option value="pricehightolow">Price high to low</option>
-                            <option value="idlowtohigh">ID low to high</option>
-                            <option value="idhightolow">ID high to low</option>
-                            <option value="listingnewtoold">Listing new to old</option>
-                            <option value="listingoldtonew">Listing old to new</option>
-                        </select>
+                        <button @click="searchNFTById">Search</button>
                     </div>
                 </div> -->
+                <div class="menubox">
+                    <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:14px;" @click="searchNFTById">Search</span></div>
+                </div>
             </div>
             <div class="d-flex align-items-start" method="get">
                 <input type="hidden" name="page" id="currentPage" value="1">
@@ -179,23 +172,23 @@
                             </div>
                             <div id="page_links" class="pt-3">
                                 <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === 1 }" @click.prevent="gotoPage(1)">First</a>
-                                        </li>
-                                        <li class="page-item" v-if="visiblePages[0] > 1">
-                                            <a href="#" class="page-link" @click.prevent="gotoPage(visiblePages[0] - 1)">...</a>
-                                        </li>
-                                        <li class="page-item" v-for="page in visiblePages" :key="page">
-                                            <a href="#" class="page-link" :class="{ active: currentPage === page }" @click.prevent="gotoPage(page)">{{ page }}</a>
-                                        </li>
-                                        <li class="page-item" v-if="visiblePages[visiblePages.length - 1] < totalPages">
-                                            <a href="#" class="page-link" @click.prevent="gotoPage(visiblePages[visiblePages.length - 1] + 1)">...</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages }" @click.prevent="gotoPage(totalPages)">Last</a>
-                                        </li>
-                                    </ul>
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                    <a href="#" class="page-link" :class="{ disabled: currentPage === 1 || isSearchActive }" @click.prevent="isSearchActive ? null : gotoPage(1)">First</a>
+                                    </li>
+                                    <li class="page-item" v-if="visiblePages[0] > 1">
+                                    <a href="#" class="page-link" :class="{ disabled: isSearchActive }" @click.prevent="isSearchActive ? null : gotoPage(visiblePages[0] - 1)">...</a>
+                                    </li>
+                                    <li class="page-item" v-for="page in visiblePages" :key="page">
+                                    <a href="#" class="page-link" :class="{ active: currentPage === page, disabled: isSearchActive }" @click.prevent="isSearchActive ? null : gotoPage(page)">{{ page }}</a>
+                                    </li>
+                                    <li class="page-item" v-if="visiblePages[visiblePages.length - 1] < totalPages && !isSearchActive">
+                                    <a href="#" class="page-link" :class="{ disabled: isSearchActive }" @click.prevent="isSearchActive ? null : gotoPage(visiblePages[visiblePages.length - 1] + 1)">...</a>
+                                    </li>
+                                    <li class="page-item">
+                                    <a href="#" class="page-link" :class="{ disabled: currentPage === totalPages || isSearchActive }" @click.prevent="isSearchActive ? null : gotoPage(totalPages)">Last</a>
+                                    </li>
+                                </ul>
                                 </nav>
                             </div>
                         </div>
@@ -225,12 +218,15 @@ export default {
       contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
       totalSupply: 27300,
       isLoading: false,
-      searchInput: '', // Store search input
-      searchResults: [], // Store search results
+      searchId: '',
+      isSearchActive: false,
     };
   },
   computed: {
     visiblePages() {
+      if (this.isSearchActive) {
+        return [1];
+      }
       const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
       const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
       return Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -255,20 +251,19 @@ export default {
             const tokenIds = chunk.join('&token_ids=');
             return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
               headers: {
-                'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2',
-              },
+                'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2'
+              }
             });
           });
 
-          axios
-            .all(promises)
+          axios.all(promises)
             .then(axios.spread((...responses) => {
               responses.forEach(response => {
                 const assets = response.data.assets;
                 this.nfts.push(
                   ...assets.map(asset => ({
                     tokenId: asset.token_id,
-                    image: asset.image_url,
+                    image: asset.image_url
                   }))
                 );
               });
@@ -285,15 +280,41 @@ export default {
           this.isLoading = false;
         });
     },
+    async searchNFTById() {
+      if (this.searchId.trim() === '') {
+        this.isSearchActive = false;
+        this.fetchNFTs();
+        return;
+      }
 
+      this.isLoading = true;
+      this.isSearchActive = true;
+     
+
+      try {
+        const response = await axios.get(
+          `https://api.opensea.io/api/v1/asset/${this.contractAddress}/${this.searchId}`,
+          {
+            headers: {
+              'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2',
+            },
+          }
+        );
+        const asset = response.data;
+        this.nfts = [];
+        this.nfts.push({
+          tokenId: asset.token_id,
+          image: asset.image_url,
+        });
+      } catch (error) {
+        console.error('搜索NFT时出错：', error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     gotoPage(page) {
       this.currentPage = page;
       this.fetchNFTs();
-    },
-
-    handleSearch() {
-      this.searchResults = this.nfts.filter(nft => nft.tokenId.toString() === this.searchInput);
-      console.log(this.searchResults)
     },
   },
   mounted() {
@@ -301,8 +322,6 @@ export default {
     this.totalPages = Math.ceil(this.totalSupply / this.limit);
   },
 };
-
-
 </script>
 
 <style>

@@ -35,58 +35,23 @@
             <div class="row">
                 <div class="col-md-4 col-xl-4 ml-auto lastsales">
                     <h2>Latest Sales</h2> 
-                    <a class="saleitems" href="#">
-                        <div class="market"><img src="#" alt="" title="BLUR"></div>
-                        <div class="image"><img src="#" alt="" title="#81655"></div>
-                        <div class="noresources">
-                            <div>
-                                <!-- <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div> -->
+                    <div v-if="latestSales.length > 0">
+                        <div v-for="sale in latestSales" :key="sale.asset.token_id" class="saleitems">
+                            <a :href="sale.asset.permalink" target="_blank">
+                            <div class="image">
+                                <img style="width: 63px;"
+                                :src="sale.asset.image_thumbnail_url"
+                                />
                             </div>
-                            <div style="float: left;"></div>
-                        </div>
-                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
-                        <div class="date">2 minutes ago</div>
-                    </a>
-                    <a class="saleitems" href="#">
-                        <div class="market"><img src="#" alt="" title="BLUR"></div>
-                        <div class="image"><img src="#" alt="" title="#81655"></div>
-                        <div class="noresources">
-                            <div>
-                                <!-- <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div> -->
+                            <div class="price">
+                                <img :src="sale.payment_token.image_url" alt="Ether" title="Ether" />
+                                {{ (sale.total_price / (10 ** sale.payment_token.decimals)).toFixed(2) }}
                             </div>
-                            <div style="float: left;"></div>
+                            <div class="date">{{ sale.event_timestamp }}</div>
+                            </a>
                         </div>
-                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
-                        <div class="date">2 minutes ago</div>
-                    </a>
-                    <a class="saleitems" href="#">
-                        <div class="market"><img src="#" alt="" title="BLUR"></div>
-                        <div class="image"><img src="#" alt="" title="#81655"></div>
-                        <div class="noresources">
-                            <div>
-                                <!-- <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div> -->
-                            </div>
-                            <div style="float: left;"></div>
-                        </div>
-                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
-                        <div class="date">2 minutes ago</div>
-                    </a>
-                    <a class="saleitems" href="#">
-                        <div class="market"><img src="#" alt="" title="BLUR"></div>
-                        <div class="image"><img src="#" alt="" title="#81655"></div>
-                        <div class="noresources">
-                            <div>
-                                <!-- <div class="box">Rainbow Atmos</div>
-                                <div class="box">Splinter</div> -->
-                            </div>
-                            <div style="float: left;"></div>
-                        </div>
-                        <div class="price"><img src="#" alt="" title="Ether"> 1.02</div>
-                        <div class="date">2 minutes ago</div>
-                    </a>
+                    </div>
+                    
                     <!-- <a class="saleitemsbox" href="./tool/sale-browser">See all Sales</a> -->
                     <a class="twitter-timeline" data-height="600" data-theme="dark" href="https://twitter.com/HVMTLS?ref_src=twsrc%5Etfw">Tweets by HVMTLS</a>
                 </div>
@@ -112,14 +77,55 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
 
 export default {
+  name: 'MainPage',
   components: {
     Header,
   },
+  data() {
+    return {
+      latestSales: [],
+      contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
+      apiKey: '8d6c9ede2a294c6c9e3f23214dbb24d2'
+    };
+  },
+  methods: {
+    async getLatestSales() {
+      try {
+        const response = await axios.get(`https://api.opensea.io/api/v1/events`, {
+          params: {
+            asset_contract_address: this.contractAddress,
+            event_type: 'successful',
+            limit: '4',
+          },
+          headers: {
+            'X-API-KEY': this.apiKey,
+          },
+        });
+        this.latestSales = response.data.asset_events;
+      } catch (error) {
+        console.error('Error fetching latest sales:', error);
+      }
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const timeElapsed = Date.now() - date.getTime();
+      const minutesElapsed = Math.floor(timeElapsed / (1000 * 60));
+
+      if (minutesElapsed < 60) {
+        return `${minutesElapsed} minutes ago`;
+      } else {
+        const hoursElapsed = Math.floor(minutesElapsed / 60);
+        return `${hoursElapsed} hours ago`;
+      }
+    }
+  },
   mounted() {
+    this.getLatestSales();
+
     let script = document.createElement('script');
     script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
     script.setAttribute('charset', 'utf-8');
