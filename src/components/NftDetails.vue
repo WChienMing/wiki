@@ -171,7 +171,7 @@ export default {
       return `${username.substring(0, length)}...`;
     },
     formatTimeAgo(dateStr) {
-      const date = new Date(dateStr);
+      const date = new Date(dateStr + 'Z');
       const now = new Date();
       const diffMs = now - date; // difference in milliseconds
 

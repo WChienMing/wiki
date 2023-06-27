@@ -37,17 +37,23 @@
                     <h2>Latest Sales</h2> 
                     <div v-if="latestSales.length > 0">
                         <div v-for="sale in latestSales" :key="sale.asset.token_id" class="saleitems">
-                            <a :href="sale.asset.permalink" target="_blank">
+                            <a :href="'NftDetails?id=' + sale.asset.token_id">
                             <div class="image">
                                 <img style="width: 63px;"
                                 :src="sale.asset.image_thumbnail_url"
                                 />
                             </div>
+                            <div class="noresources">
+                            <div>
+                                <div class="box">#{{ sale.asset.token_id }}</div>
+                            </div>
+                            <div style="float: left;"></div>
+                            </div>
                             <div class="price">
                                 <img :src="sale.payment_token.image_url" alt="Ether" title="Ether" />
                                 {{ (sale.total_price / (10 ** sale.payment_token.decimals)).toFixed(2) }}
                             </div>
-                            <div class="date">{{ sale.event_timestamp }}</div>
+                            <div class="date">{{ formatDate(sale.event_timestamp) }}</div>
                             </a>
                         </div>
                     </div>
@@ -111,10 +117,10 @@ export default {
       }
     },
     formatDate(dateString) {
-      const date = new Date(dateString);
+      const date = new Date(dateString + 'Z'); // 添加'Z'来指定日期为UTC时间
       const timeElapsed = Date.now() - date.getTime();
       const minutesElapsed = Math.floor(timeElapsed / (1000 * 60));
-
+      
       if (minutesElapsed < 60) {
         return `${minutesElapsed} minutes ago`;
       } else {
