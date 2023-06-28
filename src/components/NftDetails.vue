@@ -4,10 +4,10 @@
       <nav class="breadcrumb-wrapper">
           <div class="container-fluid">
               <ol class="breadcrumb">
-                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Main</span></a>
+                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/"><span itemprop="name">Main</span></a>
                       <meta itemprop="position" content="1" />
                   </li>
-                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="#"><span itemprop="name">Browser</span></a></li>
+                  <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Browser</span></a></li>
                   <li class="breadcrumb-item" itemprop="itemListElement"><span itemprop="name">HV-MTL #{{ urlId }}</span>
                       <meta itemprop="position" content="3" />
                   </li>
@@ -103,6 +103,7 @@
 <script>
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
+import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL } from '../main.js';
 
 export default {
   name: 'NftDetails',
@@ -207,22 +208,22 @@ export default {
     fetchTraits() {
       const options = {
         method: 'GET',
-        url: `https://api.opensea.io/api/v1/asset/0x4b15a9c28034dC83db40CD810001427d3BD7163D/${this.urlId}`,
+        url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
         params: { include_orders: 'false' },
-        headers: { 'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2' },
+        headers: { 'X-API-KEY': OPENSEA_API_KEY },
       };
 
       const openSeaFloorPriceOptions = {
         method: 'GET',
-        url: 'https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getFloorPrice',
-        params: { contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D' },
+        url: `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getFloorPrice`,
+        params: { contractAddress: HV_MTL },
         headers: { accept: 'application/json' },
       };
 
       const ownersOptions = {
         method: 'GET',
-        url: 'https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getOwnersForToken',
-        params: { contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D', tokenId: this.urlId },
+        url: `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getOwnersForToken`,
+        params: { contractAddress: HV_MTL, tokenId: this.urlId },
         headers: { accept: 'application/json' },
       };
 
@@ -259,11 +260,11 @@ export default {
         params: {
           only_opensea: 'true',
           token_id: this.urlId,
-          asset_contract_address: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
+          asset_contract_address: HV_MTL,
           event_type: 'transfer',
           cursor: this.nextCursor,
         },
-        headers: { 'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2' },
+        headers: { 'X-API-KEY': OPENSEA_API_KEY },
       };
 
       axios

@@ -1,4 +1,0 @@
-# HTTrack Website Copier Cookie File
-# This file format is compatible with Netscape cookies
-www.otherside-wiki.xyz	TRUE	/	FALSE	1999999999	PHPSESSID	61932850d0fe25e9480250e1a9423006
-

@@ -19,6 +19,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 Vue.config.productionTip = false
 
+export const OPENSEA_API_KEY = '8d6c9ede2a294c6c9e3f23214dbb24d2';
+export const ALCHEMY_API_KEY = 'p5mON-omIMAgLAz82zfHaIymONhonpQ_';
+export const HV_MTL = '0x4b15a9c28034dC83db40CD810001427d3BD7163D';
+
+
 new Vue({
   router,
   render: h => h(App),

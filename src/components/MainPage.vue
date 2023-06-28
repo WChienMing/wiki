@@ -85,6 +85,7 @@
 <script>
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
+import { OPENSEA_API_KEY, HV_MTL } from '../main.js';
 
 export default {
   name: 'MainPage',
@@ -94,8 +95,6 @@ export default {
   data() {
     return {
       latestSales: [],
-      contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
-      apiKey: '8d6c9ede2a294c6c9e3f23214dbb24d2'
     };
   },
   methods: {
@@ -103,12 +102,12 @@ export default {
       try {
         const response = await axios.get(`https://api.opensea.io/api/v1/events`, {
           params: {
-            asset_contract_address: this.contractAddress,
+            asset_contract_address: HV_MTL,
             event_type: 'successful',
             limit: '4',
           },
           headers: {
-            'X-API-KEY': this.apiKey,
+            'X-API-KEY': OPENSEA_API_KEY,
           },
         });
         this.latestSales = response.data.asset_events;

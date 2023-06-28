@@ -4,10 +4,10 @@
         <nav class="breadcrumb-wrapper">
             <div class="container-fluid">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Main</span></a>
+                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/"><span itemprop="name">Main</span></a>
                         <meta itemprop="position" content="1" />
                     </li>
-                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="#"><span itemprop="name">Browser</span></a></li>
+                    <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/nft"><span itemprop="name">Browser</span></a></li>
                     <li class="breadcrumb-item" itemprop="itemListElement"><span itemprop="name">HV-MTL</span>
                         <meta itemprop="position" content="3" />
                     </li>
@@ -16,9 +16,9 @@
         </nav>
         <div class="topline">
             <div class="wrapper3">
-                <div class="menubox">
+                <!-- <div class="menubox">
                     <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
-                </div>
+                </div> -->
                 <div class="searchbar">
                     <div class="search-form">
                         <div class="form-group">
@@ -26,13 +26,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="topsort" id="sorting">
-                    <div class="select-sort">
-                        <button @click="searchNFTById">Search</button>
-                    </div>
-                </div> -->
                 <div class="menubox">
-                    <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:14px;" @click="searchNFTById">Search</span></div>
+                    <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span style="float:left; margin-left:14px;">Search</span></div>
                 </div>
             </div>
             <div class="d-flex align-items-start" method="get">
@@ -42,82 +37,53 @@
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingTwo">
-                                    <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Status</a></h4>
-                                </div>
-                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                    <div class="panel-body">
-                                        <div class="checkbox"><label><input type="checkbox" name="show_all" value="All">
-                                                <div></div><span>Show All</span>
-                                            </label></div><br>
-                                        <h5>Option</h5>
-                                        <div class="checkbox"><label><input type="checkbox" name="getallids" value="1">
-                                                <div></div><span>Export IDs</span>
-                                            </label></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingTwo">
                                     <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Price</a></h4>
                                 </div>
                                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                    <div class="panel-body noborder">
+                                    <div class=" noborder">
                                         <h5>Price Range in ETH</h5>
                                         <div class="filterhalf">
                                             <div><input type="number" value placeholder="Min" class="price_range" name="price_range_downlimit"></div>
                                             <div><input type="number" value placeholder="Max" class="price_range" name="price_range_uplimit"></div>
                                         </div>
-                                        <h5>Currency</h5>
-                                        <div class="checkbox"><label><input type="checkbox" name="currency[]" value="ETH">
-                                                <div></div><span>ETH</span>
-                                            </label></div>
-                                        <div class="checkbox"><label><input type="checkbox" name="currency[]" value="APE">
-                                                <div></div><span>APE</span>
-                                            </label></div>
                                     </div>
                                 </div>
                             </div>
                             <hr>
                             <div class="wrapper center-block">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headCat">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colCat" aria-expanded="false" aria-controls="colCat">
-                                                 Role
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="colCat" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headCat">
-                                        <div class="panel-body">
-                                            <div class="checkbox"><label><input type="checkbox" name="category[]" value="Enchanter">
-                                                    <div></div><span>Enchanter</span>
-                                                </label></div><br>
-                                            <div class="checkbox"><label><input type="checkbox" name="category[]" value="Farmer">
-                                                    <div></div><span>Farmer</span>
-                                                </label></div><br>
-                                            <div class="checkbox"><label><input type="checkbox" name="category[]" value="Hunter">
-                                                    <div></div><span>Hunter</span>
-                                                </label></div><br>
+                                    <h4 class="panel-title">
+                                        <a class="collapsed">
+                                            Traits
+                                        </a>
+                                    </h4>
+                                    <div v-if="collectionData">
+                                        <div v-for="(traitValues, traitName) in collectionData.traits" :key="traitName">
+                                            <div class="panel-heading" role="tab" :id="'head' + removeSpaces(traitName)">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" :href="'#col' + removeSpaces(traitName)" aria-expanded="false" :aria-controls="'col' + removeSpaces(traitName)">
+                                                        {{ traitName }}
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div :id="'col' + removeSpaces(traitName)" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="'head' + removeSpaces(traitName)">
+                                                <div class="panel-body">
+                                                    <div v-for="(value, key) in traitValues" :key="key">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="category[]" :value="key">
+                                                                <div></div>
+                                                                <span>{{ key }}</span>
+                                                            </label>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headCat">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colRelic" aria-expanded="false" aria-controls="colRelic">
-                                                Relic
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="colRelic" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headCat">
-                                        <div class="panel-body">
-                                            <div class="checkbox"><label><input type="checkbox" name="relic[]" value="KodaPendant">
-                                                    <div></div><span>KodaPendant</span>
-                                                </label></div><br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
+                                <!-- <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headLoc">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colLoc" aria-expanded="false" aria-controls="colLoc">
@@ -135,7 +101,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -203,6 +169,7 @@
 <script>
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
+import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -212,10 +179,11 @@ export default {
     data() {
         return {
             nfts: [],
+            collectionData: null,
             currentPage: 1,
             limit: 100,
             totalPages: 0,
-            contractAddress: '0x4b15a9c28034dC83db40CD810001427d3BD7163D',
+            contractAddress: HV_MTL,
             totalSupply: 27300,
             isLoading: false,
             searchId: '',
@@ -233,6 +201,25 @@ export default {
         },
     },
     methods: {
+        removeSpaces(str) {
+            return str.replace(/\s+/g, '');
+        },
+        fetchCollectionData() {
+            const options = {
+                method: 'GET',
+                url: 'https://api.opensea.io/api/v1/collection/hv-mtl',
+                headers: { 'X-API-KEY': OPENSEA_API_KEY }
+            };
+
+            axios.request(options)
+                .then(response => {
+                    this.collectionData = response.data.collection;
+                    console.log(this.collectionData)
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
         fetchNFTs() {
             let startToken = (this.currentPage - 1) * this.limit + 1;
 
@@ -240,7 +227,7 @@ export default {
             this.nfts = [];
 
             axios
-                .get(`https://eth-mainnet.g.alchemy.com/nft/v2/p5mON-omIMAgLAz82zfHaIymONhonpQ_/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
+                .get(`https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
                 .then((response) => {
                     // 将返回的NFTs ID转换为整数
                     const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
@@ -254,7 +241,7 @@ export default {
                         const tokenIds = chunk.join('&token_ids=');
                         return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
                             headers: {
-                                'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2'
+                                'X-API-KEY': OPENSEA_API_KEY
                             }
                         });
                     });
@@ -276,7 +263,7 @@ export default {
                             axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
                                     headers: {
                                         accept: 'application/json',
-                                        'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2'
+                                        'X-API-KEY': OPENSEA_API_KEY
                                     }
                                 })
                                 .then((priceResponse) => {
@@ -329,7 +316,7 @@ export default {
                 const response = await axios.get(
                     `https://api.opensea.io/api/v1/asset/${this.contractAddress}/${this.searchId}`, {
                         headers: {
-                            'X-API-KEY': '8d6c9ede2a294c6c9e3f23214dbb24d2',
+                            'X-API-KEY': OPENSEA_API_KEY,
                         },
                     }
                 );
@@ -338,6 +325,35 @@ export default {
                 this.nfts.push({
                     tokenId: asset.token_id,
                     image: asset.image_url,
+                    price: null 
+                });
+                
+                axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&token_ids=${asset.token_id}`, {
+                    headers: {
+                        accept: 'application/json',
+                        'X-API-KEY': OPENSEA_API_KEY
+                    }
+                })
+                .then((priceResponse) => {
+                    const listings = priceResponse.data.orders;
+
+                    listings.forEach(listing => {
+                        const tokenId = listing.maker_asset_bundle.assets[0].token_id;
+                        const currentPrice = listing.current_price;
+
+                        // Find the corresponding NFT in the nfts array and update its price.
+                        const nft = this.nfts.find(nft => nft.tokenId === tokenId);
+                        if (nft && !nft.price) {
+                            let wei = currentPrice;
+                            let eth = wei / 1e18;
+
+                            nft.price = eth + ' ETH';
+                            console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.error('获取价格信息时出错：', error);
                 });
             } catch (error) {
                 console.error('搜索NFT时出错：', error);
@@ -352,6 +368,7 @@ export default {
     },
     mounted() {
         this.fetchNFTs();
+        this.fetchCollectionData();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
     },
 };
