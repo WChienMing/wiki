@@ -365,8 +365,33 @@ export default {
             this.currentPage = page;
             this.fetchNFTs();
         },
+
+        searchNftByTraits() {
+
+            const apiKey = 's51LMch8Mgs1JiwtNEYIEoiIMzWyqWaRtIhDzrsPcH719ZI1BQso4Dca3xAXmRld'; // Please replace this with your Moralis API Key
+      
+      
+            const searchQuery = 'HV Type:Legendary';
+            // const searchQuery = 'HV Type:Legendary,Companion:Yes';
+            
+            axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
+                params: {
+                chain: 'eth',
+                format: 'decimal',
+                q: searchQuery,
+                filter: 'global' // or specify the field you want to search within
+                },
+                headers: {
+                'Accept': 'application/json',
+                'X-API-Key': apiKey,
+                }
+            })
+            
+
+        }
     },
     mounted() {
+        this.searchNftByTraits();
         this.fetchNFTs();
         this.fetchCollectionData();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
