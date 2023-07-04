@@ -169,7 +169,7 @@
 <script>
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
-import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL } from '../main.js';
+import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, MO_API_KEY } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -367,23 +367,21 @@ export default {
         },
 
         searchNftByTraits() {
-
-            const apiKey = 's51LMch8Mgs1JiwtNEYIEoiIMzWyqWaRtIhDzrsPcH719ZI1BQso4Dca3xAXmRld'; // Please replace this with your Moralis API Key
       
-      
-            const searchQuery = 'HV Type:Legendary';
+            const searchQuery = '1 of 1';
             // const searchQuery = 'HV Type:Legendary,Companion:Yes';
             
             axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
                 params: {
                 chain: 'eth',
                 format: 'decimal',
+                addresses: [`${HV_MTL}`],
                 q: searchQuery,
-                filter: 'global' // or specify the field you want to search within
+                filter: 'attributes' // or specify the field you want to search within
                 },
                 headers: {
                 'Accept': 'application/json',
-                'X-API-Key': apiKey,
+                'X-API-Key': MO_API_KEY,
                 }
             })
             

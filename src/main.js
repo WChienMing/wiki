@@ -22,6 +22,7 @@ Vue.config.productionTip = false
 export const OPENSEA_API_KEY = '8d6c9ede2a294c6c9e3f23214dbb24d2';
 export const ALCHEMY_API_KEY = 'p5mON-omIMAgLAz82zfHaIymONhonpQ_';
 export const HV_MTL = '0x4b15a9c28034dC83db40CD810001427d3BD7163D';
+export const MO_API_KEY = 's51LMch8Mgs1JiwtNEYIEoiIMzWyqWaRtIhDzrsPcH719ZI1BQso4Dca3xAXmRld';
 
 
 new Vue({
