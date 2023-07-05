@@ -71,7 +71,7 @@
                                                     <div v-for="(value, key) in traitValues" :key="key">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="checkbox" name="category[]" :value="key">
+                                                                <input type="checkbox" :value="key" @change="handleCheckboxChange">
                                                                 <div></div>
                                                                 <span>{{ key }}</span>
                                                             </label>
@@ -113,6 +113,25 @@
                                 <div id="activefilters" class="align-items-left mb-3"></div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-auto" v-for="nft in nfts" :key="nft.tokenId">
+                                <a :href="'/NftDetails?id=' + nft.tokenId" class="list list-item-relic">
+                                <div class="topside">
+                                    <div class="marketprice">{{ nft.price }}</div>
+                                </div>
+                                <div class="image">
+                                    <img :src="nft.image" alt="NFT" />
+                                </div>
+                                <div class="bottomside">
+                                    <div class="basics">
+                                    <div class="box">
+                                        <div class="text">#{{ nft.tokenId }}</div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                            </div>
                         <div class="list-wrapper" v-if="isLoading">
                             <div id="results" class="row align-items-center mb-3">
                             Loading...
@@ -188,6 +207,7 @@ export default {
             isLoading: false,
             searchId: '',
             isSearchActive: false,
+            selectedTraits: [],
         };
     },
     computed: {
@@ -201,6 +221,28 @@ export default {
         },
     },
     methods: {
+
+        handleCheckboxChange(event) {
+            const trait = event.target.value;
+            if (event.target.checked) {
+                this.selectedTraits.push(trait);
+            } else {
+                const index = this.selectedTraits.indexOf(trait);
+                if (index > -1) {
+                    this.selectedTraits.splice(index, 1);
+                }
+            }
+
+            if (this.selectedTraits.length === 0) {
+                // If no checkboxes are checked, fetch all NFTs without any tokenIds
+                this.fetchNFTs();
+            } else {
+                // Otherwise, fetch NFTs based on the selected traits
+                this.searchNftByTraits(this.selectedTraits);
+            }
+        },
+        
+
         removeSpaces(str) {
             return str.replace(/\s+/g, '');
         },
@@ -220,86 +262,118 @@ export default {
                     console.error(error);
                 });
         },
-        fetchNFTs() {
-            let startToken = (this.currentPage - 1) * this.limit + 1;
-
+        async fetchNFTs(tokenIds = null) {
             this.isLoading = true;
             this.nfts = [];
 
-            axios
-                .get(`https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
-                .then((response) => {
-                    // 将返回的NFTs ID转换为整数
-                    const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
-                    const tokenIdsChunks = [];
-                    // 将ID分成多个块，每个块最多20个ID
-                    while (nftsId.length > 0) {
-                        tokenIdsChunks.push(nftsId.splice(0, 20));
-                    }
-                    // 对每个块发送请求以获取NFT详细信息
-                    const promises = tokenIdsChunks.map(chunk => {
-                        const tokenIds = chunk.join('&token_ids=');
-                        return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
-                            headers: {
-                                'X-API-KEY': OPENSEA_API_KEY
-                            }
-                        });
+            if (tokenIds) {
+               
+                const chunks = [];
+                while (tokenIds.length) {
+                    chunks.push(tokenIds.splice(0, 20));
+                }
+
+                const promises = chunks.map(chunk => {
+                    const tokenIdsStr = chunk.join('&token_ids=');
+                    return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIdsStr}`, {
+                        headers: {
+                            'X-API-KEY': OPENSEA_API_KEY
+                        }
                     });
-
- 
-                    axios.all(promises)
-                        .then(axios.spread((...responses) => {
-                            responses.forEach(response => {
-                            const assets = response.data.assets;
-                            this.nfts.push(
-                                ...assets.map(asset => ({
-                                    tokenId: asset.token_id,
-                                    image: asset.image_url,
-                                    price: null // Adding a placeholder for price
-                                }))
-                            );
-
-                            const tokenIds = assets.map(asset => 'token_ids=' + asset.token_id).join('&');
-                            axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                                    headers: {
-                                        accept: 'application/json',
-                                        'X-API-KEY': OPENSEA_API_KEY
-                                    }
-                                })
-                                .then((priceResponse) => {
-                                    const listings = priceResponse.data.orders;
-
-                                    listings.forEach(listing => {
-                                        const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                                        const currentPrice = listing.current_price;
-
-                                        // Find the corresponding NFT in the nfts array and update its price.
-                                        const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                                        if (nft && !nft.price) {
-                                            let wei = currentPrice;
-                                            let eth = wei / 1e18;
-
-                                            nft.price = eth + ' ETH';
-                                            console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
-                                        }
-                                    });
-                                })
-                                .catch((error) => {
-                                    console.error('获取价格信息时出错：', error);
-                                });
-                        });
-                            this.nfts.sort((a, b) => a.tokenId - b.tokenId);
-                        }))
-                        .catch((error) => {
-                            console.error('获取NFT数据时出错：', error);
-                        });
-                })
-                .catch((error) => {
-                    console.error('获取NFT数据时出错：', error);
-                })
-                .finally(() => {
-                    this.isLoading = false;
                 });
+
+                try {
+                    const responses = await Promise.all(promises);
+                    responses.forEach(response => {
+                        const assets = response.data.assets;
+                        this.nfts.push(
+                            ...assets.map(asset => ({
+                                tokenId: asset.token_id,
+                                image: asset.image_url,
+                                price: null 
+                            }))
+                        );
+                    });
+                } catch (error) {
+                    console.error('获取NFT数据时出错：', error);
+                }
+            }else{
+                let startToken = (this.currentPage - 1) * this.limit + 1;
+                axios
+                    .get(`https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
+                    .then((response) => {
+                        // 将返回的NFTs ID转换为整数
+                        const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
+                        const tokenIdsChunks = [];
+                        // 将ID分成多个块，每个块最多20个ID
+                        while (nftsId.length > 0) {
+                            tokenIdsChunks.push(nftsId.splice(0, 20));
+                        }
+                        // 对每个块发送请求以获取NFT详细信息
+                        const promises = tokenIdsChunks.map(chunk => {
+                            const tokenIds = chunk.join('&token_ids=');
+                            return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
+                                headers: {
+                                    'X-API-KEY': OPENSEA_API_KEY
+                                }
+                            });
+                        });
+
+    
+                        axios.all(promises)
+                            .then(axios.spread((...responses) => {
+                                responses.forEach(response => {
+                                const assets = response.data.assets;
+                                this.nfts.push(
+                                    ...assets.map(asset => ({
+                                        tokenId: asset.token_id,
+                                        image: asset.image_url,
+                                        price: null // Adding a placeholder for price
+                                    }))
+                                );
+
+                                const tokenIds = assets.map(asset => 'token_ids=' + asset.token_id).join('&');
+                                axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
+                                        headers: {
+                                            accept: 'application/json',
+                                            'X-API-KEY': OPENSEA_API_KEY
+                                        }
+                                    })
+                                    .then((priceResponse) => {
+                                        const listings = priceResponse.data.orders;
+
+                                        listings.forEach(listing => {
+                                            const tokenId = listing.maker_asset_bundle.assets[0].token_id;
+                                            const currentPrice = listing.current_price;
+
+                                            // Find the corresponding NFT in the nfts array and update its price.
+                                            const nft = this.nfts.find(nft => nft.tokenId === tokenId);
+                                            if (nft && !nft.price) {
+                                                let wei = currentPrice;
+                                                let eth = wei / 1e18;
+
+                                                nft.price = eth + ' ETH';
+                                                console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
+                                            }
+                                        });
+                                    })
+                                    .catch((error) => {
+                                        console.error('获取价格信息时出错：', error);
+                                    });
+                            });
+                                this.nfts.sort((a, b) => a.tokenId - b.tokenId);
+                            }))
+                            .catch((error) => {
+                                console.error('获取NFT数据时出错：', error);
+                            });
+                    })
+                    .catch((error) => {
+                        console.error('获取NFT数据时出错：', error);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
+            }
         },
         async searchNFTById() {
             if (this.searchId.trim() === '') {
@@ -366,30 +440,39 @@ export default {
             this.fetchNFTs();
         },
 
-        searchNftByTraits() {
-      
-            const searchQuery = '1 of 1';
-            // const searchQuery = 'HV Type:Legendary,Companion:Yes';
+        searchNftByTraits(searchQueries) {
+            if (!Array.isArray(searchQueries)) {
+                searchQueries = [searchQueries];
+            }
             
-            axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
-                params: {
-                chain: 'eth',
-                format: 'decimal',
-                addresses: [`${HV_MTL}`],
-                q: searchQuery,
-                filter: 'attributes' // or specify the field you want to search within
-                },
-                headers: {
-                'Accept': 'application/json',
-                'X-API-Key': MO_API_KEY,
-                }
+            Promise.all(
+                searchQueries.map(searchQuery =>
+                    axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
+                        params: {
+                            chain: 'eth',
+                            format: 'decimal',
+                            addresses: [`${HV_MTL}`],
+                            q: searchQuery,
+                            filter: 'attributes'
+                        },
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-API-Key': MO_API_KEY,
+                        }
+                    })
+                )
+            )
+            .then(responses => {
+                const combinedResults = responses.flatMap(response => response.data.result);
+                const tokenIds = combinedResults.map(result => result.token_id);
+                this.fetchNFTs(tokenIds);
             })
-            
-
+            .catch(error => {
+                console.error('获取NFT数据时出错：', error);
+            });
         }
     },
     mounted() {
-        this.searchNftByTraits();
         this.fetchNFTs();
         this.fetchCollectionData();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
