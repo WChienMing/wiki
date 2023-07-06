@@ -113,25 +113,6 @@
                                 <div id="activefilters" class="align-items-left mb-3"></div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-auto" v-for="nft in nfts" :key="nft.tokenId">
-                                <a :href="'/NftDetails?id=' + nft.tokenId" class="list list-item-relic">
-                                <div class="topside">
-                                    <div class="marketprice">{{ nft.price }}</div>
-                                </div>
-                                <div class="image">
-                                    <img :src="nft.image" alt="NFT" />
-                                </div>
-                                <div class="bottomside">
-                                    <div class="basics">
-                                    <div class="box">
-                                        <div class="text">#{{ nft.tokenId }}</div>
-                                    </div>
-                                    </div>
-                                </div>
-                                </a>
-                            </div>
-                            </div>
                         <div class="list-wrapper" v-if="isLoading">
                             <div id="results" class="row align-items-center mb-3">
                             Loading...
@@ -155,7 +136,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div id="page_links" class="pt-3">
+                            <div id="page_links" class="pt-3" v-if="!isFiltered">
                                 <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
@@ -176,6 +157,15 @@
                                 </ul>
                                 </nav>
                             </div>
+                            <!-- <div id="page_links" class="pt-3" v-if="isFiltered">
+                                <nav aria-label="Page navigation example">
+                                <ul class="pagination" style="justify-content: right!important;">
+                                    <li class="page-item">
+                                    <a href="#" class="page-link">Read more</a>
+                                    </li>
+                                </ul>
+                                </nav>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -207,6 +197,7 @@ export default {
             isLoading: false,
             searchId: '',
             isSearchActive: false,
+            isFiltered: false,
             selectedTraits: [],
         };
     },
@@ -234,10 +225,10 @@ export default {
             }
 
             if (this.selectedTraits.length === 0) {
-                // If no checkboxes are checked, fetch all NFTs without any tokenIds
+                this.isFiltered = false;
                 this.fetchNFTs();
             } else {
-                // Otherwise, fetch NFTs based on the selected traits
+                this.isFiltered = true;
                 this.searchNftByTraits(this.selectedTraits);
             }
         },
@@ -286,16 +277,22 @@ export default {
                     const responses = await Promise.all(promises);
                     responses.forEach(response => {
                         const assets = response.data.assets;
-                        this.nfts.push(
-                            ...assets.map(asset => ({
-                                tokenId: asset.token_id,
-                                image: asset.image_url,
-                                price: null 
-                            }))
-                        );
+                        assets.forEach(asset => {
+                            const tokenId = asset.token_id;
+
+                            if (!this.nfts.some(nft => nft.tokenId === tokenId)) {
+                                this.nfts.push({
+                                    tokenId: tokenId,
+                                    image: asset.image_url,
+                                    price: null // 添加一个价格的占位符
+                                });
+                            }
+                        });
                     });
                 } catch (error) {
                     console.error('获取NFT数据时出错：', error);
+                }   finally {
+                    this.isLoading = false;
                 }
             }else{
                 let startToken = (this.currentPage - 1) * this.limit + 1;
@@ -441,10 +438,14 @@ export default {
         },
 
         searchNftByTraits(searchQueries) {
+
+            this.isLoading = true;
+            this.nfts = [];
+
             if (!Array.isArray(searchQueries)) {
                 searchQueries = [searchQueries];
             }
-            
+
             Promise.all(
                 searchQueries.map(searchQuery =>
                     axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
@@ -469,6 +470,7 @@ export default {
             })
             .catch(error => {
                 console.error('获取NFT数据时出错：', error);
+                this.isLoading = false;
             });
         }
     },
