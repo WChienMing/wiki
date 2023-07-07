@@ -59,9 +59,59 @@
                     </div>
                     
                     <!-- <a class="saleitemsbox" href="./tool/sale-browser">See all Sales</a> -->
-                    <a class="twitter-timeline" data-height="600" data-theme="dark" href="https://twitter.com/HVMTLS?ref_src=twsrc%5Etfw">Tweets by HVMTLS</a>
+                    <!-- <a class="twitter-timeline" data-height="600" data-theme="dark" href="https://twitter.com/HVMTLS?ref_src=twsrc%5Etfw">Tweets by HVMTLS</a> -->
                 </div>
-                <div class="col-md-8 col-xl-8 index">
+                <div class="col-md-4 col-xl-4 ml-auto lastsales">
+                    <h2>Top5 Sales within 24H</h2> 
+                    <div v-if="top5.length > 0">
+                        <div v-for="sale in top5" :key="sale.asset.token_id" class="saleitems">
+                            <a :href="'NftDetails?id=' + sale.asset.token_id">
+                            <div class="image">
+                                <img style="width: 63px;"
+                                :src="sale.asset.image_thumbnail_url"
+                                />
+                            </div>
+                            <div class="noresources" style="display: block!important;">
+                            <div>
+                                <div class="box">#{{ sale.asset.token_id }}</div>
+                            </div>
+                            <div style="float: left;"></div>
+                            </div>
+                            <div class="price">
+                                <img :src="sale.payment_token.image_url" alt="Ether" title="Ether" />
+                                {{ (sale.total_price / (10 ** sale.payment_token.decimals)).toFixed(2) }}
+                            </div>
+                            <div class="date">{{ formatDate(sale.event_timestamp) }}</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4 ml-auto lastsales">
+                    <!-- <h2>Latest Sales</h2>  -->
+                    <!-- <div v-if="latestSales.length > 0">
+                        <div v-for="sale in latestSales" :key="sale.asset.token_id" class="saleitems">
+                            <a :href="'NftDetails?id=' + sale.asset.token_id">
+                            <div class="image">
+                                <img style="width: 63px;"
+                                :src="sale.asset.image_thumbnail_url"
+                                />
+                            </div>
+                            <div class="noresources">
+                            <div>
+                                <div class="box">#{{ sale.asset.token_id }}</div>
+                            </div>
+                            <div style="float: left;"></div>
+                            </div>
+                            <div class="price">
+                                <img :src="sale.payment_token.image_url" alt="Ether" title="Ether" />
+                                {{ (sale.total_price / (10 ** sale.payment_token.decimals)).toFixed(2) }}
+                            </div>
+                            <div class="date">{{ formatDate(sale.event_timestamp) }}</div>
+                            </a>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-md-12 col-xl-12 index">
                     <div class="newsfeed">
                         <h2>Latest News</h2>
                         <div class="news">
@@ -95,6 +145,7 @@ export default {
   data() {
     return {
       latestSales: [],
+      top5: [],
     };
   },
   methods: {
@@ -104,7 +155,7 @@ export default {
           params: {
             asset_contract_address: HV_MTL,
             event_type: 'successful',
-            limit: '4',
+            limit: '5',
           },
           headers: {
             'X-API-KEY': OPENSEA_API_KEY,
@@ -115,6 +166,38 @@ export default {
         console.error('Error fetching latest sales:', error);
       }
     },
+
+    async getTop5SalesWithin24H() {
+      try {
+        
+        const oneDayAgo = (Date.now() / 1000) - 24 * 60 * 60;
+
+        const response = await axios.get('https://api.opensea.io/api/v1/events', {
+          params: {
+            asset_contract_address: HV_MTL,
+            event_type: 'successful',
+            occurred_after: oneDayAgo,
+            limit: 100,
+          },
+          headers: {
+            'X-API-KEY': OPENSEA_API_KEY,
+          },
+        });
+
+        const sales = response.data.asset_events;
+
+        sales.sort((a, b) => parseFloat(b.total_price) - parseFloat(a.total_price));
+
+
+        const top5Sales = sales.slice(0, 5);
+        console.log(top5Sales);
+
+        this.top5 = top5Sales;
+      } catch (error) {
+        console.error('获取销售数据时出错:', error);
+      }
+    },
+
     formatDate(dateString) {
       const date = new Date(dateString + 'Z'); // 添加'Z'来指定日期为UTC时间
       const timeElapsed = Date.now() - date.getTime();
@@ -130,6 +213,7 @@ export default {
   },
   mounted() {
     this.getLatestSales();
+    this.getTop5SalesWithin24H();
 
     let script = document.createElement('script');
     script.setAttribute('src', 'https://platform.twitter.com/widgets.js');

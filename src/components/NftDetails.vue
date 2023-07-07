@@ -151,14 +151,24 @@ export default {
   },
   methods: {
     getEtherscanURLFrom(event) {
-      if (event.from_account && event.from_account.address && event.from_account.user.username !== 'NullAddress') {
+      if (
+        event.from_account &&
+        event.from_account.address &&
+        event.from_account.user &&
+        event.from_account.user.username !== 'NullAddress'
+      ) {
         return `https://etherscan.io/address/${event.from_account.address}`;
       } else {
         return '#';
       }
     },
     getEtherscanURLTo(event) {
-      if (event.to_account && event.to_account.address && event.to_account.user.username !== 'NullAddress') {
+      if (
+        event.to_account &&
+        event.to_account.address &&
+        event.to_account.user &&
+        event.to_account.user.username !== 'NullAddress'
+      ) {
         return `https://etherscan.io/address/${event.to_account.address}`;
       } else {
         return '#';
