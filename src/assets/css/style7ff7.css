@@ -530,7 +530,7 @@ width: 155px;
 
 	.sedi{display:block;overflow:hidden;width:100%;padding:30px;margin-bottom:24px;border-radius:5px; background-color: #1c1d20;  border: 1px solid #42454a3b;}
 	.sedi .top{    display: flex; width: 100%; align-items: center;  align-content: space-around; flex-wrap: wrap; justify-content: space-between;}
-	.sedi .top .title{display:inline-block; width: 250px; margin-top:3px;}
+	.sedi .top .title{display:inline-block; width: 300px; margin-top:3px;}
 	.sedi .top h2{color:#e6ebf6;font-size:22px;font-weight:700;margin-bottom:10px}
 	.sedi .top .topright{display: inline-block;}
 	.sedi .top .topright img {height: 160px; padding: 20px;}
