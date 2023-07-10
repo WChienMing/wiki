@@ -37,6 +37,11 @@
                         </div>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link" href="/Strategy" aria-haspopup="true" aria-expanded="false">
+                    Strategy
+                    </a>
+                </li>
             </ul>
             <div class="crypto-status">
                 <div>

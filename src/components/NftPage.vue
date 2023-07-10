@@ -106,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-100" id="main-content">
+                <div class="w-100" id="main-content" style="background: #1c1d20!important; padding: 0px!important;">
                     <div class="results" id="content">
                         <div class="results-found">
                             <div class="col-12">
