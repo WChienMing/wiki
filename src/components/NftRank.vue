@@ -3,8 +3,8 @@
         <h2>Rank</h2>
         <div v-if="dataList.length > 0">
             <ul class="items slide-fade">
-                <div v-for="item in dataList" :key="item.mechId" class="saleitems">
-                    <a :href="'NftDetails?id=' + item.mechId">
+                <li v-for="item in dataList" :key="item.mechId" class="saleitems" :class="{ show: item.show == true }">
+                    <a :href="'NftDetails?id=' + item.mechId" class="d-flex align-items-center h-100">
                         <div class="image">
                             <img style="width: 63px;" :src="item.img" />
                         </div>
@@ -14,12 +14,12 @@
                             </div>
                             <div style="float: left;"></div>
                         </div>
-                        <div class="">
-                            <!-- {{ item. }} -->
+                        <div class="text-right flex-grow-1 mr-3">
+                            Score: {{ item.score }}
                         </div>
                         <!-- <div class="date">{{ formatDate(sale.event_timestamp) }}</div> -->
                     </a>
-                </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -35,9 +35,12 @@ export default {
             connection: null,
             socket: null,
             itemID: 0,
-            dataList: [
-            ],
+            dataList: [],
+            tmpList: [],
         }
+    },
+    watch: {
+        dataList: "checkItem",
     },
     methods: {
         intitialItem() {
@@ -72,22 +75,12 @@ export default {
                     }
 
                     if (!isDuplicate) {
-                        // if (tmp.mechId == "1") {
-                        //     console.log(tmp);
-
-                        // }
 
                         self.itemID += 1;
-                        tmp["item"] = tmp;
                         tmp["itemID"] = self.itemID;
                         tmp["show"] = false;
-                        // if(self.dataList.length > 19){
-                        //   self.dataList.shift();
-
-                        // }
-                        // self.dataList[0].remove();
                         _list.unshift(tmp);
-                        self.getNftInfo(tmp.id);
+                        // self.getNftInfo();
                     }
                     // console.log(JSON.parse(el.contract_detail));
                 });
@@ -99,7 +92,13 @@ export default {
                         return -1;
                     }
                 });
-                self.dataList = _list;
+                self.tmpList = _list;
+                // console.log(self.dataList);
+                let tokenIDs = [];
+                self.tmpList.forEach(el => {
+                    tokenIDs.push(el.mechId);
+                });
+                self.getNftInfo(tokenIDs);
             }
         },
         initialSocket() {
@@ -131,23 +130,40 @@ export default {
                 return `${hoursElapsed} hours ago`;
             }
         },
-        async getNftInfo(tokenID) {
+        async getNftInfo(tokenIDs) {
+            let chunks = [];
+            var self = this;
+            chunks = tokenIDs.splice(0, 25);
+            // console.log(tokenIDs);
+
+            let tokenIdsStr = chunks.join('&token_ids=');
             const options = {
                 method: 'GET',
-                url: `https://api.opensea.io/api/v1/assets?asset_contract_address=${HV_MTL}&token_ids=${tokenID}`,
+                url: `https://api.opensea.io/api/v1/assets?asset_contract_address=${HV_MTL}&token_ids=${tokenIdsStr}`,
                 headers: { 'X-API-KEY': OPENSEA_API_KEY }
             };
-            var self = this;
+
             axios.request(options)
                 .then(response => {
-                    var nftImg = response.data.assets.image_thumbnail_url;
-                    self.dataList.forEach(nft => {
-                        if (nft.id == tokenID) {
-                            nft['img'] = nftImg;
+                    const assets = response.data.assets;
+                    assets.forEach(asset => {
+                        const tokenId = asset.token_id;
+                        self.tmpList.forEach(nft => {
+                            if (nft.mechId == tokenId) {
+                                nft['img'] = asset.image_thumbnail_url;
+                                // console.log(nft);
 
-                        }
+                            }
+
+
+                        })
                     });
-
+                    if (tokenIDs.length > 0) {
+                        self.getNftInfo(tokenIDs);
+                    }
+                    else {
+                        self.dataList = self.tmpList;
+                    }
                 })
                 .catch(error => {
                     console.error(error);
