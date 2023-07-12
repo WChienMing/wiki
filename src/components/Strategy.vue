@@ -1431,8 +1431,7 @@
   </template>
     
   <script>
-//   import axios from 'axios';
-
+  import axios from 'axios';
   import Header from '../components/HeaderSection.vue';
   
   export default {
@@ -1444,8 +1443,23 @@
     data() {
     return {
       currentTopic: 'protocol',
+      items: [],
     };
-  },
+    },
+    created() {
+        this.fetchData();
+    },
+    methods: {
+        fetchData() {
+        axios.get('http://localhost:8080/api/shortcut_key')
+            .then(response => {
+            this.items = response.data;
+            })
+            .catch(error => {
+            console.error(error);
+            });
+        },
+    },
   };
 
   
