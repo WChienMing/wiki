@@ -197,41 +197,9 @@
                                             <th>Action</th>
                                             <th>Key</th>
                                         </tr>
-                                        <tr>
-                                            <td>Add Block/Decoration</td>
-                                            <td>A</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Open Blueprint Options</td>
-                                            <td>B</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Craft</td>
-                                            <td>C</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Open Voting/Ranking</td>
-                                            <td>F</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Rotate View</td>
-                                            <td>R</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Focus Main View</td>
-                                            <td>H</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Activate Amplification Function</td>
-                                            <td>P</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Open Shop</td>
-                                            <td>S</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Track HV</td>
-                                            <td>Spacebar</td>
+                                        <tr v-for="item in shortcut_key" :key="item.id">
+                                            <td>{{ item.action }}</td>
+                                            <td>{{ item.key }}</td>
                                         </tr>
                                         </table>
                                     </div>
@@ -273,49 +241,9 @@
                             <th>Tile</th>
                             <th>Task</th>
                         </tr>
-                        <tr>
-                            <td>Bark</td>
-                            <td>HV collected 100k energy</td>
-                        </tr>
-                        <tr>
-                            <td>Clay</td>
-                            <td>Build 15 tiles</td>
-                        </tr>
-                        <tr>
-                            <td>Heavy Metal</td>
-                            <td>Hold one level 5 tile</td>
-                        </tr>
-                        <tr>
-                            <td>Concrete</td>
-                            <td>Starting tile</td>
-                        </tr>
-                        <tr>
-                            <td>Lawn</td>
-                            <td>Starting tile</td>
-                        </tr>
-                        <tr>
-                            <td>Light Concrete</td>
-                            <td>Starting tile</td>
-                        </tr>
-                        <tr>
-                            <td>Metal</td>
-                            <td>Starting tile</td>
-                        </tr>
-                        <tr>
-                            <td>Sand</td>
-                            <td>Own 5k energy</td>
-                        </tr>
-                        <tr>
-                            <td>Watermelon</td>
-                            <td>HV walked over 100 tiles</td>
-                        </tr>
-                        <tr>
-                            <td>Wooden Floor</td>
-                            <td>HV collected 100k energy</td>
-                        </tr>
-                        <tr>
-                            <td>Grassland</td>
-                            <td>Activate the second portal</td>
+                        <tr v-for="item in tiles" :key="item.id">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.unlock_condition }}</td>
                         </tr>
                         </table>
 
@@ -880,122 +808,13 @@
                                     <th>Time Required</th>
                                     <th>Energy Output</th>
                                 </tr>
-                                <tr>
-                                    <td>1 → 2</td>
-                                    <td>180</td>
-                                    <td>0:08</td>
-                                    <td>+2</td>
+                                <tr v-for="item in tiles_up" :key="item.id">
+                                    <td>{{ item.tile_level }}</td>
+                                    <td>{{ item.energy_cost }}</td>
+                                    <td>{{ item.time_required }}</td>
+                                    <td>{{ item.energy_output !== null ? '+' + item.energy_output : '' }}</td>
                                 </tr>
-                                <tr>
-                                    <td>2 → 3</td>
-                                    <td>360</td>
-                                    <td>0:17</td>
-                                    <td>+3</td>
-                                </tr>
-                                <tr>
-                                    <td>3 → 4</td>
-                                    <td>675</td>
-                                    <td>0:33</td>
-                                    <td>+4</td>
-                                </tr>
-                                <tr>
-                                    <td>4 → 5</td>
-                                    <td>1440</td>
-                                    <td>1:11</td>
-                                    <td>+5</td>
-                                </tr>
-                                <tr>
-                                    <td>5 → 6</td>
-                                    <td>2100</td>
-                                    <td>1:44</td>
-                                    <td>+8</td>
-                                </tr>
-                                <tr>
-                                    <td>6 → 7</td>
-                                    <td>3570</td>
-                                    <td>2:58</td>
-                                    <td>+10</td>
-                                </tr>
-                                <tr>
-                                    <td>7 → 8</td>
-                                    <td>6000</td>
-                                    <td>4:59</td>
-                                    <td>+14</td>
-                                </tr>
-                                <tr>
-                                    <td>8 → 9</td>
-                                    <td>9315</td>
-                                    <td>7:45</td>
-                                    <td>+22</td>
-                                </tr>
-                                <tr>
-                                    <td>9 → 10</td>
-                                    <td>13875</td>
-                                    <td>11:33</td>
-                                    <td>+37</td>
-                                </tr>
-                                <tr>
-                                    <td>10 → 11</td>
-                                    <td>22185</td>
-                                    <td>18:28</td>
-                                    <td>+51</td>
-                                </tr>
-                                <tr>
-                                    <td>11 → 12</td>
-                                    <td>34080</td>
-                                    <td>28:21</td>
-                                    <td>+71</td>
-                                </tr>
-                                <tr>
-                                    <td>12 → 13</td>
-                                    <td>50925</td>
-                                    <td>42:23</td>
-                                    <td>+97</td>
-                                </tr>
-                                <tr>
-                                    <td>13 → 14</td>
-                                    <td>75810</td>
-                                    <td>01:03:07</td>
-                                    <td>+97</td>
-                                </tr>
-                                <tr>
-                                    <td>14 → 15</td>
-                                    <td>114660</td>
-                                    <td>01:35:30</td>
-                                    <td>+133</td>
-                                </tr>
-                                <tr>
-                                    <td>15 → 16</td>
-                                    <td>168750</td>
-                                    <td>02:20:37</td>
-                                    <td>+250</td>
-                                </tr>
-                                <tr>
-                                    <td>16 → 17</td>
-                                    <td>252105</td>
-                                    <td>03:30:05</td>
-                                    <td>+343</td>
-                                </tr>
-                                <tr>
-                                    <td>17 → 18</td>
-                                    <td>367380</td>
-                                    <td>05:06:07</td>
-                                    <td>+471</td>
-                                </tr>
-                                <tr>
-                                    <td>18 → 19</td>
-                                    <td>541800</td>
-                                    <td>07:31:30</td>
-                                    <td>+645</td>
-                                </tr>
-                                <tr>
-                                    <td>19 → 20</td>
-                                    <td>792000</td>
-                                    <td>11:03:40</td>
-                                    <td>+885</td>
-                                </tr>
-                                </table>
-
+                            </table>
                         </div>
 
                         <div class="item">
@@ -1007,188 +826,13 @@
                                     <th>Construction Time</th>
                                     <th>Total Energy</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>0</td>
-                                    <td>00:01</td>
-                                    <td>0</td>
+                                <tr v-for="item in tiles_qu" :key="item.id">
+                                    <td>{{ item.tile_quantity }}</td>
+                                    <td>{{ item.energy_cost }}</td>
+                                    <td>{{ item.construction_time }}</td>
+                                    <td>{{ item.total_energy }}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>30</td>
-                                    <td>00:01</td>
-                                    <td>30</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>38</td>
-                                    <td>00:01</td>
-                                    <td>68</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>48</td>
-                                    <td>00:02</td>
-                                    <td>116</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>58</td>
-                                    <td>00:03</td>
-                                    <td>174</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>74</td>
-                                    <td>00:04</td>
-                                    <td>248</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>92</td>
-                                    <td>00:04</td>
-                                    <td>340</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>116</td>
-                                    <td>00:05</td>
-                                    <td>456</td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td>142</td>
-                                    <td>00:07</td>
-                                    <td>598</td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>180</td>
-                                    <td>00:09</td>
-                                    <td>778</td>
-                                </tr>
-                                <tr>
-                                    <td>11</td>
-                                    <td>192</td>
-                                    <td>00:10</td>
-                                    <td>970</td>
-                                </tr>
-                                <tr>
-                                    <td>12</td>
-                                    <td>200</td>
-                                    <td>00:10</td>
-                                    <td>1170</td>
-                                </tr>
-                                <tr>
-                                    <td>13</td>
-                                    <td>212</td>
-                                    <td>00:11</td>
-                                    <td>1382</td>
-                                </tr>
-                                <tr>
-                                    <td>14</td>
-                                    <td>240</td>
-                                    <td>00:12</td>
-                                    <td>1622</td>
-                                </tr>
-                                <tr>
-                                    <td>15</td>
-                                    <td>360</td>
-                                    <td>00:19</td>
-                                    <td>1982</td>
-                                </tr>
-                                <tr>
-                                    <td>16</td>
-                                    <td>440</td>
-                                    <td>00:21</td>
-                                    <td>2422</td>
-                                </tr>
-                                <tr>
-                                    <td>17</td>
-                                    <td>565</td>
-                                    <td>00:27</td>
-                                    <td>2987</td>
-                                </tr>
-                                <tr>
-                                    <td>18</td>
-                                    <td>775</td>
-                                    <td>00:38</td>
-                                    <td>3762</td>
-                                </tr>
-                                <tr>
-                                    <td>19</td>
-                                    <td>1100</td>
-                                    <td>00:54</td>
-                                    <td>4862</td>
-                                </tr>
-                                <tr>
-                                    <td>20</td>
-                                    <td>1600</td>
-                                    <td>01:20</td>
-                                    <td>6462</td>
-                                </tr>
-                                <tr>
-                                    <td>21</td>
-                                    <td>2700</td>
-                                    <td>02:14</td>
-                                    <td>9162</td>
-                                </tr>
-                                <tr>
-                                    <td>22</td>
-                                    <td>3000</td>
-                                    <td>02:30</td>
-                                    <td>12162</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>3300</td>
-                                    <td>02:45</td>
-                                    <td>15462</td>
-                                </tr>
-                                <tr>
-                                    <td>24</td>
-                                    <td>3600</td>
-                                    <td>03:00</td>
-                                    <td>19062</td>
-                                </tr>
-                                <tr>
-                                    <td>25</td>
-                                    <td>4000</td>
-                                    <td>03:20</td>
-                                    <td>23062</td>
-                                </tr>
-                                <tr>
-                                    <td>26</td>
-                                    <td>6200</td>
-                                    <td>05:10</td>
-                                    <td>29262</td>
-                                </tr>
-                                <tr>
-                                    <td>27</td>
-                                    <td>7500</td>
-                                    <td>06:15</td>
-                                    <td>36762</td>
-                                </tr>
-                                <tr>
-                                    <td>28</td>
-                                    <td>8900</td>
-                                    <td>07:25</td>
-                                    <td>45662</td>
-                                </tr>
-                                <tr>
-                                    <td>29</td>
-                                    <td>11000</td>
-                                    <td>09:10</td>
-                                    <td>56662</td>
-                                </tr>
-                                <tr>
-                                    <td>30</td>
-                                    <td>14000</td>
-                                    <td>11:40</td>
-                                    <td>70662</td>
-                                </tr>
-                                </table>
-
+                            </table>
                         </div>
 
                         <div class="item">
@@ -1199,42 +843,12 @@
                                     <th>Points</th>
                                     <th>Extra Rewards</th>
                                 </tr>
-                                <tr>
-                                    <td>1-2</td>
-                                    <td>+45</td>
-                                    <td></td>
+                                <tr v-for="item in daily_points" :key="item.id">
+                                    <td>{{ item.rank }}</td>
+                                    <td>{{ item.points !== null ? '+' + item.points : '' }}</td>
+                                    <td>{{ item.extra_rewards }}</td>
                                 </tr>
-                                <tr>
-                                    <td>3-5</td>
-                                    <td>+35</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>6-50</td>
-                                    <td>+30</td>
-                                    <td>5x High Five, 3x Power Boost, 1x Power Surge, 1x No Shit, 1x Clean Slate</td>
-                                </tr>
-                                <tr>
-                                    <td>Top 5%</td>
-                                    <td>+24</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Top 25%</td>
-                                    <td>+20</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Top 50%</td>
-                                    <td>+18</td>
-                                    <td>2x High Five, 1x Power Boost</td>
-                                </tr>
-                                <tr>
-                                    <td>Last 50%</td>
-                                    <td>+15</td>
-                                    <td></td>
-                                </tr>
-                                </table>
+                            </table>
                         </div>
 
                         <div class="item">
@@ -1246,37 +860,13 @@
                                     <th>Quantity</th>
                                     <th>Percentage</th>
                                 </tr>
-                                <tr>
-                                    <td>Legendary</td>
-                                    <td>1-133</td>
-                                    <td>133</td>
-                                    <td>0.4433%</td>
+                                <tr v-for="item in quarterly_points" :key="item.id">
+                                    <td>{{ item.level }}</td>
+                                    <td>{{ item.rank }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.percentage !== null ? item.percentage + '%' : '' }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Epic</td>
-                                    <td>134-1067</td>
-                                    <td>934</td>
-                                    <td>3.1133%</td>
-                                </tr>
-                                <tr>
-                                    <td>Rare</td>
-                                    <td>1068-3600</td>
-                                    <td>2533</td>
-                                    <td>8.4433%</td>
-                                </tr>
-                                <tr>
-                                    <td>Uncommon</td>
-                                    <td>3601-8533</td>
-                                    <td>4933</td>
-                                    <td>16.4433%</td>
-                                </tr>
-                                <tr>
-                                    <td>Common</td>
-                                    <td>8534-30000</td>
-                                    <td>21467</td>
-                                    <td>71.5566%</td>
-                                </tr>
-                                </table>
+                            </table>
                         </div>
 
                         <div class="item">
@@ -1291,98 +881,16 @@
                                 <th>Energy Supply</th>
                                 <th>Upgrade Condition</th>
                             </tr>
-                            <tr>
-                                <td>0</td>
-                                <td>2,500</td>
-                                <td>02:04</td>
-                                <td>0</td>
-                                <td></td>
-                                <td>0+</td>
-                                <td>Build 10 tiles</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>10,000</td>
-                                <td>08:20</td>
-                                <td>+14,000</td>
-                                <td>+15,000</td>
-                                <td>2+</td>
-                                <td>Average tile level 2</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>20,000</td>
-                                <td>16:35</td>
-                                <td>+20,000</td>
-                                <td>+15,000</td>
-                                <td>4+</td>
-                                <td>Average tile level 4</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>50,000</td>
-                                <td>41:37</td>
-                                <td>+43,200</td>
-                                <td>+20,000</td>
-                                <td>6+</td>
-                                <td>Average tile level 6</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>90,000</td>
-                                <td>1:12:30</td>
-                                <td>+72,000</td>
-                                <td>+35,000</td>
-                                <td>10+</td>
-                                <td>Average tile level 8</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>200,000</td>
-                                <td>02:46:35</td>
-                                <td>+100,000</td>
-                                <td>+115,000</td>
-                                <td>14+</td>
-                                <td>Average tile level 10</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>500,000</td>
-                                <td>06:56:37</td>
-                                <td>+144,000</td>
-                                <td>+100,000</td>
-                                <td>20+</td>
-                                <td>Average tile level 12</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>800,000</td>
-                                <td>11:06:38</td>
-                                <td>+216,000</td>
-                                <td>+200,000</td>
-                                <td>30+</td>
-                                <td>Average tile level 14</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>1,600,000</td>
-                                <td></td>
-                                <td>+331,200</td>
-                                <td>+300,000</td>
-                                <td>+46</td>
-                                <td>Average tile level 16</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td></td>
-                                <td></td>
-                                <td>+489,600</td>
-                                <td>+600,00</td>
-                                <td>+68</td>
-                                <td>Average tile level 16</td>
+                            <tr v-for="item in portal_level" :key="item.id">
+                                <td>{{ item.level }}</td>
+                                <td>{{ item.energy_to_level_up }}</td>
+                                <td>{{ item.upgrade_time }}</td>
+                                <td>{{ item.portal_capacity !== null ? '+' + item.portal_capacity : '' }}</td>
+                                <td>{{ item.total_energy_increase !== null ? '+' + item.total_energy_increase : '' }}</td>
+                                <td>{{ item.energy_supply !== null ? '+' + item.energy_supply : '' }}</td>
+                                <td>{{ item.upgrade_condition }}</td>
                             </tr>
                             </table>
-
                         </div>
 
                         <div class="item">
@@ -1394,33 +902,14 @@
                                     <th>Energy Cost</th>
                                     <th>Start Time</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Build 10 tiles</td>
-                                    <td>2,500</td>
-                                    <td>02:04</td>
+                                <tr v-for="item in portal_open" :key="item.id">
+                                    <td>{{ item.portal }}</td>
+                                    <td>{{ item.unlock_condition }}</td>
+                                    <td>{{ item.energy_cost }}</td>
+                                    <td>{{ item.start_time }}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Build 30 tiles</td>
-                                    <td>20,000</td>
-                                    <td>16:40</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Build 60 tiles</td>
-                                    <td>300,000</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Build 90 tiles</td>
-                                    <td>1,000,000</td>
-                                    <td></td>
-                                </tr>
-                                </table>
+                            </table>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -1433,6 +922,7 @@
   <script>
   import axios from 'axios';
   import Header from '../components/HeaderSection.vue';
+  import { API_URL } from '../main.js';
   
   export default {
     name: 'StrategyComponent',
@@ -1443,7 +933,14 @@
     data() {
     return {
       currentTopic: 'protocol',
-      items: [],
+      shortcut_key: [],
+      tiles: [],
+      tiles_up: [],
+      tiles_qu: [],
+      daily_points: [],
+      quarterly_points: [],
+      portal_level: [],
+      portal_open: [],
     };
     },
     created() {
@@ -1451,14 +948,28 @@
     },
     methods: {
         fetchData() {
-        axios.get('http://localhost:8080/api/shortcut_key')
-            .then(response => {
-            this.items = response.data;
-            })
-            .catch(error => {
-            console.error(error);
+            axios.all([
+                axios.get(`${API_URL}shortcut_key`),
+                axios.get(`${API_URL}tiles`),
+                axios.get(`${API_URL}tiles_up`),
+                axios.get(`${API_URL}tiles_qu`),
+                axios.get(`${API_URL}daily_points`),
+                axios.get(`${API_URL}quarterly_points`),
+                axios.get(`${API_URL}portal_level`),
+                axios.get(`${API_URL}portal_open`)
+            ]).then(axios.spread((shortcut_key, tiles, tiles_up, tiles_qu, daily_points, quarterly_points, portal_level, portal_open) => {
+                this.shortcut_key = shortcut_key.data;
+                this.tiles = tiles.data;
+                this.tiles_up = tiles_up.data;
+                this.tiles_qu = tiles_qu.data;
+                this.daily_points = daily_points.data;
+                this.quarterly_points = quarterly_points.data;
+                this.portal_level = portal_level.data;
+                this.portal_open = portal_open.data;
+            })).catch(error => {
+                console.error(error);
             });
-        },
+        }
     },
   };
 
