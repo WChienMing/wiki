@@ -910,6 +910,20 @@
                                 </tr>
                             </table>
                         </div>
+
+                        <div class="item">
+                            <span>Voting stats</span>
+                            <table>
+                                <tr>
+                                    <th>Vote</th>
+                                    <th>Energy Cost</th>
+                                </tr>
+                                <tr v-for="item in vote" :key="item.id">
+                                    <td>{{ item.vote_number }}</td>
+                                    <td>{{ item.energy_cost }}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -941,6 +955,7 @@
       quarterly_points: [],
       portal_level: [],
       portal_open: [],
+      vote: [],
     };
     },
     created() {
@@ -956,8 +971,9 @@
                 axios.get(`${API_URL}daily_points`),
                 axios.get(`${API_URL}quarterly_points`),
                 axios.get(`${API_URL}portal_level`),
-                axios.get(`${API_URL}portal_open`)
-            ]).then(axios.spread((shortcut_key, tiles, tiles_up, tiles_qu, daily_points, quarterly_points, portal_level, portal_open) => {
+                axios.get(`${API_URL}portal_open`),
+                axios.get(`${API_URL}vote`)
+            ]).then(axios.spread((shortcut_key, tiles, tiles_up, tiles_qu, daily_points, quarterly_points, portal_level, portal_open, vote) => {
                 this.shortcut_key = shortcut_key.data;
                 this.tiles = tiles.data;
                 this.tiles_up = tiles_up.data;
@@ -966,6 +982,7 @@
                 this.quarterly_points = quarterly_points.data;
                 this.portal_level = portal_level.data;
                 this.portal_open = portal_open.data;
+                this.vote = vote.data;
             })).catch(error => {
                 console.error(error);
             });
