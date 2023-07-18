@@ -1,85 +1,110 @@
 <template>
-    <div>
-        <Header />
-        <nav class="breadcrumb-wrapper">
-            <div class="container-fluid">
-            <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-                <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/"><span itemprop="name">Main</span></a>
-                        <meta itemprop="position" content="1" />
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement"><a itemprop="item" href="/sediment"><span itemprop="name">Browser</span></a></li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">Sediment</span><meta itemprop="position" content="3" /></li>
-            </ol>
-            </div>
-        </nav>
-        <div class="d-flex align-items-start">
-          <div class="menue">
-          <a class="quicklinks active" href="/Sediment">
-            <div class="svgimage"><img src="../assets/pic/sediment.png" alt="Sediment" class="my-image"></div><div class="text">Sediments</div>
-          </a>
-          <!-- <a class="quicklinks " href="./environment.html">
-            <div class="svgimage"><img src="../assets/pic/enviroment.png" alt="Sediment" class="my-image"></div><div class="text">Environments</div>
-          </a> -->
-          <!-- <a class="quicklinks " href="otherdeed/resource"><div class="svgimage"></div><div class="text">Resources</div></a>
-          <a class="quicklinks " href="otherdeed/artifact"><div class="svgimage"></div><div class="text">Artifacts</div></a> -->
+  <div>
+    <Header />
+    <nav class="breadcrumb-wrapper">
+      <div class="container-fluid">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+          <li class="breadcrumb-item" itemprop="itemListElement">
+            <a itemprop="item" href="/"><span itemprop="name">Main</span></a>
+            <meta itemprop="position" content="1" />
+          </li>
+          <li class="breadcrumb-item" itemprop="itemListElement">
+            <a itemprop="item" href="/sediment"><span itemprop="name">Browser</span></a>
+          </li>
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name" v-if="activeTab === 'sediment'">Sediment</span>
+            <span itemprop="name" v-else>Environment</span>
+            <meta itemprop="position" content="3" />
+          </li>
+        </ol>
+      </div>
+    </nav>
+    <div class="d-flex align-items-start">
+      <div class="menue">
+        <a class="quicklinks" :class="{active: activeTab === 'sediment'}" @click="fetchSediments">
+          <div class="svgimage">
+            <img src="../assets/pic/sediment.png" alt="Sediment" class="my-image">
           </div>
-            <div class="w-100">
-              <div class="row align-items-center">
-                <div class="sedi" v-for="item in tiles" :key="item.id">
-                  <div class="top">
-                    <div class="title">
-                      <h2>{{ item.name }}</h2>
-                      <span class="count">Unlock Condition: <b>{{ item.unlock_condition }}</b></span>
-                        <!-- <div class="body">
-                          <span class="count2"><div>Duration</div> <div>4,939</div></span>
-                        </div> -->
-                    </div>
-                    <div class="images">
-                      <div class="topright"><img :src="getImage(item.name)"></div>
-                    </div>
-                  </div>
+          <div class="text">Sediments</div>
+        </a>
+        <a class="quicklinks" :class="{active: activeTab === 'environment'}" @click="fetchEnvironments">
+          <div class="svgimage">
+            <img src="../assets/pic/enviroment.png" alt="Environment" class="my-image">
+          </div>
+          <div class="text">Environments</div>
+        </a>
+      </div>
+      <div class="w-100">
+        <div class="row align-items-center">
+          <div class="sedi" v-for="item in items" :key="item.id">
+            <div class="top">
+              <div class="title">
+                <h2>{{ item.name }}</h2>
+                <span class="count">Unlock Condition: <b>{{ item.unlock_condition }}</b></span>
+              </div>
+              <div class="images">
+                <div class="topright">
+                  <img :src="getImage(item.name)">
                 </div>
-                
               </div>
             </div>
           </div>
+        </div>
+      </div>
     </div>
-  </template>
-    
-  <script>
-  import axios from 'axios';
-  import Header from '../components/HeaderSection.vue';
-  import { API_URL } from '../main.js';
-  
-  export default {
-    name: 'NftDetails',
-    components: {
-      Header,
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import Header from '../components/HeaderSection.vue';
+
+import { API_URL } from '../main.js';
+const API_URL_ENVIRONMENT = '<your_environments_api_url>';
+
+export default {
+  name: 'NftDetails',
+  components: {
+    Header,
+  },
+  data() {
+    return {
+      activeTab: 'sediment', // default active tab
+      items: [], // used for either sediments or environments
+    };
+  },
+  created() {
+    this.fetchSediments();
+  },
+  methods: {
+    fetchSediments() {
+      this.activeTab = 'sediment';
+      axios.get(`${API_URL}tiles`)
+        .then(response => {
+          this.items = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
-    data() {
-      return {
-          tiles: [],
-      };
+    fetchEnvironments() {
+      this.activeTab = 'environment';
+      axios.get(API_URL_ENVIRONMENT)
+        .then(response => {
+          this.items = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
-    created() {
-        this.fetchData();
+    getImage(name) {
+      return require(`@/assets/pic/tiles/${name}.png`);
     },
-    methods: {
-        fetchData() {
-            axios.get(`${API_URL}tiles`)
-            .then(response => {
-                this.tiles = response.data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        },
-        getImage(name) {
-            return require(`@/assets/pic/tiles/${name}.png`);
-        }
-    }
-  };
-  </script>
+  },
+};
+</script>
+
+
     <style>
     .dropdown-menu {min-width: 45rem;}
     .categories-column { background-color: #c5c5c5; padding: 1rem; }
