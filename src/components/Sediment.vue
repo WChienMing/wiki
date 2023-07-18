@@ -43,9 +43,9 @@
                 <span class="count">Unlock Condition: <b>{{ item.unlock_condition }}</b></span>
               </div>
               <div class="images">
-                <div class="topright">
+                <!-- <div class="topright">
                   <img :src="getImage(item.name)">
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -60,7 +60,6 @@ import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
 
 import { API_URL } from '../main.js';
-const API_URL_ENVIRONMENT = '<your_environments_api_url>';
 
 export default {
   name: 'NftDetails',
@@ -82,6 +81,7 @@ export default {
       axios.get(`${API_URL}tiles`)
         .then(response => {
           this.items = response.data;
+          console.log(this.items);
         })
         .catch(error => {
           console.error(error);
@@ -89,9 +89,11 @@ export default {
     },
     fetchEnvironments() {
       this.activeTab = 'environment';
-      axios.get(API_URL_ENVIRONMENT)
+      this.items.length = 0;
+      axios.get(`${API_URL}object`)
         .then(response => {
           this.items = response.data;
+          console.log(this.items);
         })
         .catch(error => {
           console.error(error);
