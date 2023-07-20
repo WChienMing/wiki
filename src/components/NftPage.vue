@@ -35,7 +35,7 @@
                 <div class="w-360px sidebar sticky-top">
                     <div class="wrapper center-block">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
+                            <!-- <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingTwo">
                                     <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Price</a></h4>
                                 </div>
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr>
+                            <hr> -->
                             <div class="wrapper center-block">
                                 <div class="panel panel-default">
                                     <h4 class="panel-title">
