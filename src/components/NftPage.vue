@@ -258,7 +258,6 @@ export default {
             this.nfts = [];
 
             if (tokenIds) {
-               
                 const chunks = [];
                 while (tokenIds.length) {
                     chunks.push(tokenIds.splice(0, 20));
@@ -275,6 +274,7 @@ export default {
 
                 try {
                     const responses = await Promise.all(promises);
+                    let allAssets = [];
                     responses.forEach(response => {
                         const assets = response.data.assets;
                         assets.forEach(asset => {
@@ -284,14 +284,47 @@ export default {
                                 this.nfts.push({
                                     tokenId: tokenId,
                                     image: asset.image_url,
-                                    price: null // 添加一个价格的占位符
+                                    price: null // Adding a price placeholder
                                 });
+                                allAssets.push(tokenId);
                             }
                         });
                     });
+
+                    const priceChunks = [];
+                    while (allAssets.length) {
+                        priceChunks.push(allAssets.splice(0, 20));
+                    }
+
+                    const pricePromises = priceChunks.map(chunk => {
+                        const tokenIds = chunk.map(asset => 'token_ids=' + asset).join('&');
+                        return axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
+                            headers: {
+                                accept: 'application/json',
+                                'X-API-KEY': OPENSEA_API_KEY
+                            }
+                        });
+                    });
+
+                    const priceResponses = await Promise.all(pricePromises);
+
+                    priceResponses.forEach(response => {
+                        const listings = response.data.orders;
+                        listings.forEach(listing => {
+                            const tokenId = listing.maker_asset_bundle.assets[0].token_id;
+                            const currentPrice = listing.current_price;
+                            const eth = currentPrice / 1e18;
+                            const nftIndex = this.nfts.findIndex(nft => nft.tokenId === tokenId);
+                            if (nftIndex !== -1) {
+                                this.nfts[nftIndex].price = `${eth} ETH`;
+                                console.log(`Token ID11: ${tokenId}, Current Price: ${eth}`);
+                            }
+                        });
+                    });
+                    
                 } catch (error) {
-                    console.error('获取NFT数据时出错：', error);
-                }   finally {
+                    console.error('Error fetching NFT data:', error);
+                } finally {
                     this.isLoading = false;
                 }
             }else{
@@ -325,7 +358,7 @@ export default {
                                     ...assets.map(asset => ({
                                         tokenId: asset.token_id,
                                         image: asset.image_url,
-                                        price: null // Adding a placeholder for price
+                                        price: null
                                     }))
                                 );
 
