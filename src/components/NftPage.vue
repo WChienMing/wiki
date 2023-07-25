@@ -118,19 +118,20 @@
                             Loading...
                             </div>
                         </div>
+                        
                         <div class="list-wrapper" v-else>
                             <div id="results" class="row align-items-center mb-3">
                                 <div class="col-auto"  v-for="nft in nfts" :key="nft.tokenId">
-                                    <a :href="'/NftDetails?id=' + nft.tokenId" class="list list-item-relic">
+                                    <a :href="'/NftDetails?id=' + nft.tokenId" class="list list-item-vessel" style="height: 235px!important;">
                                         <div class="topside">
-                                        <div class="marketprice">{{ nft.price }}</div>
+                                            <div class="pricetop">#{{ nft.tokenId }}</div>
+                                            <div class="marketprice" v-html="nft.price"></div>
                                         </div>
                                         <div class="image"><img :src="nft.image" alt="NFT"></div>
                                         <div class="bottomside">
                                         <div class="basics">
-                                            <div class="box">
-                                            <div class="text">#{{ nft.tokenId }}</div>
-                                            </div>
+                                            <div class="box"><div class="text">Rank: {{ nft.rank }}</div></div>
+                                            <div class="box"><div class="text">Score: {{ nft.score }}</div></div>
                                         </div>
                                         </div>
                                     </a>
@@ -178,7 +179,7 @@
 <script>
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
-import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, MO_API_KEY } from '../main.js';
+import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, MO_API_KEY, API_URL } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -284,43 +285,65 @@ export default {
                                 this.nfts.push({
                                     tokenId: tokenId,
                                     image: asset.image_url,
-                                    price: null // Adding a price placeholder
+                                    price: null
                                 });
                                 allAssets.push(tokenId);
                             }
                         });
                     });
 
-                    const priceChunks = [];
-                    while (allAssets.length) {
-                        priceChunks.push(allAssets.splice(0, 20));
-                    }
-
-                    const pricePromises = priceChunks.map(chunk => {
-                        const tokenIds = chunk.map(asset => 'token_ids=' + asset).join('&');
-                        return axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                            headers: {
-                                accept: 'application/json',
-                                'X-API-KEY': OPENSEA_API_KEY
-                            }
-                        });
+                    allAssets.forEach(asset => {
+                        axios.get(`${API_URL}/getwiki?id=${asset}`)
+                            .then((priceResponse) => {
+                                const listing = priceResponse.data.data[0];
+                                const tokenId = listing.vessel;
+                                const currentPrice = listing.floor;
+                                const nft = this.nfts.find(nft => nft.tokenId === tokenId);
+      
+                                if (nft && !nft.price) {
+                                    nft.price = listing.marketplace_image !== '' 
+                                        ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
+                                        : currentPrice + ' ' + listing.floor_currency;
+                                    
+                                    nft.rank = listing.rank;
+                                    nft.score = listing.score;
+                                }
+                            })
+                            .catch((error) => {
+                                console.error('获取价格信息时出错：', error);
+                            });
                     });
 
-                    const priceResponses = await Promise.all(pricePromises);
+                    // const priceChunks = [];
+                    // while (allAssets.length) {
+                    //     priceChunks.push(allAssets.splice(0, 20));
+                    // }
 
-                    priceResponses.forEach(response => {
-                        const listings = response.data.orders;
-                        listings.forEach(listing => {
-                            const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                            const currentPrice = listing.current_price;
-                            const eth = currentPrice / 1e18;
-                            const nftIndex = this.nfts.findIndex(nft => nft.tokenId === tokenId);
-                            if (nftIndex !== -1) {
-                                this.nfts[nftIndex].price = `${eth} ETH`;
-                                console.log(`Token ID11: ${tokenId}, Current Price: ${eth}`);
-                            }
-                        });
-                    });
+                    // const pricePromises = priceChunks.map(chunk => {
+                    //     const tokenIds = chunk.map(asset => 'token_ids=' + asset).join('&');
+                    //     return axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
+                    //         headers: {
+                    //             accept: 'application/json',
+                    //             'X-API-KEY': OPENSEA_API_KEY
+                    //         }
+                    //     });
+                    // });
+
+                    // const priceResponses = await Promise.all(pricePromises);
+
+                    // priceResponses.forEach(response => {
+                    //     const listings = response.data.orders;
+                    //     listings.forEach(listing => {
+                    //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
+                    //         const currentPrice = listing.current_price;
+                    //         const eth = currentPrice / 1e18;
+                    //         const nftIndex = this.nfts.findIndex(nft => nft.tokenId === tokenId);
+                    //         if (nftIndex !== -1) {
+                    //             this.nfts[nftIndex].price = `${eth} ETH`;
+                    //             console.log(`Token ID11: ${tokenId}, Current Price: ${eth}`);
+                    //         }
+                    //     });
+                    // });
                     
                 } catch (error) {
                     console.error('Error fetching NFT data:', error);
@@ -332,14 +355,12 @@ export default {
                 axios
                     .get(`https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
                     .then((response) => {
-                        // 将返回的NFTs ID转换为整数
+
                         const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
                         const tokenIdsChunks = [];
-                        // 将ID分成多个块，每个块最多20个ID
                         while (nftsId.length > 0) {
                             tokenIdsChunks.push(nftsId.splice(0, 20));
                         }
-                        // 对每个块发送请求以获取NFT详细信息
                         const promises = tokenIdsChunks.map(chunk => {
                             const tokenIds = chunk.join('&token_ids=');
                             return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
@@ -361,35 +382,58 @@ export default {
                                         price: null
                                     }))
                                 );
+                                
 
-                                const tokenIds = assets.map(asset => 'token_ids=' + asset.token_id).join('&');
-                                axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                                        headers: {
-                                            accept: 'application/json',
-                                            'X-API-KEY': OPENSEA_API_KEY
-                                        }
-                                    })
+                                assets.forEach(asset => {
+                                    axios.get(`${API_URL}/getwiki?id=${asset.token_id}`)
                                     .then((priceResponse) => {
-                                        const listings = priceResponse.data.orders;
+                                        const listing = priceResponse.data.data[0];
+                                        const tokenId = listing.vessel;
+                                        const currentPrice = listing.floor;
+                                        const nft = this.nfts.find(nft => nft.tokenId === tokenId);
+                                        if (nft && !nft.price) {
+                                            nft.price = listing.marketplace_image !== '' 
+                                            ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
+                                            : currentPrice + ' ' + listing.floor_currency;                                            
+                                            nft.rank = listing.rank;
+                                            nft.score = listing.score;
 
-                                        listings.forEach(listing => {
-                                            const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                                            const currentPrice = listing.current_price;
-
-                                            // Find the corresponding NFT in the nfts array and update its price.
-                                            const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                                            if (nft && !nft.price) {
-                                                let wei = currentPrice;
-                                                let eth = wei / 1e18;
-
-                                                nft.price = eth + ' ETH';
-                                                console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
-                                            }
-                                        });
+                                            // console.log(`Token ID: ${tokenId}, Current Price: ${currentPrice}`);
+                                        }
                                     })
                                     .catch((error) => {
                                         console.error('获取价格信息时出错：', error);
                                     });
+                                });
+
+                                // const tokenIds = assets.map(asset => 'token_ids=' + asset.token_id).join('&');
+                                // console.log(asset.token_id)
+                                // axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
+                                //     headers: {
+                                //         accept: 'application/json',
+                                //         'X-API-KEY': OPENSEA_API_KEY
+                                //     }
+                                // })
+                                // .then((priceResponse) => {
+                                //     const listings = priceResponse.data.orders;
+
+                                //     listings.forEach(listing => {
+                                //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
+                                //         const currentPrice = listing.current_price;
+
+                                //         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
+                                //         if (nft && !nft.price) {
+                                //             let wei = currentPrice;
+                                //             let eth = wei / 1e18;
+
+                                //             nft.price = eth + ' ETH';
+                                //             console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
+                                //         }
+                                //     });
+                                // })
+                                // .catch((error) => {
+                                //     console.error('获取价格信息时出错：', error);
+                                // });
                             });
                                 this.nfts.sort((a, b) => a.tokenId - b.tokenId);
                             }))
@@ -432,33 +476,50 @@ export default {
                     price: null 
                 });
                 
-                axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&token_ids=${asset.token_id}`, {
-                    headers: {
-                        accept: 'application/json',
-                        'X-API-KEY': OPENSEA_API_KEY
-                    }
-                })
-                .then((priceResponse) => {
-                    const listings = priceResponse.data.orders;
-
-                    listings.forEach(listing => {
-                        const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                        const currentPrice = listing.current_price;
-
-                        // Find the corresponding NFT in the nfts array and update its price.
+                axios.get(`${API_URL}/getwiki?id=${asset.token_id}`)
+                    .then((priceResponse) => {
+                        const listing = priceResponse.data.data[0];
+                        const tokenId = listing.vessel;
+                        const currentPrice = listing.floor;
                         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
                         if (nft && !nft.price) {
-                            let wei = currentPrice;
-                            let eth = wei / 1e18;
-
-                            nft.price = eth + ' ETH';
-                            console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
+                            nft.price = listing.marketplace_image !== '' 
+                            ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
+                            : currentPrice + ' ' + listing.floor_currency;                                            
+                            nft.rank = listing.rank;
+                            nft.score = listing.score;
                         }
-                    });
-                })
+                    })
                 .catch((error) => {
                     console.error('获取价格信息时出错：', error);
                 });
+                // axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&token_ids=${asset.token_id}`, {
+                //     headers: {
+                //         accept: 'application/json',
+                //         'X-API-KEY': OPENSEA_API_KEY
+                //     }
+                // })
+                // .then((priceResponse) => {
+                //     const listings = priceResponse.data.orders;
+
+                //     listings.forEach(listing => {
+                //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
+                //         const currentPrice = listing.current_price;
+
+                //         // Find the corresponding NFT in the nfts array and update its price.
+                //         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
+                //         if (nft && !nft.price) {
+                //             let wei = currentPrice;
+                //             let eth = wei / 1e18;
+
+                //             nft.price = eth + ' ETH';
+                //             console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
+                //         }
+                //     });
+                // })
+                // .catch((error) => {
+                //     console.error('获取价格信息时出错：', error);
+                // });
             } catch (error) {
                 console.error('搜索NFT时出错：', error);
             } finally {
