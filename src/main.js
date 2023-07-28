@@ -24,7 +24,7 @@ export const ALCHEMY_API_KEY = 'p5mON-omIMAgLAz82zfHaIymONhonpQ_';
 export const HV_MTL = '0x4b15a9c28034dC83db40CD810001427d3BD7163D';
 export const MO_API_KEY = 's51LMch8Mgs1JiwtNEYIEoiIMzWyqWaRtIhDzrsPcH719ZI1BQso4Dca3xAXmRld';
 
-export const API_URL = 'http://forge.e2app.asia/api/';
+export const API_URL = 'https://forge.e2app.asia/api/';
 
 
 new Vue({
