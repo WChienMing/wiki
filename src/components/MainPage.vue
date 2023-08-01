@@ -3,6 +3,22 @@
     <Header />
     <div class="index_splash">
       <div class="container">
+        <swiper
+          class="swiper"
+          :modules="modules"
+          :space-between="30"
+          :slides-per-view="3"
+          :pagination="{ clickable: true }"
+        >
+          <swiper-slide class="slide">Slide 1</swiper-slide>
+          <swiper-slide class="slide">Slide 2</swiper-slide>
+          <swiper-slide class="slide">Slide 3</swiper-slide>
+          <swiper-slide class="slide">Slide 4</swiper-slide>
+          <swiper-slide class="slide">Slide 5</swiper-slide>
+          <swiper-slide class="slide">Slide 6</swiper-slide>
+          <swiper-slide class="slide">Slide 7</swiper-slide>
+          <swiper-slide class="slide">Slide 8</swiper-slide>
+        </swiper>
         <div class="row align-items-start">
           <div class="col-md-7">
             <h1>HV-MTL-WIKI</h1>
@@ -115,17 +131,32 @@ import Header from '../components/HeaderSection.vue';
 import { OPENSEA_API_KEY, HV_MTL } from '../main.js';
 import NftRank from './NftRank.vue'
 
+
+// import { defineComponent } from 'vue'
+  import { Pagination } from 'swiper/modules'
+  import { Swiper, SwiperSlide } from 'swiper/vue'
+  import 'swiper/css'
+  import 'swiper/css/pagination'
 export default {
   name: 'MainPage',
   components: {
     Header,
-    NftRank
+    NftRank,
+    Swiper,
+    SwiperSlide,
   },
   data() {
     return {
       latestSales: [],
       top5: [],
     };
+  },
+  setup() {
+
+    return {
+      modules: [Pagination]
+    }
+    
   },
   methods: {
     async getLatestSales() {
@@ -203,4 +234,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>
