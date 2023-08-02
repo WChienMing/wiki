@@ -10,12 +10,10 @@ import './assets/css/style7ff7.css?id=j523333';
 import './assets/css/header.css';
 import './assets/css/main.css';
 
-// import './assets/js/cookieconsent.js';
+
 import 'jquery/dist/jquery.min.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-// import './assets/js/browse_nft.js';
-// import './assets/js/popper.min.js';
-// import './assets/js/custom28b4.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 Vue.config.productionTip = false
 

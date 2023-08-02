@@ -3,24 +3,43 @@
     <Header />
     <div class="index_splash">
       <div class="container">
-        <swiper
-          class="swiper"
-          :modules="modules"
-          :space-between="30"
-          :slides-per-view="3"
-          :pagination="{ clickable: true }"
-        >
-          <swiper-slide class="slide">Slide 1</swiper-slide>
-          <swiper-slide class="slide">Slide 2</swiper-slide>
-          <swiper-slide class="slide">Slide 3</swiper-slide>
-          <swiper-slide class="slide">Slide 4</swiper-slide>
-          <swiper-slide class="slide">Slide 5</swiper-slide>
-          <swiper-slide class="slide">Slide 6</swiper-slide>
-          <swiper-slide class="slide">Slide 7</swiper-slide>
-          <swiper-slide class="slide">Slide 8</swiper-slide>
-        </swiper>
         <div class="row align-items-start">
-          <div class="col-md-7">
+          <div class="col-md-12">
+            <div class="list-wrapper swiper-container" v-if="latestSales.length > 0">
+                <div id="results" class="row align-items-center mb-3 swiper-wrapper">
+                    <div class="col-auto swiper-slide" v-for="sale in latestSales" :key="sale.asset.token_id">
+                      <a :href="'/NftDetails'" class="list list-item-vessel" style="height: 235px!important;">
+                        <div class="topside">
+                            <div class="pricetop">#123</div>
+                            <div class="marketprice">123</div>
+                        </div>
+                        <div class="image"><img :src="sale.asset.image_thumbnail_url" /></div>
+                        <div class="bottomside">
+                        <div class="basics">
+                            <div class="box"><div class="text">Rank: 123</div></div>
+                            <div class="box"><div class="text">Score: 123</div></div>
+                        </div>
+                        </div>
+                      </a>
+                    </div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </div>
+          <!-- <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+
+          <div class="swiper-scrollbar"></div>
+          </div> -->
+          <!-- <div class="col-md-7">
             <h1>HV-MTL-WIKI</h1>
             <h2>Your Key to the HV-MTL Metaverse</h2>
             <p>The HV-MTL (Heavy Metal) collection is made up of 30,000 Mechs derived from 8 different Power Source types.
@@ -29,20 +48,16 @@
               HV-MTL evolution stages. Holders of HV-MTLs are subject to the HV-MTL License Agreement available at <a
                 href="https://hv-mtl.com/hvmtl-license-agreement" target="_blank"
                 rel="noopener">https://hv-mtl.com/hvmtl-license-agreement.</a></p>
-            <!-- <div class="teaser">
-                        <a href="./otherdeed">Discover Otherside</a>
-                        <a href=",/tool/wallet-inventory">My Inventory</a>
-                    </div> -->
           </div>
           <div class="col-md-3 ml-auto index-tools">
-            <!-- <h2>Video</h2> -->
             <div class="video-container">
               <iframe width="560" height="315" src="https://www.youtube.com/embed/RrFdF5a4wdk"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
             </div>
-          </div>
+          </div> -->
+          
         </div>
       </div>
     </div>
@@ -129,21 +144,18 @@
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
 import { OPENSEA_API_KEY, HV_MTL } from '../main.js';
-import NftRank from './NftRank.vue'
+import NftRank from './NftRank.vue';
 
 
-// import { defineComponent } from 'vue'
-  import { Pagination } from 'swiper/modules'
-  import { Swiper, SwiperSlide } from 'swiper/vue'
-  import 'swiper/css'
-  import 'swiper/css/pagination'
+import Swiper from 'swiper';
+import 'swiper/css/swiper.css';
+
+
 export default {
   name: 'MainPage',
   components: {
     Header,
     NftRank,
-    Swiper,
-    SwiperSlide,
   },
   data() {
     return {
@@ -151,21 +163,32 @@ export default {
       top5: [],
     };
   },
-  setup() {
-
-    return {
-      modules: [Pagination]
-    }
-    
-  },
   methods: {
+    createSwiper() {
+      new Swiper('.swiper-container', {
+        // Optional parameters
+        direction: 'horizontal',
+        loop: true,
+        
+        // Navigation arrows
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        
+        // And if we need scrollbar
+        scrollbar: {
+          el: '.swiper-scrollbar',
+        },
+      });
+    },
     async getLatestSales() {
       try {
         const response = await axios.get(`https://api.opensea.io/api/v1/events`, {
           params: {
             asset_contract_address: HV_MTL,
             event_type: 'successful',
-            limit: '5',
+            limit: '10',
           },
           headers: {
             'X-API-KEY': OPENSEA_API_KEY,
@@ -230,9 +253,14 @@ export default {
     script.setAttribute('charset', 'utf-8');
     script.setAttribute('async', 'true');
     document.head.appendChild(script);
+
+    this.$nextTick(function () {
+      this.createSwiper();
+    })
   },
 };
 </script>
 
 <style>
+
 </style>
