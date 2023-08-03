@@ -41,6 +41,859 @@
                           </div>
                           <div class="col-lg-9 col-md-8">
                               <div class="row nopaddingmobile">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                  <table>
+                                    <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="2" colspan="2" class="black-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">4</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="2" colspan="2" class="black-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="2" colspan="2" class="black-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="4" colspan="3" class="black-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="3" colspan="3" class="black-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="level-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0="">8</div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="2" colspan="2" class="black-block" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+   <tr data-v-5b9b16c0="">
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="" style="display: none;">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+      <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
+         <div class="Dynamic" data-v-5b9b16c0=""></div>
+      </td>
+   </tr>
+                                  
+                                  </table>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-4" v-for="trait in traits" :key="trait.trait_type">
                                   <a class="details" href="#">
                                     <h2>{{ trait.trait_type }}</h2>
@@ -103,7 +956,7 @@
 <script>
 import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
-import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL } from '../main.js';
+import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, API_URL } from '../main.js';
 
 export default {
   name: 'NftDetails',
@@ -135,6 +988,7 @@ export default {
     this.getUrlId();
     this.fetchTraits();
     this.fetchEvents();
+    this.fetchSocialPublicPreview();
     this.$nextTick(() => {
       const activityDiv = document.querySelector('.item-activity');
       if (activityDiv) {
@@ -150,6 +1004,26 @@ export default {
     }
   },
   methods: {
+    
+    fetchSocialPublicPreview() {
+      
+      let socialPublicPreviewOptions = {
+        method: 'GET',
+        url: `${API_URL}gettiles`,
+        params: { id: this.urlId },
+      };
+  
+      axios
+        .request(socialPublicPreviewOptions)
+        .then(response => {
+          // Do something with response
+          console.log(response);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+
     getEtherscanURLFrom(event) {
       if (
         event.from_account &&
@@ -162,6 +1036,7 @@ export default {
         return '#';
       }
     },
+    
     getEtherscanURLTo(event) {
       if (
         event.to_account &&
@@ -215,6 +1090,7 @@ export default {
       const id = urlParams.get('id');
       this.urlId = id;
     },
+    
     fetchTraits() {
       const options = {
         method: 'GET',
@@ -492,6 +1368,16 @@ export default {
     .nopaddingmobile {padding:0px;}
   }
   
-    .nopaddinggeneral {padding:0px;}
+  .nopaddinggeneral {padding:0px;}
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td {
+    border: 2.5px solid white !important;
+    padding: 15px;
+  }
+
   </style>
   
