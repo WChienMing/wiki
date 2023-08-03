@@ -42,6 +42,14 @@
                           <div class="col-lg-9 col-md-8">
                               <div class="row nopaddingmobile">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                 <table>
+                                    <tr v-for="(row, index) in formattedTiles" :key="index">
+                                    <td v-for="(tile, index2) in row" :key="index2">
+                                       {{ tile.elevation }}
+                                    </td>
+                                    </tr>
+                                    
+                                 </table>
                                   <table>
                                     <tr data-v-5b9b16c0="">
       <td rowspan="1" colspan="1" class="" data-v-5b9b16c0="">
@@ -974,6 +982,7 @@ export default {
       nextCursor: null,
       isFetching: false,
       noMoreData: false,
+      tiles: [],
     };
   },
   computed: {
@@ -983,12 +992,19 @@ export default {
     getEtherscanLink() {
       return `https://etherscan.io/address/${this.owners.join(',')}`;
     },
+    formattedTiles() {
+      let rows = [];
+      for(let i = 0; i < this.tiles.length; i += 21) {
+        rows.push(this.tiles.slice(i, i + 21));
+      }
+      return rows;
+    },
   },
   mounted() {
     this.getUrlId();
     this.fetchTraits();
     this.fetchEvents();
-    this.fetchSocialPublicPreview();
+    this.fetchTiles();
     this.$nextTick(() => {
       const activityDiv = document.querySelector('.item-activity');
       if (activityDiv) {
@@ -1004,20 +1020,11 @@ export default {
     }
   },
   methods: {
-    
-    fetchSocialPublicPreview() {
-      
-      let socialPublicPreviewOptions = {
-        method: 'GET',
-        url: `${API_URL}gettiles`,
-        params: { id: this.urlId },
-      };
-  
-      axios
-        .request(socialPublicPreviewOptions)
+
+    fetchTiles() {
+      axios.get(`${API_URL}gettiles?id=${this.urlId}`)
         .then(response => {
-          // Do something with response
-          console.log(response);
+          this.tiles = response.data.board.tiles;
         })
         .catch(error => {
           console.error(error);
