@@ -41,34 +41,6 @@
                           </div>
                           <div class="col-lg-9 col-md-8">
                               <div class="row nopaddingmobile">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                 <table>
-                                    <tr v-for="(row, index) in formattedTiles" :key="index">
-                                    <td v-for="(tile, index2) in row" :key="index2" 
-                                    :class="'tile-' + index + '-' + index2"  
-                                    :id="'tile-' + index + '-' + index2"  
-                                    :rowspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 4 
-                                    : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
-                                    : ('tile-' + index + '-' + index2) === 'tile-0-4' 
-                                    || ('tile-' + index + '-' + index2) === 'tile-0-11'
-                                    || ('tile-' + index + '-' + index2) === 'tile-3-17' 
-                                    || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1"
-                                    :colspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 3 
-                                    : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
-                                    : ('tile-' + index + '-' + index2) === 'tile-0-4' 
-                                    || ('tile-' + index + '-' + index2) === 'tile-0-11' 
-                                    || ('tile-' + index + '-' + index2) === 'tile-3-17' 
-                                    || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
-                                       
-                                       <div class="Dynamic" data-v-5b9b16c0="" v-if="tile.level !== 0" :id="'tile-' + index + '-' + index2"  >{{ tile.level }}</div>
-                                       
-                                    </td>
-                                    </tr>
-                                 </table>
-                                </div>
-                                <br>
-                                <br>
-                                <br>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-4" v-for="trait in traits" :key="trait.trait_type">
                                   <a class="details" href="#">
                                     <h2>{{ trait.trait_type }}</h2>
@@ -118,6 +90,34 @@
                                         </div>
                                       <div class="date">{{ formatTimeAgo(event.event_timestamp) }}</div>
                                   </div>
+                              </div>
+                              <br>
+                              <br>
+                              <div class="col-md-12">
+                                <table>
+                                    <tr v-for="(row, index) in formattedTiles" :key="index">
+                                    <td v-for="(tile, index2) in row" :key="index2" 
+                                    :class="['tile-' + index + '-' + index2, { 'live': tile.level !== 0 }]"  
+                                    :id="'tile-' + index + '-' + index2"  
+                                    :rowspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 4 
+                                    : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
+                                    : ('tile-' + index + '-' + index2) === 'tile-0-4' 
+                                    || ('tile-' + index + '-' + index2) === 'tile-0-11'
+                                    || ('tile-' + index + '-' + index2) === 'tile-3-17' 
+                                    || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1"
+                                    :colspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 3 
+                                    : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
+                                    : ('tile-' + index + '-' + index2) === 'tile-0-4' 
+                                    || ('tile-' + index + '-' + index2) === 'tile-0-11' 
+                                    || ('tile-' + index + '-' + index2) === 'tile-3-17' 
+                                    || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
+                                       
+                                       <div class="Dynamic" v-if="tile.level !== 0" :id="'tile-div' + index + '-' + index2" >
+                                        {{ tile.level }}
+                                        </div>
+                                    </td>
+                                    </tr>
+                                 </table>
                               </div>
                           </div>
                       </div>
@@ -173,10 +173,11 @@ export default {
     this.fetchEvents();
     this.fetchTiles();
     this.$nextTick(() => {
-      const activityDiv = document.querySelector('.item-activity');
-      if (activityDiv) {
-        activityDiv.addEventListener('scroll', this.handleScroll);
-      }
+      // const activityDiv = document.querySelector('.item-activity');
+      // if (activityDiv) {
+      //   activityDiv.addEventListener('scroll', this.handleScroll);
+      // }
+
     });
   },
 
@@ -350,15 +351,47 @@ export default {
       }
     },
   },
+  watch: {
+    formattedTiles: function() {
+      this.$nextTick(() => {
+        let idMap = {
+            'tile-1-4': 'tile-div0-4', 
+            'tile-1-11': 'tile-div0-11',
+            'tile-4-17': 'tile-div3-17',
+            'tile-12-13': 'tile-div11-13'
+        };
+
+        for (let sourceId in idMap) {
+            let targetId = idMap[sourceId];
+            let sourceElement = document.getElementById(sourceId);
+            if (sourceElement) {
+                let targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.innerHTML = sourceElement.innerText;
+                    console.log(sourceElement.innerText);
+                } else {
+                    console.log(`Element ${targetId} does not exist.`);
+                }
+            } else {
+                console.log(`Element ${sourceId} does not exist.`);
+            }
+        }
+    });
+    }
+  }
 };
 </script>
   <style>
+  #tile-div5-18 {display: none;}
   .tile-0-5,.tile-1-4,.tile-1-5,.tile-0-12,.tile-1-11,.tile-1-12, 
   .tile-4-1,.tile-4-2,.tile-5-0,.tile-5-1,.tile-5-2,.tile-6-0,.tile-6-1,.tile-6-2,
   .tile-7-0,.tile-7-1,.tile-7-2,.tile-3-18,.tile-4-17,.tile-4-18,
   .tile-5-19,.tile-5-20,.tile-6-18,.tile-6-19,.tile-6-20,.tile-7-18,.tile-7-19,.tile-7-20,
   .tile-11-14,.tile-12-13,.tile-12-14 {display: none;}
   .tile-4-0 .Dynamic {display: none;}
+  .tile-0-4, .tile-0-11, .tile-3-17, .tile-5-18, .tile-11-13, .tile-4-0 {background-color: #838383 !important;}
+  .Dynamic {display: flex;justify-content: center;align-items: center;height: 100%;}
+  .live {background-color: #ab542d;}
   .dropdown-menu {min-width: 45rem;}
   .categories-column { background-color: #c5c5c5; padding: 1rem; }
   .category-link {display: block;  padding-bottom: 4px;  margin-right: 1rem;  text-decoration: none;  color: #212529; }
@@ -556,6 +589,12 @@ export default {
   td {
     border: 2.5px solid white !important;
     padding: 15px;
+    width: 50px; 
+    height: 50px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
   }
 
   </style>
