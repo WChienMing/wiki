@@ -382,7 +382,6 @@ export default {
 };
 </script>
   <style>
-  #tile-div5-18 {display: none;}
   .tile-0-5,.tile-1-4,.tile-1-5,.tile-0-12,.tile-1-11,.tile-1-12, 
   .tile-4-1,.tile-4-2,.tile-5-0,.tile-5-1,.tile-5-2,.tile-6-0,.tile-6-1,.tile-6-2,
   .tile-7-0,.tile-7-1,.tile-7-2,.tile-3-18,.tile-4-17,.tile-4-18,

@@ -194,7 +194,7 @@ export default {
             limit: 100,
             totalPages: 0,
             contractAddress: HV_MTL,
-            totalSupply: 27300,
+            totalSupply: 28078,
             isLoading: false,
             searchId: '',
             isSearchActive: false,
