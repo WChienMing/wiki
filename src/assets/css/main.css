@@ -7,6 +7,120 @@ body {
   background-color: #151718 !important;
 }
 
+.live {
+  background-color: #151718;
+}
+
+td {
+  /* border: 2.5px solid white !important; */
+  /* padding: 15px;
+  width: 50px;
+  height: 50px; */
+  border-radius: 8px;
+  border: 1px solid #151718;
+  box-sizing: border-box;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #242529;
+  position: relative;
+}
+
+@media screen and (max-width: 480px) {
+  .nft-item{
+max-height: 60vh !important;
+  }
+
+  .topline{
+    padding: 10px 20px 2px 20px;
+
+  }
+}
+
+.Dynamic-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 20px;
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+}
+
+.Dynamic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  line-height: 20px;
+
+}
+
+.plots .details {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  padding: 16px;
+  background-image: url('../pic/Rectangle\ 999.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+}
+
+.plots .details h2 {
+  width: 100%;
+  text-align: center;
+  font-family: Plus Jakarta Sans;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+
+}
+
+.plots .details .text {
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+
+}
+
+
+.search-form .form-group .form-control {
+  display: block;background: #323232;
+
+  border: 1px solid #42454a3b;
+  border-radius: 0.5rem;
+  box-shadow: none;
+  height: auto;
+  margin: 16px 0px;
+  padding: 11px;
+  padding-left: 40px;
+}
+
+.tile-0-4,
+.tile-0-11,
+.tile-3-17,
+.tile-5-18,
+.tile-11-13,
+.tile-4-0 {
+  background-color: #0983F1 !important;
+}
+
+.nft-list {
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .group-title a {
   font-family: Plus Jakarta Sans;
   font-size: 16px;
@@ -68,6 +182,11 @@ body {
   margin-bottom: 16px;
   font-size: 14px !important;
   text-transform: capitalize;
+}
+
+.list-item-vessel.active{
+  border: 1px solid #0983F1;
+
 }
 
 .list-item-vessel {

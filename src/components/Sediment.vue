@@ -202,7 +202,6 @@ export default {
     .plots .details_fairvalue{display:block;width:100%;text-align:center;border:1px solid #42454a3b;margin-bottom:5px;border-radius:4px;padding:5px;background-color:#142211}
     .plots .details{display:block;width:100%;text-align:center;border:1px solid #42454a3b;margin-bottom:20px;border-radius:4px;padding:0;background-color:#31333840}
     .plots .details:hover{text-decoration:none;border:1px solid #f1b3263b}
-    .plots .details h2{width:100%;font-weight:800;text-align:center;display:block;font-size:17px;padding-bottom:6px;border-bottom:1px solid #2f2f35;margin:7px auto 6px}
     .plots .deed-image{width:100%;margin-bottom:10px;border:1px solid #42454a3b;text-align:center}
     .plots .details p{display:block;text-align:center;letter-spacing:.1em;word-spacing:.2em;margin-bottom:0}
     .plots .details .box{display:inline-block;margin-top:1px;padding:2px 8px;font-size:12px;border-radius:4px;text-align:center;letter-spacing:.8px;word-spacing:.1em}
