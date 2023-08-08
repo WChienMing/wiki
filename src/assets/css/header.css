@@ -13,11 +13,6 @@
   .category-link:hover {
     text-decoration: underline;
   }
-  .row {
-    margin-right: 0px;
-    margin-left: 0px;
-    justify-content: center;
-  }
   .navbar-dark .navbar-nav .nav-link {
     color: #fff;
   }

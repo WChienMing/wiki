@@ -1,16 +1,138 @@
+@font-face {
+  font-family: Plus Jakarta Sans;
+  src: url('./fonts/PlusJakartaSans.ttf');
+}
+
+body {
+  background-color: #151718 !important;
+}
+
+.group-title a {
+  font-family: Plus Jakarta Sans;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+
+}
+
+.child-title a.collapsed {
+  background-color: #1D1F21;
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: white;
+
+}
+
+.child-title a {
+  background-color: #0983F1;
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: white;
+
+}
+
+.child-title a:active {
+  background-color: #1D1F21;
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: white;
+
+}
+
+.checkbox-label {
+  padding-left: 32px !important;
+  padding-top: 0px !important;
+  margin-bottom: 16px;
+  font-size: 14px !important;
+  text-transform: capitalize;
+}
+
+.list-item-vessel {
+  font-family: Plus Jakarta Sans;
+  background: #151718 !important;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 8px !important;
+  height: auto;
+}
+
+.list-item-vessel .image img {
+  width: 100%;
+}
+
+.pricetop {
+  font-family: Plus Jakarta Sans;
+  font-size: 16px !important;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #F1F1F3;
+  position: relative !important;
+
+}
+
+.box-new {
+  background-color: #37383B;
+  padding: 4px 6px 4px 6px;
+  border-radius: 8px;
+  font-family: Plus Jakarta Sans;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  display: inline-block;
+
+
+
+
+}
+
 .index_splash {
   padding: 70px 0 80px;
   position: relative;
   overflow: hidden;
 }
+
 .index_splash p {
   padding: 0px 0px;
   font-size: 16px;
 }
+
 .index_splash h1 {
   font-size: 2.4rem;
   margin-bottom: -5px;
 }
+
 .index_splash h2 {
   color: #3f51b5;
   font-weight: 800;
@@ -18,15 +140,18 @@
   line-height: 33px;
   margin-bottom: 20px;
 }
+
 .newsfeed {
   margin-left: auto;
   margin-right: auto;
 }
+
 .newsfeed h4 {
   font-weight: 800;
   margin-bottom: 0px;
   font-size: 15px;
 }
+
 .newsfeed h2 {
   width: 100%;
   font-size: 16px;
@@ -34,6 +159,7 @@
   font-weight: 700;
   margin-bottom: 10px;
 }
+
 .newsfeed .news {
   display: block;
   width: 100%;
@@ -43,6 +169,7 @@
   padding: 15px;
   background-color: #31333840;
 }
+
 .newsfeed .news p {
   display: block;
   margin-top: 13px;
@@ -52,6 +179,7 @@
   font-size: 13px;
   font-weight: 300;
 }
+
 .newsfeed .news .date {
   margin-left: auto;
   margin-right: 0;
@@ -66,9 +194,11 @@
   margin-top: -18px;
   width: 100px;
 }
+
 .lastsales {
   margin-bottom: 10px;
 }
+
 .lastsales h2 {
   margin-left: auto;
   margin-right: auto;
@@ -78,13 +208,16 @@
   font-weight: 700;
   margin-bottom: 10px;
 }
+
 .lastsales a {
   color: #e6ebf6;
 }
+
 .lastsales a:hover {
   text-decoration: none;
   border: 1px solid #f1b3263b;
 }
+
 .lastsales .saleitems {
   display: block;
   position: relative;
@@ -97,6 +230,7 @@
   padding-bottom: 5px;
   font-size: 13px;
 }
+
 .lastsales .saleitems .market {
   float: left;
   padding-top: 16px;
@@ -104,33 +238,40 @@
   padding-right: 5px;
   padding-left: 5px;
 }
+
 .lastsales .saleitems .market img {
   width: 13px;
   height: 13px;
 }
+
 .lastsales .saleitems .image {
   float: left;
   padding-left: 3px;
   padding-right: 3px;
 }
+
 .lastsales .saleitems .image img {
   width: 47px;
   padding-right: 5px;
 }
+
 .lastsales .saleitems .proberties {
   float: left;
   padding-top: 5px;
   height: 100%;
 }
+
 .lastsales .noresources {
   float: left;
   padding-top: 15px;
   height: 100%;
 }
+
 .lastsales .saleitems .proberties .top {
   display: inline-block;
   width: 100%;
 }
+
 .lastsales .saleitems .price {
   position: absolute;
   right: 0;
@@ -138,11 +279,13 @@
   margin: auto;
   padding: 8px;
 }
+
 .lastsales .saleitems .price img {
   width: 8px;
   height: 12.84px;
   margin-bottom: 2px;
 }
+
 .lastsales .saleitems .date {
   position: absolute;
   right: 0;
@@ -153,6 +296,7 @@
   margin-right: 2px;
   color: #616774;
 }
+
 .lastsales .saleitems .box {
   float: left;
   background-color: #25262614;
@@ -165,6 +309,7 @@
   border-radius: 5px;
   text-align: center;
 }
+
 .lastsales .saleitems .resources {
   display: inline-block;
   margin-right: 1px;
@@ -174,18 +319,23 @@
   border-radius: 5px;
   text-align: center;
 }
+
 .lastsales .saleitems .ore {
   background-color: #c19b3994;
 }
+
 .lastsales .saleitems .root {
   background-color: #4e854594;
 }
+
 .lastsales .saleitems .shard {
   background-color: #6896cc9c;
 }
+
 .lastsales .saleitems .anima {
   background-color: #c692cf91;
 }
+
 .lastsales .saleitemsbox {
   display: block;
   border: 1px solid #42454a3b;
@@ -193,20 +343,24 @@
   text-align: center;
   background: #3f51b5;
 }
+
 .topsales {
   margin-top: 25px;
   color: #fff;
   text-align: center;
 }
+
 .topsales .timespan {
   font-size: 13px;
   font-weight: 700;
 }
+
 .topsales h3 {
   margin-bottom: -5px;
   font-size: 14px;
   font-weight: 700;
 }
+
 .list_sales {
   display: grid;
   color: #e6ebf6;
@@ -219,35 +373,42 @@
   gap: 0px 0px;
   grid-template-areas: "market image top top" "market image bottom bottom";
 }
+
 .list_sales a {
   color: #e6ebf6;
 }
+
 .list_sales:hover {
   text-decoration: none;
   border: 1px solid #f1b3263b;
 }
+
 .list_sales .market {
   grid-area: market;
   margin: auto;
   padding: 5px;
 }
+
 .list_sales .image {
   grid-area: image;
   margin: auto;
   padding: 3px;
 }
+
 .list_sales .top {
   grid-area: top;
   margin-top: 15px;
   margin-left: 5px;
   font-size: 13px;
 }
+
 .list_sales .bottom {
   grid-area: bottom;
   margin-top: 3px;
   margin-left: 5px;
   font-size: 11px;
 }
+
 .list_sales .date {
   position: absolute;
   display: inline;
@@ -258,43 +419,54 @@
   letter-spacing: 0em;
   word-spacing: 0em;
 }
+
 @media (min-width: 768px) and (max-width: 1450px) {
   .lastsales .saleitems .proberties {
     display: none;
   }
+
   .lastsales .noresources {
     display: none;
   }
 }
+
 @media (min-width: 768px) and (max-width: 1200px) {
   .lastsales {
     padding: 10px 0px 10px 5px;
   }
+
   .lastsales .saleitems .image {
     padding-left: 1px;
     padding-right: 1px;
   }
+
   .lastsales .saleitems .proberties {
     display: none;
   }
 }
+
 @media (max-width: 767px) {
   .teaser a {
     width: 100% !important;
     margin-bottom: 5px;
   }
+
   .teaser a:last-child {
     margin-bottom: 35px;
   }
+
   .index_splash {
     padding: 20px 0 30px;
   }
+
   .index p {
     margin-top: 10px;
   }
+
   .index-left h2 {
     display: none;
   }
+
   .lastsales .saleitems .resources {
     display: inline-block;
     margin-right: 1px;
@@ -306,15 +478,18 @@
     letter-spacing: 0.2px;
     word-spacing: 0.1em;
   }
+
   .lastsales .saleitemsbox {
     margin-bottom: 20px;
   }
 }
+
 @media (max-width: 414px) {
   .lastsales .saleitems .box {
     font-size: 9px;
   }
 }
+
 /* .index-tools {display: grid;grid-template-columns: repeat(2, 1fr); grid-gap: 4px 6px;} */
 .index-tools h2 {
   padding: 3px;
@@ -328,6 +503,7 @@
   font-size: 17px;
   letter-spacing: 0.5px;
 }
+
 .index-tools .quicklinks {
   min-width: 100px;
   display: block;
@@ -341,14 +517,17 @@
   border: 1px solid #42454a3b;
   border-radius: 3px;
 }
+
 .index-tools .quicklinks .svgimage {
   padding-top: 10px;
   width: 100%;
   text-align: center;
 }
+
 .index-tools .quicklinks .svgimage svg {
   width: 50px;
 }
+
 .index-tools .quicklinks .text {
   width: 100%;
   padding-bottom: 7px;
@@ -356,17 +535,21 @@
   position: absolute;
   text-align: center;
 }
+
 .index-tools .quicklinks a {
   color: #e6ebf6;
 }
+
 .index-tools .quicklinks:hover {
   color: #f1b326;
   text-decoration: none;
   border: 1px solid #f1b3263b;
 }
+
 .teaser {
   margin-top: 20px;
 }
+
 .teaser a {
   display: inline-block;
   border-radius: 10px;
@@ -378,20 +561,24 @@
   background: #ff9800;
   color: #000;
 }
+
 .teaser a:hover {
   transition: all 0.3s ease 0s;
   background: #c78a30;
 }
+
 .teaser a:last-child {
   background: none;
   color: #fff;
   border: 1px solid #ff9800;
 }
+
 .teaser a:last-child:hover {
   border: 1px solid #c78a30;
   color: #c78a30;
   transition: all 0.3s ease 0s;
 }
+
 .colors {
   display: block;
   padding: 40px 0 80px 0;
@@ -400,9 +587,11 @@
   text-align: center;
   margin-top: 30px;
 }
+
 .colors h3 {
   font-weight: 700;
 }
+
 .colors .stamp-info {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -414,6 +603,7 @@
   color: inherit;
   display: block;
 }
+
 .colors .stamp-info:active {
   background: rgba(255, 255, 255, 0.2);
 }
@@ -421,7 +611,8 @@
 .video-container {
   position: static;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio (divides height by width) */
+  padding-bottom: 56.25%;
+  /* 16:9 aspect ratio (divides height by width) */
 }
 
 .video-container iframe {
@@ -431,6 +622,7 @@
   width: 100%;
   height: 100%;
 }
+
 .twitter-timeline {
   margin-top: 20px !important;
 }
