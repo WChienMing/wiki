@@ -127,7 +127,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-100 " id="main-content" style="background: #242528!important;">
+                <div class="w-100 " id="main-content" style="background: #fafafa!important;">
                     <div class="row">
                         <div class="results col-md-5 col-12 nft-list nft-item" id="content">
                             <div class="results-found">
@@ -160,7 +160,7 @@
                                                             <div class="box-new">
                                                                 <div class="text">Score: {{ nft.score }}</div>
                                                             </div>
-                                                            <div class="box-new ml-2">
+                                                            <div class="box-new rank ml-2">
                                                                 <div class="text">Rank: {{ nft.rank }}</div>
                                                             </div>
 

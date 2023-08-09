@@ -4,11 +4,15 @@
 }
 
 body {
-  background-color: #151718 !important;
+  background-color: #fff !important;
+}
+
+a {
+  color: #6F6F6F !important;
 }
 
 .live {
-  background-color: #151718;
+  background-color: #F1F5FF;
 }
 
 td {
@@ -16,24 +20,38 @@ td {
   /* padding: 15px;
   width: 50px;
   height: 50px; */
-  border-radius: 8px;
-  border: 1px solid #151718;
+  padding: 0px;
   box-sizing: border-box;
   text-align: center;
   vertical-align: middle;
-  background-color: #242529;
+  background-color: #fff;
   position: relative;
+  border-radius: 4px;
 }
 
 @media screen and (max-width: 480px) {
-  .nft-item{
-max-height: 60vh !important;
+  .nft-item {
+    max-height: 60vh !important;
   }
 
-  .topline{
+  .topline {
     padding: 10px 20px 2px 20px;
 
   }
+}
+
+.live .dynamic-border {
+  border: 1px solid #0983F1;
+
+}
+
+.dynamic-border {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  border-radius: 4px;
+  border: 1px solid #C8CEDE;
 }
 
 .Dynamic-box {
@@ -54,7 +72,8 @@ max-height: 60vh !important;
   transform: translate(-50%, -50%);
   font-size: 14px;
   line-height: 20px;
-
+  font-weight: 600;
+  color: #0983F1
 }
 
 .plots .details {
@@ -64,11 +83,17 @@ max-height: 60vh !important;
   margin-bottom: 20px;
   border-radius: 8px;
   padding: 16px;
-  background-image: url('../pic/Rectangle\ 999.png');
+  /* background-image: url('../pic/Rectangle\ 999.png'); */
+  background-color: #fff;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  color: #1C1D22 !important;
 
+}
+
+hr {
+  border-top: 1px solid #EDEDED;
 }
 
 .plots .details h2 {
@@ -80,6 +105,7 @@ max-height: 60vh !important;
   line-height: 18px;
   letter-spacing: 0em;
   text-align: center;
+  color: #1C1D22 !important;
 
 }
 
@@ -90,12 +116,14 @@ max-height: 60vh !important;
   line-height: 20px;
   letter-spacing: 0em;
   text-align: center;
+  color: #1C1D22 !important;
 
 }
 
 
 .search-form .form-group .form-control {
-  display: block;background: #323232;
+  display: block;
+  background: #F0F0F0;
 
   border: 1px solid #42454a3b;
   border-radius: 0.5rem;
@@ -112,7 +140,7 @@ max-height: 60vh !important;
 .tile-5-18,
 .tile-11-13,
 .tile-4-0 {
-  background-color: #0983F1 !important;
+  background-color: #65BAE1 !important;
 }
 
 .nft-list {
@@ -128,11 +156,12 @@ max-height: 60vh !important;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  color: #C4C4C4 !important;
 
 }
 
 .child-title a.collapsed {
-  background-color: #1D1F21;
+  background-color: #fff;
   font-family: Plus Jakarta Sans;
   font-size: 14px;
   font-weight: 600;
@@ -142,12 +171,12 @@ max-height: 60vh !important;
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 8px;
-  color: white;
-
+  color: #6F6F6F !important;
+  border: 1px solid #EDEDED
 }
 
 .child-title a {
-  background-color: #0983F1;
+  background-color: #F1F5FF;
   font-family: Plus Jakarta Sans;
   font-size: 14px;
   font-weight: 600;
@@ -157,7 +186,7 @@ max-height: 60vh !important;
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 8px;
-  color: white;
+  color: #0D62FC !important;
 
 }
 
@@ -176,6 +205,21 @@ max-height: 60vh !important;
 
 }
 
+.panel .checkbox label {
+  color: #6F6F6F !important;
+
+}
+
+.panel .checkbox label input:checked+div:after{
+  color: #6F6F6F !important;
+
+}
+
+.panel .checkbox label input+div {
+  background: #fff !important;
+  color: #6F6F6F !important;
+}
+
 .checkbox-label {
   padding-left: 32px !important;
   padding-top: 0px !important;
@@ -184,14 +228,15 @@ max-height: 60vh !important;
   text-transform: capitalize;
 }
 
-.list-item-vessel.active{
-  border: 1px solid #0983F1;
+.list-item-vessel.active {
+  border: 2px solid #0983F1;
 
 }
 
 .list-item-vessel {
   font-family: Plus Jakarta Sans;
-  background: #151718 !important;
+  /* background: #151718 !important; */
+  background: #fff !important;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
@@ -214,13 +259,15 @@ max-height: 60vh !important;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #F1F1F3;
+  color: #303030;
+  /* color: #F1F1F3; */
   position: relative !important;
 
 }
 
 .box-new {
-  background-color: #37383B;
+  /* background-color: #37383B; */
+  background-color: #EBF2F8;
   padding: 4px 6px 4px 6px;
   border-radius: 8px;
   font-family: Plus Jakarta Sans;
@@ -231,8 +278,13 @@ max-height: 60vh !important;
   text-align: left;
   display: inline-block;
 
+  color: #0983F1;
 
+}
 
+.box-new.rank {
+  background-color: #0983F1 !important;
+  color: #fff !important;
 
 }
 

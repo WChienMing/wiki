@@ -21,6 +21,7 @@
                                                 || ('tile-' + index + '-' + index2) === 'tile-0-11'
                                                 || ('tile-' + index + '-' + index2) === 'tile-3-17'
                                                 || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
+                                                <div class="dynamic-border"></div>
                                     <div class="Dynamic-box"></div>
 
                                     <div class="Dynamic" v-if="tile.level !== 0" :id="'tile-div' + index + '-' + index2">
