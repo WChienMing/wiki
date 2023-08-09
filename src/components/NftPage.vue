@@ -16,42 +16,42 @@
                 </ol>
             </div>
         </nav> -->
-        <div class="topline">
-            <div class="d-flex align-items-center">
-            <div style="width: 260px;">
-                <img class="d-block mx-auto" src="../assets/logo.png" alt="" width="60%">
-             </div>
-            <div class="row flex-grow-1 justify-content-start">
-                <!-- <div class="menubox">
+        <div class="">
+            <div class="d-flex align-items-center main-content">
+                <div style="width: 260px;">
+                    <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="60%">
+                </div>
+                <div class="row flex-grow-1 justify-content-start">
+                    <!-- <div class="menubox">
                     <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
                 </div> -->
-                <div class="col-12 col-md-5 wrapper3">
-                    <div class="searchbar">
-                        <div class="search-form">
-                            <form @submit.prevent="searchNFTById">
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Search by HV-MTL ID"
-                                        aria-label="Suche" name="quicksearch" v-model="searchId">
-                                </div>
+                    <div class="col-12 col-md-5 wrapper3">
+                        <div class="searchbar">
+                            <div class="search-form">
+                                <form @submit.prevent="searchNFTById">
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" placeholder="Search by HV-MTL ID"
+                                            aria-label="Suche" name="quicksearch" v-model="searchId">
+                                    </div>
 
-                            </form>
-                        </div>
-                        <!-- <div class="menubox">
+                                </form>
+                            </div>
+                            <!-- <div class="menubox">
                         <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span
                                 style="float:left; margin:16px;">Search</span></div>
                     </div> -->
-                    </div>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
 
             </div>
             <div class="d-flex align-items-start" method="get">
                 <input type="hidden" name="page" id="currentPage" value="1">
-                <div class="w-360px sidebar sticky-top">
+                <!--<div class="w-360px sidebar sticky-top">
                     <div class="wrapper center-block ">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <!-- <div class="panel panel-default">
+                            <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingTwo">
                                     <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Price</a></h4>
                                 </div>
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr> -->
+                            <hr>
                             <div class="wrapper center-block">
                                 <div class="panel panel-default">
                                     <h4 class="panel-title group-title">
@@ -104,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="panel panel-default">
+                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headLoc">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#colLoc" aria-expanded="false" aria-controls="colLoc">
@@ -122,14 +122,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div> 
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="w-100 " id="main-content" style="background: #fafafa!important;">
-                    <div class="row">
-                        <div class="results col-md-5 col-12 nft-list nft-item" id="content">
+                </div> -->
+                <div class="w-100 main-content" id="main-content" style="background: #fafafa!important;">
+                    <div class="row justify-content-center">
+                        <div class="results col-md-6 col-12 nft-list nft-item" id="content">
                             <div class="results-found">
                                 <div class="col-12">
                                     <div id="activefilters" class="align-items-left mb-3"></div>
@@ -144,7 +144,8 @@
                             <div class="list-wrapper" v-else>
                                 <div id="results" class=" align-items-center mb-3">
                                     <div class="" v-for="nft in nfts" :key="nft.tokenId">
-                                        <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel" :class="{'active': selectedID ==nft.tokenId}">
+                                        <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
+                                            :class="{ 'active': selectedID == nft.tokenId }">
                                             <!-- style="height: 235px!important;" -->
                                             <div class="row">
                                                 <div class="col-xl-2 col-md-3 col-4">
@@ -229,7 +230,7 @@
                             </div> -->
                             </div>
                         </div>
-                        <div class="col-md-7 col-12 nft-list">
+                        <div class="col-md-6 col-12 nft-list">
                             <NftDetails :selectedID="selectedID"></NftDetails>
                         </div>
                     </div>

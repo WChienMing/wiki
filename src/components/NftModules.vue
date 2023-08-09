@@ -230,12 +230,12 @@ export default {
         },
 
         fetchTraits() {
-            const options = {
-                method: 'GET',
-                url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
-                params: { include_orders: 'false' },
-                headers: { 'X-API-KEY': OPENSEA_API_KEY },
-            };
+            // const options = {
+            //     method: 'GET',
+            //     url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
+            //     params: { include_orders: 'false' },
+            //     headers: { 'X-API-KEY': OPENSEA_API_KEY },
+            // };
 
             const openSeaFloorPriceOptions = {
                 method: 'GET',
@@ -251,12 +251,12 @@ export default {
                 headers: { accept: 'application/json' },
             };
 
-            const fetchTraitsPromise = axios.request(options);
+            // const fetchTraitsPromise = axios.request(options);
             const openSeaFloorPricePromise = axios.request(openSeaFloorPriceOptions);
             const ownersPromise = axios.request(ownersOptions);
 
             axios
-                .all([fetchTraitsPromise, openSeaFloorPricePromise, ownersPromise])
+                .all([openSeaFloorPricePromise, ownersPromise])
                 .then(
                     axios.spread((traitsResponse, floorPriceResponse, ownersResponse) => {
                         this.traits = traitsResponse.data.traits;

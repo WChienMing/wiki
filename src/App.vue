@@ -1,5 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" style="
+  max-width: 1760px;
+  margin: auto;">
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <router-view></router-view>
