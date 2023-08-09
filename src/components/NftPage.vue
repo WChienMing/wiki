@@ -16,7 +16,11 @@
                 </ol>
             </div>
         </nav> -->
-        <div class="">
+        <div class="position-relative">
+            <div v-if="$root.isFetching" class="position-fixed h-100 w-100 top-0 d-flex align-items-center justify-content-center" style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999;">
+                <div class="text-center" style="color:black">Loading...</div>
+
+            </div>
             <div class="d-flex align-items-center main-content">
                 <div style="width: 260px;">
                     <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="60%">
@@ -46,7 +50,7 @@
                 </div>
 
             </div>
-            <div class="d-flex align-items-start" method="get">
+            <div class="d-flex align-items-start" method="get" style="">
                 <input type="hidden" name="page" id="currentPage" value="1">
                 <!--<div class="w-360px sidebar sticky-top">
                     <div class="wrapper center-block ">
@@ -127,7 +131,7 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="w-100 main-content" id="main-content" style="background: #fafafa!important;">
+                <div class="w-100 main-content" id="main-content" style="background: #fafafa!important;padding-top: 56px;">
                     <div class="row justify-content-center">
                         <div class="results col-md-6 col-12 nft-list nft-item" id="content">
                             <div class="results-found">

@@ -7,7 +7,7 @@ body {
   background-color: #fff !important;
 }
 
-.main-content{
+.main-content {
   padding: 0px 100px;
 }
 
@@ -214,7 +214,7 @@ hr {
 
 }
 
-.panel .checkbox label input:checked+div:after{
+.panel .checkbox label input:checked+div:after {
   color: #6F6F6F !important;
 
 }
@@ -254,6 +254,42 @@ hr {
 
 .list-item-vessel .image img {
   width: 100%;
+}
+
+.amp .title {
+  background-color: #0983F1;
+  color: white !important;
+  padding: 8px 12px;
+  margin: 0px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+.amp .title h2 {
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  text-transform: capitalize;
+
+  color: white !important;
+}
+
+.hidden{
+  opacity: 0;
+}
+
+.amp .text {
+  padding: 8px 12px;
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+
 }
 
 .pricetop {

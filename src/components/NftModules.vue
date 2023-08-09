@@ -2,6 +2,15 @@
     <div class="">
         <div class=" align-items-center">
             <div class=" plots">
+
+                <div class="row nopaddingmobile justify-content-start">
+                    <div class="col-6 col-md-3 col-lg-3" v-for="_state in states" :key="_state.name">
+                        <a class="details" href="#">
+                            <h2>{{ _state.name }}</h2>
+                            <div class="text">{{ _state.value }}</div>
+                        </a>
+                    </div>
+                </div>
                 <div class="row">
 
                     <div class="col-md-12" style="overflow-x: scroll;">
@@ -14,14 +23,13 @@
                                             : ('tile-' + index + '-' + index2) === 'tile-0-4'
                                                 || ('tile-' + index + '-' + index2) === 'tile-0-11'
                                                 || ('tile-' + index + '-' + index2) === 'tile-3-17'
-                                                || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1"
-                                    :colspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 3
-                                        : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
-                                            : ('tile-' + index + '-' + index2) === 'tile-0-4'
-                                                || ('tile-' + index + '-' + index2) === 'tile-0-11'
-                                                || ('tile-' + index + '-' + index2) === 'tile-3-17'
-                                                || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
-                                                <div class="dynamic-border"></div>
+                                                || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1" :colspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 3
+                : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
+                    : ('tile-' + index + '-' + index2) === 'tile-0-4'
+                        || ('tile-' + index + '-' + index2) === 'tile-0-11'
+                        || ('tile-' + index + '-' + index2) === 'tile-3-17'
+                        || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
+                                    <div class="dynamic-border"></div>
                                     <div class="Dynamic-box"></div>
 
                                     <div class="Dynamic" v-if="tile.level !== 0" :id="'tile-div' + index + '-' + index2">
@@ -38,10 +46,20 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="row nopaddingmobile justify-content-start">
+                            <div class="col-4 col-md-2 col-lg-2" v-for="amp in amps" :key="amp.name">
+                                <a class="amp details p-0" href="#">
+                                    <div class="title">
+                                        <h2>{{ amp.name.split('_').join(' ') }}</h2>
+                                    </div>
+                                    <div class="text" ><span :class="{'hidden': amp.value==''}">{{ amp.value||'1' }}</span></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row nopaddingmobile justify-content-start">
                             <div class="col-6 col-md-4 col-lg-4" v-for="trait in traits" :key="trait.trait_type">
                                 <a class="details" href="#">
-                                    <h2>{{ trait.trait_type }}</h2>
-                                    <div class="text">{{ trait.value }}</div>
+                                    <h2>{{ trait.main_name }}</h2>
+                                    <div class="text">{{ trait.sub_name }}</div>
                                 </a>
                             </div>
                         </div>
@@ -105,7 +123,9 @@ export default {
     data() {
         return {
             urlId: '',
+            states: [],
             traits: [],
+            amps: [],
             imageUrl: '',
             openSeaFloorPrice: null,
             owners: [],
@@ -154,9 +174,14 @@ export default {
     methods: {
 
         fetchTiles() {
+            this.$root.isFetching = true;
             axios.get(`${API_URL}gettiles?id=${this.urlId}`)
                 .then(response => {
-                    this.tiles = response.data.board.tiles;
+                    this.tiles = response.data.tiles;
+                    this.traits = response.data.traits;
+                    this.states = response.data.state;
+                    this.amps = response.data.amp;
+                    this.$root.isFetching = false;
                 })
                 .catch(error => {
                     console.error(error);
@@ -258,9 +283,9 @@ export default {
             axios
                 .all([openSeaFloorPricePromise, ownersPromise])
                 .then(
-                    axios.spread((traitsResponse, floorPriceResponse, ownersResponse) => {
-                        this.traits = traitsResponse.data.traits;
-                        this.imageUrl = traitsResponse.data.image_url;
+                    axios.spread((floorPriceResponse, ownersResponse) => {
+                        // this.traits = traitsResponse.data.traits;
+                        // this.imageUrl = traitsResponse.data.image_url;
 
                         const openSeaFloorPrice = floorPriceResponse.data.openSea.floorPrice;
                         this.openSeaFloorPrice = openSeaFloorPrice;
