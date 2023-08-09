@@ -131,7 +131,7 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="w-100 main-content" id="main-content" style="background: #fafafa!important;padding-top: 56px;">
+                <div class="w-100 main-content" id="main-content" style="background: #f0f0f0!important;padding-top: 56px;">
                     <div class="row justify-content-center">
                         <div class="results col-md-6 col-12 nft-list nft-item" id="content">
                             <div class="results-found">
