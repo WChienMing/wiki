@@ -25,13 +25,13 @@
                 <div style="width: 260px;">
                     <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="60%">
                 </div>
-                <div class="row flex-grow-1 justify-content-start">
+                <div class="row flex-grow-1" style="display: flex; justify-content: space-between; align-items: center;">
                     <!-- <div class="menubox">
                     <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
                 </div> -->
                     <div class="col-12 col-md-5 wrapper3">
                         <div class="searchbar">
-                            <div class="search-form">
+                            <div class="search-form" >
                                 <form @submit.prevent="searchNFTById">
                                     <div class="form-group">
                                         <input class="form-control" type="text" placeholder="Search by HV-MTL ID"
@@ -39,13 +39,17 @@
                                     </div>
 
                                 </form>
+                                
                             </div>
                             <!-- <div class="menubox">
                         <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span
                                 style="float:left; margin:16px;">Search</span></div>
                     </div> -->
                         </div>
-
+                        
+                    </div>
+                    <div class="box-new">
+                        <div class="text" @click="openElectronWindow">Companion</div>
                     </div>
                 </div>
 
@@ -293,7 +297,14 @@ export default {
         },
     },
     methods: {
-
+        async openElectronWindow() {
+            try {
+                const response = await axios.get('http://localhost:3000/open-electron');
+                console.log(response.data); // 这里将输出 "Electron window opened!"
+            } catch (error) {
+                console.error('Failed to open Electron window:', error);
+            }
+        },
         handleCheckboxChange(event) {
             const trait = event.target.value;
             if (event.target.checked) {
