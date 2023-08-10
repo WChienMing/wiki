@@ -162,13 +162,27 @@
                                                         <!-- <div class="marketprice" v-html="nft.price"></div> -->
                                                         <div class="flex-grow-1"></div>
                                                         <div>
-                                                            <div class="box-new">
+                                                            <!-- <div class="box-new">
                                                                 <div class="text">Score: {{ nft.score }}</div>
+                                                            </div> -->
+                                                            <div class="box-new rank ml-2" :style="nft.now === 's1' ? 'background-color: #0983F1 !important;' : ''">
+                                                                <div class="text">S1 Rank: {{ nft.s1 }}</div>
                                                             </div>
-                                                            <div class="box-new rank ml-2">
-                                                                <div class="text">Rank: {{ nft.rank }}</div>
+                                                            <div class="box-new rank ml-2" :style="nft.now === 's2' ? 'background-color: #0983F1 !important;' : ''">
+                                                                <div class="text">S2 Rank: {{ nft.s2 }}</div>
                                                             </div>
-
+                                                            <div class="box-new rank ml-2" :style="nft.now === 's3' ? 'background-color: #0983F1 !important;' : ''">
+                                                                <div class="text">S3 Rank: {{ nft.s3 }}</div>
+                                                            </div>
+                                                            <div class="box-new rank ml-2" :style="nft.now === 's4' ? 'background-color: #0983F1 !important;' : ''">
+                                                                <div class="text">S4 Rank: {{ nft.s4 }}</div>
+                                                            </div>
+                                                            <div class="box-new rank ml-2" :style="nft.now === 's5' ? 'background-color: #0983F1 !important;' : ''">
+                                                                <div class="text">S5 Rank: {{ nft.s5 }}</div>
+                                                            </div>
+                                                            <div class="box-new rank ml-2" :style="nft.now === 's6' ? 'background-color: #0983F1 !important;' : ''">
+                                                                <div class="text">S6 Rank: {{ nft.s6 }}</div>
+                                                            </div>
                                                         </div>
                                                         <div class="flex-grow-1"></div>
                                                     </div>
@@ -193,7 +207,16 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div id="page_links" class="pt-3" v-if="!isFiltered && !isLoading">
+                                <div id="page_links" class="pt-3">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <button @click="loadMoreData" class="page-link">More</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- <div id="page_links" class="pt-3" v-if="!isFiltered && !isLoading">
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination">
                                             <li class="page-item">
@@ -222,7 +245,7 @@
                                             </li>
                                         </ul>
                                     </nav>
-                                </div>
+                                </div> -->
                                 <!-- <div id="page_links" class="pt-3" v-if="isFiltered">
                                 <nav aria-label="Page navigation example">
                                 <ul class="pagination" style="justify-content: right!important;">
@@ -249,7 +272,7 @@
 import axios from 'axios';
 // import Header from '../components/HeaderSection.vue';
 import NftDetails from './NftModules.vue'
-import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, MO_API_KEY, API_URL } from '../main.js';
+import { HV_MTL, MO_API_KEY } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -272,6 +295,7 @@ export default {
             isFiltered: false,
             selectedTraits: [],
             selectedID: null,
+            lastTId: null,
         };
     },
     watch: {
@@ -318,325 +342,160 @@ export default {
         removeSpaces(str) {
             return str.replace(/\s+/g, '');
         },
-        fetchCollectionData() {
-            const options = {
-                method: 'GET',
-                url: 'https://api.opensea.io/api/v1/collection/hv-mtl',
-                headers: { 'X-API-KEY': OPENSEA_API_KEY }
-            };
-
-            axios.request(options)
-                .then(response => {
-                    this.collectionData = response.data.collection;
-                    console.log(this.collectionData)
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+        async loadMoreData() {
+            if (this.lastTId === null) {
+                await this.fetchNFTs();
+            } else {
+                await this.fetchMoreNFTs();
+            }
         },
-        async fetchNFTs(tokenIds = null) {
+        async fetchNFTs() {
             this.isLoading = true;
             this.nfts = [];
 
-            if (tokenIds) {
-                const chunks = [];
-                while (tokenIds.length) {
-                    chunks.push(tokenIds.splice(0, 20));
-                }
+            try {
+                const response = await axios.get('https://forge.e2app.asia/api/getnftapi');
+                const nftsData = response.data;
 
-                const promises = chunks.map(chunk => {
-                    const tokenIdsStr = chunk.join('&token_ids=');
-                    return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIdsStr}`, {
-                        headers: {
-                            'X-API-KEY': OPENSEA_API_KEY
-                        }
+                nftsData.forEach(nft => {
+                    this.nfts.push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        price: null,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season
                     });
                 });
 
-                try {
-                    const responses = await Promise.all(promises);
-                    let allAssets = [];
-                    responses.forEach(response => {
-                        const assets = response.data.assets;
-                        assets.forEach(asset => {
-                            const tokenId = asset.token_id;
-
-                            if (!this.nfts.some(nft => nft.tokenId === tokenId)) {
-                                this.nfts.push({
-                                    tokenId: tokenId,
-                                    image: asset.image_url,
-                                    price: null
-                                });
-                                allAssets.push(tokenId);
-                            }
-                        });
-                    });
-
-                    allAssets.forEach(asset => {
-                        axios.get(`${API_URL}/getwiki?id=${asset}`)
-                            .then((priceResponse) => {
-                                const listing = priceResponse.data.data[0];
-                                const tokenId = listing.vessel;
-                                const currentPrice = listing.floor;
-                                const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-
-                                if (nft && !nft.price) {
-                                    nft.price = listing.marketplace_image !== ''
-                                        ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
-                                        : currentPrice + ' ' + listing.floor_currency;
-
-                                    nft.rank = listing.rank;
-                                    nft.score = listing.score;
-                                }
-                            })
-                            .catch((error) => {
-                                console.error('获取价格信息时出错：', error);
-                            });
-                    });
-
-                    // const priceChunks = [];
-                    // while (allAssets.length) {
-                    //     priceChunks.push(allAssets.splice(0, 20));
-                    // }
-
-                    // const pricePromises = priceChunks.map(chunk => {
-                    //     const tokenIds = chunk.map(asset => 'token_ids=' + asset).join('&');
-                    //     return axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                    //         headers: {
-                    //             accept: 'application/json',
-                    //             'X-API-KEY': OPENSEA_API_KEY
-                    //         }
-                    //     });
-                    // });
-
-                    // const priceResponses = await Promise.all(pricePromises);
-
-                    // priceResponses.forEach(response => {
-                    //     const listings = response.data.orders;
-                    //     listings.forEach(listing => {
-                    //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                    //         const currentPrice = listing.current_price;
-                    //         const eth = currentPrice / 1e18;
-                    //         const nftIndex = this.nfts.findIndex(nft => nft.tokenId === tokenId);
-                    //         if (nftIndex !== -1) {
-                    //             this.nfts[nftIndex].price = `${eth} ETH`;
-                    //             console.log(`Token ID11: ${tokenId}, Current Price: ${eth}`);
-                    //         }
-                    //     });
-                    // });
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = lastNft.s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = lastNft.s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = lastNft.s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = lastNft.s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = lastNft.s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = lastNft.s6;
+                    }
+                }
 
                 } catch (error) {
                     console.error('Error fetching NFT data:', error);
                 } finally {
                     this.isLoading = false;
                 }
-            } else {
-                let startToken = (this.currentPage - 1) * this.limit + 1;
-                axios
-                    .get(`https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
-                    .then((response) => {
+            },
+            
+            async fetchMoreNFTs() {
+      
+                const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?start=${this.lastTId}`);
+                const nftsData = response.data;
 
-                        const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
-                        const tokenIdsChunks = [];
-                        while (nftsId.length > 0) {
-                            tokenIdsChunks.push(nftsId.splice(0, 20));
-                        }
-                        const promises = tokenIdsChunks.map(chunk => {
-                            const tokenIds = chunk.join('&token_ids=');
-                            return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
-                                headers: {
-                                    'X-API-KEY': OPENSEA_API_KEY
-                                }
-                            });
+                if (nftsData.length > 0) {
+                    // Append the new data to this.nfts
+                    nftsData.forEach(nft => {
+                        this.nfts.push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        price: null,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season
                         });
-
-
-                        axios.all(promises)
-                            .then(axios.spread((...responses) => {
-                                responses.forEach(response => {
-                                    const assets = response.data.assets;
-                                    this.nfts.push(
-                                        ...assets.map(asset => ({
-                                            tokenId: asset.token_id,
-                                            image: asset.image_url,
-                                            price: null
-                                        }))
-                                    );
-
-
-                                    assets.forEach(asset => {
-                                        axios.get(`${API_URL}/getwiki?id=${asset.token_id}`)
-                                            .then((priceResponse) => {
-                                                const listing = priceResponse.data.data[0];
-                                                const tokenId = listing.vessel;
-                                                const currentPrice = listing.floor;
-                                                const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                                                if (nft && !nft.price) {
-                                                    nft.price = listing.marketplace_image !== ''
-                                                        ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
-                                                        : currentPrice + ' ' + listing.floor_currency;
-                                                    nft.rank = listing.rank;
-                                                    nft.score = listing.score;
-
-                                                    // console.log(`Token ID: ${tokenId}, Current Price: ${currentPrice}`);
-                                                }
-                                            })
-                                            .catch((error) => {
-                                                console.error('获取价格信息时出错：', error);
-                                            });
-                                    });
-
-                                    // const tokenIds = assets.map(asset => 'token_ids=' + asset.token_id).join('&');
-                                    // console.log(asset.token_id)
-                                    // axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                                    //     headers: {
-                                    //         accept: 'application/json',
-                                    //         'X-API-KEY': OPENSEA_API_KEY
-                                    //     }
-                                    // })
-                                    // .then((priceResponse) => {
-                                    //     const listings = priceResponse.data.orders;
-
-                                    //     listings.forEach(listing => {
-                                    //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                                    //         const currentPrice = listing.current_price;
-
-                                    //         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                                    //         if (nft && !nft.price) {
-                                    //             let wei = currentPrice;
-                                    //             let eth = wei / 1e18;
-
-                                    //             nft.price = eth + ' ETH';
-                                    //             console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
-                                    //         }
-                                    //     });
-                                    // })
-                                    // .catch((error) => {
-                                    //     console.error('获取价格信息时出错：', error);
-                                    // });
-                                });
-                                this.nfts.sort((a, b) => a.tokenId - b.tokenId);
-                            }))
-                            .catch((error) => {
-                                console.error('获取NFT数据时出错：', error);
-                            });
-                    })
-                    .catch((error) => {
-                        console.error('获取NFT数据时出错：', error);
-                    })
-                    .finally(() => {
-                        this.isLoading = false;
                     });
-            }
-        },
-        async searchNFTById() {
-            if (this.searchId.trim() === '') {
-                this.isSearchActive = false;
-                this.fetchNFTs();
-                return;
-            }
 
-            this.isLoading = true;
-            this.isSearchActive = true;
-
-
-            try {
-                const response = await axios.get(
-                    `https://api.opensea.io/api/v1/asset/${this.contractAddress}/${this.searchId}`, {
-                    headers: {
-                        'X-API-KEY': OPENSEA_API_KEY,
-                    },
+                    
+                    if (nftsData.length > 0) {
+                        const lastNft = nftsData[nftsData.length - 1];
+                        if (lastNft.current_season === 's1') {
+                            this.lastTId = nftsData[nftsData.length - 1].s1;
+                        } else if (lastNft.current_season === 's2') {
+                            this.lastTId = nftsData[nftsData.length - 1].s2;
+                        } else if (lastNft.current_season === 's3') {
+                            this.lastTId = nftsData[nftsData.length - 1].s3;
+                        } else if (lastNft.current_season === 's4') {
+                            this.lastTId = nftsData[nftsData.length - 1].s4;
+                        } else if (lastNft.current_season === 's5') {
+                            this.lastTId = nftsData[nftsData.length - 1].s5;
+                        } else if (lastNft.current_season === 's6') {
+                            this.lastTId = nftsData[nftsData.length - 1].s6;
+                        }
+                    }
+                } else {
+                    // No more data to load
                 }
-                );
-                const asset = response.data;
-                this.nfts = [];
-                this.nfts.push({
-                    tokenId: asset.token_id,
-                    image: asset.image_url,
-                    price: null
-                });
+            },
+            
+            async searchNFTById() {
 
-                axios.get(`${API_URL}/getwiki?id=${asset.token_id}`)
-                    .then((priceResponse) => {
-                        const listing = priceResponse.data.data[0];
-                        const tokenId = listing.vessel;
-                        const currentPrice = listing.floor;
-                        const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                        if (nft && !nft.price) {
-                            nft.price = listing.marketplace_image !== ''
-                                ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
-                                : currentPrice + ' ' + listing.floor_currency;
-                            nft.rank = listing.rank;
-                            nft.score = listing.score;
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('获取价格信息时出错：', error);
+                this.isLoading = true;
+                this.isSearchActive = true;
+
+                try {
+                    const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?search=${this.searchId}`);
+                    const nftsData = response.data;
+
+                    this.nfts = [];
+                    nftsData.forEach(nft => {
+                    this.nfts.push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        price: null,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season
                     });
-                // axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&token_ids=${asset.token_id}`, {
-                //     headers: {
-                //         accept: 'application/json',
-                //         'X-API-KEY': OPENSEA_API_KEY
-                //     }
-                // })
-                // .then((priceResponse) => {
-                //     const listings = priceResponse.data.orders;
+                });
+                } catch (error) {
+                    console.error('搜索NFT时出错：', error);
+                } finally {
+                    this.isLoading = false;
+                }
+            },
+            searchNftByTraits(searchQueries) {
 
-                //     listings.forEach(listing => {
-                //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                //         const currentPrice = listing.current_price;
+                this.isLoading = true;
+                this.nfts = [];
 
-                //         // Find the corresponding NFT in the nfts array and update its price.
-                //         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                //         if (nft && !nft.price) {
-                //             let wei = currentPrice;
-                //             let eth = wei / 1e18;
+                if (!Array.isArray(searchQueries)) {
+                    searchQueries = [searchQueries];
+                }
 
-                //             nft.price = eth + ' ETH';
-                //             console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
-                //         }
-                //     });
-                // })
-                // .catch((error) => {
-                //     console.error('获取价格信息时出错：', error);
-                // });
-            } catch (error) {
-                console.error('搜索NFT时出错：', error);
-            } finally {
-                this.isLoading = false;
-            }
-        },
-        gotoPage(page) {
-            this.currentPage = page;
-            this.fetchNFTs();
-        },
-
-        searchNftByTraits(searchQueries) {
-
-            this.isLoading = true;
-            this.nfts = [];
-
-            if (!Array.isArray(searchQueries)) {
-                searchQueries = [searchQueries];
-            }
-
-            Promise.all(
-                searchQueries.map(searchQuery =>
-                    axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
-                        params: {
-                            chain: 'eth',
-                            format: 'decimal',
-                            addresses: [`${HV_MTL}`],
-                            q: searchQuery,
-                            filter: 'attributes'
-                        },
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-API-Key': MO_API_KEY,
-                        }
-                    })
+                Promise.all(
+                    searchQueries.map(searchQuery =>
+                        axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
+                            params: {
+                                chain: 'eth',
+                                format: 'decimal',
+                                addresses: [`${HV_MTL}`],
+                                q: searchQuery,
+                                filter: 'attributes'
+                            },
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-API-Key': MO_API_KEY,
+                            }
+                        })
+                    )
                 )
-            )
                 .then(responses => {
                     const combinedResults = responses.flatMap(response => response.data.result);
                     const tokenIds = combinedResults.map(result => result.token_id);
@@ -646,14 +505,13 @@ export default {
                     console.error('获取NFT数据时出错：', error);
                     this.isLoading = false;
                 });
-        }
-    },
-    mounted() {
-        this.fetchNFTs();
-        this.fetchCollectionData();
-        this.totalPages = Math.ceil(this.totalSupply / this.limit);
-    },
-};
+            }
+        },
+        mounted() {
+            this.fetchNFTs();
+            this.totalPages = Math.ceil(this.totalSupply / this.limit);
+        },
+    };
 </script>
 
 <style>

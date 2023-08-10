@@ -323,7 +323,8 @@ hr {
 }
 
 .box-new.rank {
-  background-color: #0983F1 !important;
+  /* background-color: #0983F1 !important; */
+  background-color: #0983f199 !important;
   color: #fff !important;
 
 }
