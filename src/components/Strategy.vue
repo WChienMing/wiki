@@ -16,6 +16,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 mx-auto">
+                        <button @click="openElectronWindow">Open Electron Window</button>
                         <h2>HV-MTL</h2>
                         <p>Welcome to the captivating world of HV-MTL, where you will become a master of mech construction and management. Immerse yourself in an adventure that blends strategic planning and resource management, offering endless possibilities. Explore a futuristic universe filled with hidden blueprints and thrilling challenges.</p>
                         <p>With a unique set of initial blueprints, unleash your creative potential to construct awe-inspiring mechs. Strategically place tiles, upgrade structures, and embark on a journey to construct teleportation gates, unlocking new realms to conquer. Collect energy, form alliances, and engage with the vibrant community to chart your path to victory. Get ready to conquer the Mech World in HV-MTL.</p>
@@ -425,6 +426,14 @@
         this.fetchData();
     },
     methods: {
+        async openElectronWindow() {
+      try {
+        const response = await axios.get('http://localhost:3000/open-electron');
+        console.log(response.data); // 这里将输出 "Electron window opened!"
+      } catch (error) {
+        console.error('Failed to open Electron window:', error);
+      }
+    },
         fetchData() {
             axios.all([
                 axios.get(`${API_URL}shortcut_key`),

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMt23cez/2PAyDPEM5oO5Tvu64z+K4Uk5BdPtF+">
+    <title>Strategy</title>
+    <style>
+        body{
+            margin: 0px;
+        }
+        .container {
+            max-width: 540px; /* 你可以设置你想要的最大宽度 */
+            margin: 0 auto; /* 居中显示 */
+        }
+        .bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #0983F1;
+            height: 70px;
+            align-items: center;
+        }
+        .bar img {
+            cursor: pointer; /* 更改光标以指示可点击 */
+            width: 30px;     /* 可以根据需要设置宽度 */
+            height: 30px;    /* 可以根据需要设置高度 */
+        }
+        span#table-title{
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .section{
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #D9D9D9;
+
+        }
+        th, td {
+            border: none;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .table-container {
+            width: 100%; /* 这里设置你想要的固定宽度 */
+            overflow-x: auto;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        p.title{
+            color: #0983F1;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        .blue-header th {
+            background: #0983F1;
+            color: #FFFFFF;
+            font-weight: 400;
+            font-size: 16px;
+            height: 44px;
+            border-left: 0.5px solid #c9c9c9;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bar">
+            <img src="../assets/icon/arrow_left.png" alt="Table 1 Icon" onclick="changeTable(-1)" />
+            <span id="table-title">Voting Stats</span>
+            <img src="../assets/icon/arrow_right.png" alt="Table 2 Icon" onclick="changeTable(1)" />
+        </div>
+        <div class="section">
+            <div id="table1">
+                <p class="title">Voting Stats</p>
+                <div id="vote-container" class="table-container"></div>
+
+                <p class="title">Daily points reward (approximate estimate)</p>
+                <div id="daily-container" class="table-container"></div>
+
+                <p class="title">Quarterly point reward</p>
+                <div id="quarterly-container" class="table-container"></div>
+            </div>
+            <div id="table2">
+                <p class="title">Tiles</p>
+                <div id="tiles-container" class="table-container"></div>
+            </div>
+            <div id="table3">
+                <p class="title">Portal Level Comparison Table</p>
+                <div id="portal-level-container" class="table-container"></div> 
+            </div>
+            <div id="table4">
+                <p class="title">Decorations</p>
+                <div id="decorations-container" class="table-container"></div> 
+            </div>
+            <div id="table5">
+                <p class="title">Portal Condition</p>
+                <div id="portal-floor-container" class="table-container"></div> 
+
+                <p class="title">Floor tile upgrade and quantity comparison table</p>
+                <div id="portal-floor-tile-upgrade-container" class="table-container"></div> 
+
+                <p class="title">Floor tile quantity comparison table</p>
+                <div id="portal-floor-tile-quantity-container" class="table-container"></div> 
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../dataFetcher.js"></script>
+
+    <script>
+        function renderTilesTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Tiles Name</th><th>Tiles Value</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.name + '</td><td>' + item.unlock_condition + '</td></tr>'; // 根据tiles的实际结构
+            });
+            tableContent += '</table>';
+            document.getElementById('tiles-container').innerHTML = tableContent;
+        }
+
+        function renderQuarterlyTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Level</th><th>Rank</th><th>Quantity</th><th>Percentage</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.level + '</td><td>' + item.rank + '</td><td>' + item.quantity + '</td><td>' + item.percentage + '</td></tr>'; // 根据tiles的实际结构
+            });
+            tableContent += '</table>';
+            document.getElementById('quarterly-container').innerHTML = tableContent;
+        }
+
+        function renderDailyTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Rank</th><th>Points</th><th>Extra Rewards</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.rank + '</td><td>' + item.points + '</td><td>' + item.extra_rewards + '</td></tr>'; // 根据tiles的实际结构
+            });
+            tableContent += '</table>';
+            document.getElementById('daily-container').innerHTML = tableContent;
+        }
+
+        function renderPortalLevelTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Level</th><th>Energy to Level Up</th><th>Upgrade Time</th><th>Portal Capacity</th><th>Total Energy Increase</th><th>Energy Supply</th><th>Upgrade Condition</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.level + '</td><td>' + item.energy_to_level_up + '</td><td>' + item.upgrade_time + '</td><td>' + item.portal_capacity + '</td><td>' + item.total_energy_increase + '</td><td>' + item.energy_supply + '</td><td>' + item.upgrade_condition + '</td></tr>'; // 根据tiles的实际结构
+            });
+            tableContent += '</table>';
+            document.getElementById('portal-level-container').innerHTML = tableContent;
+        }
+
+        function renderDecorationsTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Item Name</th><th>Unlock Condition</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.name + '</td><td>' + item.unlock_condition + '</td></tr>'; // 根据tiles的实际结构
+            });
+            tableContent += '</table>';
+            document.getElementById('decorations-container').innerHTML = tableContent;
+        }
+
+        function renderVoteTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Vote Number</th><th>Energy Cost</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.vote_number + '</td><td>' + item.energy_cost + '</td></tr>'; // 根据vote的实际结构
+            });
+            tableContent += '</table>';
+            document.getElementById('vote-container').innerHTML = tableContent;
+        }
+
+        function renderPortalFloorTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Vote Number</th><th>Energy Cost</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.vote_number + '</td><td>' + item.energy_cost + '</td></tr>';
+            });
+            tableContent += '</table>';
+            document.getElementById('portal-floor-container').innerHTML = tableContent;
+        }
+
+        function renderPortalFloorTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Portal</th><th>Unlock Condition</th><th>Energy Cost</th><th>Start Time</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.portal + '</td><td>' + item.unlock_condition + '</td><td>' + item.energy_cost + '</td><td>' + item.start_time + '</td></tr>';
+            });
+            tableContent += '</table>';
+            document.getElementById('portal-floor-container').innerHTML = tableContent;
+        }
+
+        function renderPortalFloorUpgradeTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Tile Level</th><th>Energy Cost</th><th>Time Required</th><th>Energy Output</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.tile_level + '</td><td>' + item.energy_cost + '</td><td>' + item.time_required + '</td><td>' + item.energy_output + '</td></tr>';
+            });
+            tableContent += '</table>';
+            document.getElementById('portal-floor-tile-upgrade-container').innerHTML = tableContent;
+        }
+
+        function renderPortalFloorQuantityTable(dataArray) {
+            var tableContent = '<table><tr class="blue-header"><th>Tile Quantity</th><th>Energy Cost</th><th>Construction Time</th><th>Total Energy</th></tr>';
+            dataArray.forEach(function(item) {
+                tableContent += '<tr><td>' + item.tile_quantity + '</td><td>' + item.energy_cost + '</td><td>' + item.construction_time + '</td><td>' + item.total_energy + '</td></tr>';
+            });
+            tableContent += '</table>';
+            document.getElementById('portal-floor-tile-quantity-container').innerHTML = tableContent;
+        }
+
+            window.onload = function() {
+            fetchData(function(data) {
+                renderTilesTable(data.tiles);
+                renderVoteTable(data.vote);
+                renderQuarterlyTable(data.quarterly_points);
+                renderPortalLevelTable(data.portal_level);
+                renderDecorationsTable(data.object);
+                renderDailyTable(data.daily_points);
+                renderPortalFloorTable(data.portal_open);
+                renderPortalFloorUpgradeTable(data.tiles_up);
+                renderPortalFloorQuantityTable(data.tiles_qu);
+            });
+        };
+      </script>
+
+    <script>
+        var currentTable = 1;
+        var totalTables = 5;
+
+        // 定义每个表格的标题
+        var tableTitles = {
+            1: "Voting Stats",
+            2: "Tiles",
+            3: "Portal Level Comparison Table",
+            4: "Decorations",
+            5: "Portal Condition & Floor Tile Comparison",
+        };
+
+        function changeTable(direction) {
+            // 隐藏当前表格
+            document.getElementById('table' + currentTable).style.display = 'none';
+
+            // 计算新的表格索引
+            currentTable += direction;
+            if (currentTable < 1) {
+                currentTable = totalTables; // 如果到达第一个，回到最后一个
+            } else if (currentTable > totalTables) {
+                currentTable = 1; // 如果到达最后一个，回到第一个
+            }
+
+            // 更新标题
+            document.getElementById('table-title').textContent = tableTitles[currentTable];
+
+            // 显示新表格
+            document.getElementById('table' + currentTable).style.display = 'block';
+        }
+
+        // 默认显示表格1
+        document.getElementById('table1').style.display = 'block';
+        document.getElementById('table2').style.display = 'none';
+        document.getElementById('table3').style.display = 'none';
+        document.getElementById('table4').style.display = 'none';
+        document.getElementById('table5').style.display = 'none';
+
+    </script>
+    
+</body>
+</html>
