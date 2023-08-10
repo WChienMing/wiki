@@ -26,6 +26,11 @@ export const API_URL = 'https://forge.e2app.asia/api/';
 
 
 new Vue({
+  data(){
+    return {
+      isFetching: true
+    }
+  },
   router,
   render: h => h(App),
 }).$mount('#app')
