@@ -25,7 +25,7 @@
             </div>
             <div class="d-flex align-items-center main-content">
                 <div style="width: 260px;">
-                    <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="60%">
+                    <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="45%">
                 </div>
                 <div class="row flex-grow-1 justify-content-start">
                     <!-- <div class="menubox">
@@ -220,12 +220,12 @@
                                                 </div>
                                                 <div class="col-2">
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
-                                                    <div class="new-marketprice">
-                                                        <img src="" alt="">
-                                                        <span>0.00 ETH</span>
+                                                    <div class="new-marketprice" v-if="nft.price">
+                                                        <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp" alt="NFT Image">
+                                                        <img v-else-if="nft.icon === 'opensea.webp'" src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                        <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <!-- <div class="topside">
                                                 <div class="pricetop">#{{ nft.tokenId }}</div>
@@ -326,7 +326,6 @@ export default {
                 'watchlist': [],
                 'ranking': [],
                 'score': [],
-
             },
             collectionData: null,
             selectedTab: 'hv',
@@ -354,14 +353,7 @@ export default {
         }
     },
     computed: {
-        // visiblePages() {
-        //     if (this.isSearchActive) {
-        //         return [1];
-        //     }
-        //     const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
-        //     const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
-        //     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-        // },
+
     },
     methods: {
 
@@ -408,14 +400,16 @@ export default {
                     this.selectedNfts[this.selectedTab].push({
                         tokenId: nft.t_id,
                         image: nft.image,
-                        price: null,
                         s1: nft.s1,
                         s2: nft.s2,
                         s3: nft.s3,
                         s4: nft.s4,
                         s5: nft.s5,
                         s6: nft.s6,
-                        now: nft.current_season
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
                     });
                 });
                 console.log(this.selectedNfts[this.selectedTab]);
@@ -456,17 +450,19 @@ export default {
             if (nftsData.length > 0) {
                 // Append the new data to this.nfts
                 nftsData.forEach(nft => {
-                    this.nfts.push({
+                    this.selectedNfts[this.selectedTab].push({
                         tokenId: nft.t_id,
                         image: nft.image,
-                        price: null,
                         s1: nft.s1,
                         s2: nft.s2,
                         s3: nft.s3,
                         s4: nft.s4,
                         s5: nft.s5,
                         s6: nft.s6,
-                        now: nft.current_season
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
                     });
                 });
 
@@ -501,21 +497,25 @@ export default {
                 const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?search=${this.searchId}`);
                 const nftsData = response.data;
 
-                this.nfts = [];
+                this.selectedNfts[this.selectedTab] = [];
                 nftsData.forEach(nft => {
-                    this.nfts.push({
+                    this.selectedNfts[this.selectedTab].push({
                         tokenId: nft.t_id,
                         image: nft.image,
-                        price: null,
                         s1: nft.s1,
                         s2: nft.s2,
                         s3: nft.s3,
                         s4: nft.s4,
                         s5: nft.s5,
                         s6: nft.s6,
-                        now: nft.current_season
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
                     });
+
                 });
+                
             } catch (error) {
                 console.error('搜索NFT时出错：', error);
             } finally {
