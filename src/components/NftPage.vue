@@ -17,7 +17,9 @@
             </div>
         </nav> -->
         <div class="position-relative">
-            <div v-if="$root.isFetching" class="position-fixed h-100 w-100 top-0 d-flex align-items-center justify-content-center" style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999;">
+            <div v-if="$root.isFetching"
+                class="position-fixed h-100 w-100 top-0 d-flex align-items-center justify-content-center"
+                style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999;">
                 <div class="text-center" style="color:black">Loading...</div>
 
             </div>
@@ -131,7 +133,7 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="w-100 main-content" id="main-content" style="background: #f0f0f0!important;padding-top: 56px;">
+                <div class="w-100 main-content" id="main-content" style="background: #fff!important;padding-top: 56px;">
                     <div class="row justify-content-center">
                         <div class="results col-md-6 col-12 nft-list nft-item" id="content">
                             <div class="results-found">
@@ -147,45 +149,61 @@
 
                             <div class="list-wrapper" v-else>
                                 <div id="results" class=" align-items-center mb-3">
+                                    <div class="table-header">
+                                        <div class="row ">
+                                            <div class="col-1 text-center">Rank</div>
+                                            <div class="col-2">HV</div>
+                                            <div class="col-6">Season Ranking</div>
+                                            <div class="col-3">Price</div>
+
+                                        </div>
+
+                                    </div>
                                     <div class="" v-for="nft in nfts" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
                                             <!-- style="height: 235px!important;" -->
-                                            <div class="row">
-                                                <div class="col-xl-2 col-md-3 col-4">
-                                                    <div class="image"><img :src="nft.image" alt="NFT"></div>
+                                            <div class="row justify-content-start align-items-center">
+                                                <div class="col-1 text-center">
+                                                    <div class="pricetop ml-0">{{ nft.tokenId }}</div>
                                                 </div>
-                                                <div class="col-xl-10 col-md-9 col-8">
-                                                    <div class="d-flex flex-column h-100">
-                                                        <!-- <div class="flex-grow-1"></div> -->
+                                                <div class="col-2 d-flex">
+                                                    <div class="position-relative" style="height: 42px;width: 42px">
+                                                        <div class="image"><img :src="nft.image" alt="NFT"></div>
+                                                    </div>
+                                                    <div class="">
                                                         <div class="pricetop">#{{ nft.tokenId }}</div>
-                                                        <!-- <div class="marketprice" v-html="nft.price"></div> -->
-                                                        <div class="flex-grow-1"></div>
-                                                        <div>
-                                                            <!-- <div class="box-new">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-6 d-flex">
+                                                    <div class="flex-grow-1"
+                                                        style="width: 100%;overflow-x: scroll;white-space: nowrap;">
+                                                        <!-- <div class="box-new">
                                                                 <div class="text">Score: {{ nft.score }}</div>
                                                             </div> -->
-                                                            <div class="box-new rank ml-2" :style="nft.now === 's1' ? 'background-color: #0983F1 !important;' : ''">
-                                                                <div class="text">S1 Rank: {{ nft.s1 }}</div>
-                                                            </div>
-                                                            <div class="box-new rank ml-2" :style="nft.now === 's2' ? 'background-color: #0983F1 !important;' : ''">
-                                                                <div class="text">S2 Rank: {{ nft.s2 }}</div>
-                                                            </div>
-                                                            <div class="box-new rank ml-2" :style="nft.now === 's3' ? 'background-color: #0983F1 !important;' : ''">
-                                                                <div class="text">S3 Rank: {{ nft.s3 }}</div>
-                                                            </div>
-                                                            <div class="box-new rank ml-2" :style="nft.now === 's4' ? 'background-color: #0983F1 !important;' : ''">
-                                                                <div class="text">S4 Rank: {{ nft.s4 }}</div>
-                                                            </div>
-                                                            <div class="box-new rank ml-2" :style="nft.now === 's5' ? 'background-color: #0983F1 !important;' : ''">
-                                                                <div class="text">S5 Rank: {{ nft.s5 }}</div>
-                                                            </div>
-                                                            <div class="box-new rank ml-2" :style="nft.now === 's6' ? 'background-color: #0983F1 !important;' : ''">
-                                                                <div class="text">S6 Rank: {{ nft.s6 }}</div>
-                                                            </div>
+                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's1' }">
+                                                            <div class="text">S1-{{ nft.s1 }}</div>
                                                         </div>
-                                                        <div class="flex-grow-1"></div>
+                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's2' }">
+                                                            <div class="text">S2-{{ nft.s2 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's3' }">
+                                                            <div class="text">S3-{{ nft.s3 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's4' }">
+                                                            <div class="text">S4-{{ nft.s4 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's5' }">
+                                                            <div class="text">S5-{{ nft.s5 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's6' }">
+                                                            <div class="text">S6-{{ nft.s6 }}</div>
+                                                        </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <!-- <div class="marketprice" v-html="nft.price"></div> -->
                                                 </div>
 
                                             </div>
@@ -389,68 +407,21 @@ export default {
                     }
                 }
 
-                } catch (error) {
-                    console.error('Error fetching NFT data:', error);
-                } finally {
-                    this.isLoading = false;
-                }
-            },
-            
-            async fetchMoreNFTs() {
-      
-                const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?start=${this.lastTId}`);
-                const nftsData = response.data;
+            } catch (error) {
+                console.error('Error fetching NFT data:', error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
 
-                if (nftsData.length > 0) {
-                    // Append the new data to this.nfts
-                    nftsData.forEach(nft => {
-                        this.nfts.push({
-                        tokenId: nft.t_id,
-                        image: nft.image,
-                        price: null,
-                        s1: nft.s1,
-                        s2: nft.s2,
-                        s3: nft.s3,
-                        s4: nft.s4,
-                        s5: nft.s5,
-                        s6: nft.s6,
-                        now: nft.current_season
-                        });
-                    });
+        async fetchMoreNFTs() {
 
-                    
-                    if (nftsData.length > 0) {
-                        const lastNft = nftsData[nftsData.length - 1];
-                        if (lastNft.current_season === 's1') {
-                            this.lastTId = nftsData[nftsData.length - 1].s1;
-                        } else if (lastNft.current_season === 's2') {
-                            this.lastTId = nftsData[nftsData.length - 1].s2;
-                        } else if (lastNft.current_season === 's3') {
-                            this.lastTId = nftsData[nftsData.length - 1].s3;
-                        } else if (lastNft.current_season === 's4') {
-                            this.lastTId = nftsData[nftsData.length - 1].s4;
-                        } else if (lastNft.current_season === 's5') {
-                            this.lastTId = nftsData[nftsData.length - 1].s5;
-                        } else if (lastNft.current_season === 's6') {
-                            this.lastTId = nftsData[nftsData.length - 1].s6;
-                        }
-                    }
-                } else {
-                    // No more data to load
-                }
-            },
-            
-            async searchNFTById() {
+            const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?start=${this.lastTId}`);
+            const nftsData = response.data;
 
-                this.isLoading = true;
-                this.isSearchActive = true;
-
-                try {
-                    const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?search=${this.searchId}`);
-                    const nftsData = response.data;
-
-                    this.nfts = [];
-                    nftsData.forEach(nft => {
+            if (nftsData.length > 0) {
+                // Append the new data to this.nfts
+                nftsData.forEach(nft => {
                     this.nfts.push({
                         tokenId: nft.t_id,
                         image: nft.image,
@@ -464,38 +435,85 @@ export default {
                         now: nft.current_season
                     });
                 });
-                } catch (error) {
-                    console.error('搜索NFT时出错：', error);
-                } finally {
-                    this.isLoading = false;
-                }
-            },
-            searchNftByTraits(searchQueries) {
 
-                this.isLoading = true;
+
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = nftsData[nftsData.length - 1].s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = nftsData[nftsData.length - 1].s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = nftsData[nftsData.length - 1].s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = nftsData[nftsData.length - 1].s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = nftsData[nftsData.length - 1].s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = nftsData[nftsData.length - 1].s6;
+                    }
+                }
+            } else {
+                // No more data to load
+            }
+        },
+
+        async searchNFTById() {
+
+            this.isLoading = true;
+            this.isSearchActive = true;
+
+            try {
+                const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?search=${this.searchId}`);
+                const nftsData = response.data;
+
                 this.nfts = [];
+                nftsData.forEach(nft => {
+                    this.nfts.push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        price: null,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season
+                    });
+                });
+            } catch (error) {
+                console.error('搜索NFT时出错：', error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        searchNftByTraits(searchQueries) {
 
-                if (!Array.isArray(searchQueries)) {
-                    searchQueries = [searchQueries];
-                }
+            this.isLoading = true;
+            this.nfts = [];
 
-                Promise.all(
-                    searchQueries.map(searchQuery =>
-                        axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
-                            params: {
-                                chain: 'eth',
-                                format: 'decimal',
-                                addresses: [`${HV_MTL}`],
-                                q: searchQuery,
-                                filter: 'attributes'
-                            },
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-API-Key': MO_API_KEY,
-                            }
-                        })
-                    )
+            if (!Array.isArray(searchQueries)) {
+                searchQueries = [searchQueries];
+            }
+
+            Promise.all(
+                searchQueries.map(searchQuery =>
+                    axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
+                        params: {
+                            chain: 'eth',
+                            format: 'decimal',
+                            addresses: [`${HV_MTL}`],
+                            q: searchQuery,
+                            filter: 'attributes'
+                        },
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-API-Key': MO_API_KEY,
+                        }
+                    })
                 )
+            )
                 .then(responses => {
                     const combinedResults = responses.flatMap(response => response.data.result);
                     const tokenIds = combinedResults.map(result => result.token_id);
@@ -505,13 +523,13 @@ export default {
                     console.error('获取NFT数据时出错：', error);
                     this.isLoading = false;
                 });
-            }
-        },
-        mounted() {
-            this.fetchNFTs();
-            this.totalPages = Math.ceil(this.totalSupply / this.limit);
-        },
-    };
+        }
+    },
+    mounted() {
+        this.fetchNFTs();
+        this.totalPages = Math.ceil(this.totalSupply / this.limit);
+    },
+};
 </script>
 
 <style>

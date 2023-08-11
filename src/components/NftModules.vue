@@ -1,65 +1,39 @@
 <template>
-    <div class="">
+    <div class="descrip-box">
         <div class=" align-items-center">
             <div class=" plots">
+                <div class="d-flex descrip-child1 mx-0">
+                    <div class="col-3 px-0">
+                        <img :src="imageUrl" class="deed-image mb-0">
 
-                <div class="row nopaddingmobile justify-content-start">
-                    <div class="col-6 col-md-3 col-lg-3" v-for="_state in states" :key="_state.name">
-                        <a class="details" href="#">
-                            <h2>{{ _state.name }}</h2>
-                            <div class="text">{{ _state.value }}</div>
-                        </a>
                     </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-12" style="overflow-x: scroll;">
-                        <table>
-                            <tr v-for="(row, index) in formattedTiles" :key="index">
-                                <td v-for="(tile, index2) in row" :key="index2"
-                                    :class="['tile-' + index + '-' + index2, { 'live': tile.level !== 0 }]"
-                                    :id="'tile-' + index + '-' + index2" :rowspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 4
-                                        : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
-                                            : ('tile-' + index + '-' + index2) === 'tile-0-4'
-                                                || ('tile-' + index + '-' + index2) === 'tile-0-11'
-                                                || ('tile-' + index + '-' + index2) === 'tile-3-17'
-                                                || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1" :colspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 3
-                : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
-                    : ('tile-' + index + '-' + index2) === 'tile-0-4'
-                        || ('tile-' + index + '-' + index2) === 'tile-0-11'
-                        || ('tile-' + index + '-' + index2) === 'tile-3-17'
-                        || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
-                                    <div class="dynamic-border"></div>
-                                    <div class="Dynamic-box"></div>
-
-                                    <div class="Dynamic" v-if="tile.level !== 0" :id="'tile-div' + index + '-' + index2">
-                                        <div>{{ tile.level }}</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <br>
-                <hr>
-                <br>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="row nopaddingmobile justify-content-start">
-                            <div class="col-4 col-md-2 col-lg-2" v-for="amp in amps" :key="amp.name">
-                                <a class="amp details p-0" href="#">
-                                    <div class="title">
-                                        <h2>{{ amp.name.split('_').join(' ') }}</h2>
-                                    </div>
-                                    <div class="text" ><span :class="{'hidden': amp.value==''}">{{ amp.value||'1' }}</span></div>
+                    <div class="col-9 px-0">
+                        <div class="nopaddingmobile justify-content-start align-items-center"
+                            style="display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;height: 100%;">
+                            <div class="liner" v-for="_state in states" :key="_state.name">
+                                <a class="details" href="#">
+                                    <h2>{{ _state.name }}</h2>
+                                    <div class="text">{{ _state.value }}</div>
                                 </a>
                             </div>
                         </div>
-                        <div class="row nopaddingmobile justify-content-start">
-                            <div class="col-6 col-md-4 col-lg-4" v-for="trait in traits" :key="trait.trait_type">
-                                <a class="details" href="#">
-                                    <h2>{{ trait.main_name }}</h2>
-                                    <div class="text">{{ trait.sub_name }}</div>
+                    </div>
+
+                </div>
+                <div class="row mx-0" style="padding: 16px 0px">
+                    <div class="col-lg-12 col-md-12 px-0">
+                        <div class="row nopaddingmobile justify-content-start amp-bg ">
+                            <div class="col-6 col-md-6 col-lg-6" :class="{ 'active': amp.value != '' }" v-for="amp in amps"
+                                :key="amp.name">
+                                <a class="d-flex amp details align-items-center justify-content-start" href="#">
+                                    <div class="title">
+                                        <h2 class="mb-0">{{ amp.name.split('_').join(' ') }}</h2>
+                                    </div>
+                                    <div class="text flex-grow-1">
+                                        <p class="mb-0" :class="{ 'text-black': amp.value == '' }">{{
+                                            amp.value == "" ? '-' : amp.value
+                                        }}</p>
+                                    </div>
                                 </a>
                             </div>
                         </div>
@@ -105,6 +79,61 @@
                             </div>
                         </div>
                     </div> -->
+                </div>
+                <div style="border: 1px solid #EAEAEA; border-radius: 4px;">
+                    <div class="container-header">
+                        <img src="../assets/icon/1.png" alt="">
+                        <span>Plan</span>
+                    </div>
+                    <div class="row descrip-container">
+                        <div class="col-md-12 px-0" style="overflow-x: scroll;">
+                            <table>
+                                <tr v-for="(row, index) in formattedTiles" :key="index">
+                                    <td v-for="(tile, index2) in row" :key="index2"
+                                        :class="['tile-' + index + '-' + index2, { 'live': tile.level !== 0 }]"
+                                        :id="'tile-' + index + '-' + index2" :rowspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 4
+                                            : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
+                                                : ('tile-' + index + '-' + index2) === 'tile-0-4'
+                                                    || ('tile-' + index + '-' + index2) === 'tile-0-11'
+                                                    || ('tile-' + index + '-' + index2) === 'tile-3-17'
+                                                    || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1"
+                                        :colspan="('tile-' + index + '-' + index2) === 'tile-4-0' ? 3
+                                            : ('tile-' + index + '-' + index2) === 'tile-5-18' ? 3
+                                                : ('tile-' + index + '-' + index2) === 'tile-0-4'
+                                                    || ('tile-' + index + '-' + index2) === 'tile-0-11'
+                                                    || ('tile-' + index + '-' + index2) === 'tile-3-17'
+                                                    || ('tile-' + index + '-' + index2) === 'tile-11-13' ? 2 : 1">
+                                        <div class="dynamic-border"></div>
+                                        <div class="Dynamic-box"></div>
+
+                                        <div class="Dynamic" v-if="tile.level !== 0"
+                                            :id="'tile-div' + index + '-' + index2">
+                                            <div>{{ tile.level }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+                <!-- <hr> -->
+                <!-- <br> -->
+                <div style="border: 1px solid #EAEAEA; border-radius: 4px;">
+                    <div class="container-header">
+                        <img src="../assets/icon/2.png" alt="">
+                        <span>Attributes</span>
+                    </div>
+                    <div class="row descrip-container pb-0 justify-content-start">
+                        <div class="col-3 attributes" v-for="trait in traits" :key="trait.trait_type">
+                            <a class="" href="#">
+                                <h2>{{ trait.main_name }}</h2>
+                                <div class="text">{{ (trait.sub_name) }}</div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,12 +284,12 @@ export default {
         },
 
         fetchTraits() {
-            // const options = {
-            //     method: 'GET',
-            //     url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
-            //     params: { include_orders: 'false' },
-            //     headers: { 'X-API-KEY': OPENSEA_API_KEY },
-            // };
+            const options = {
+                method: 'GET',
+                url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
+                params: { include_orders: 'false' },
+                headers: { 'X-API-KEY': OPENSEA_API_KEY },
+            };
 
             const openSeaFloorPriceOptions = {
                 method: 'GET',
@@ -276,16 +305,16 @@ export default {
                 headers: { accept: 'application/json' },
             };
 
-            // const fetchTraitsPromise = axios.request(options);
+            const fetchTraitsPromise = axios.request(options);
             const openSeaFloorPricePromise = axios.request(openSeaFloorPriceOptions);
             const ownersPromise = axios.request(ownersOptions);
 
             axios
-                .all([openSeaFloorPricePromise, ownersPromise])
+                .all([fetchTraitsPromise, openSeaFloorPricePromise, ownersPromise])
                 .then(
-                    axios.spread((floorPriceResponse, ownersResponse) => {
+                    axios.spread((traitsResponse, floorPriceResponse, ownersResponse) => {
                         // this.traits = traitsResponse.data.traits;
-                        // this.imageUrl = traitsResponse.data.image_url;
+                        this.imageUrl = traitsResponse.data.image_url;
 
                         const openSeaFloorPrice = floorPriceResponse.data.openSea.floorPrice;
                         this.openSeaFloorPrice = openSeaFloorPrice;
