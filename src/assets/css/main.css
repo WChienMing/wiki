@@ -365,7 +365,12 @@ hr {
   line-height: 18px;
   letter-spacing: 0em;
   text-align: left;
+  white-space: nowrap;
 
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }
 
 .text-black {

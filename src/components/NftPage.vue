@@ -138,10 +138,13 @@
                     <div class="row justify-content-center">
                         <div class="results col-md-6 col-12 nft-list nft-item" id="content">
                             <div class="tab">
-                                <a class="tablinks" :class="{'active':selectedTab=='hv'}" @click="selectedTab='hv'">HV</a>
-                                <a class="tablinks" :class="{'active':selectedTab=='watchlist'}" @click="selectedTab='watchlist'">Watchlist</a>
-                                <a class="tablinks" :class="{'active':selectedTab=='ranking'}" @click="selectedTab='ranking'">Ranking</a>
-                                <a class="tablinks" :class="{'active':selectedTab=='score'}" @click="selectedTab='score'">Score</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'hv' }" @click="selectedTab = 'hv'">HV</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'watchlist' }"
+                                    @click="selectedTab = 'watchlist'">Watchlist</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'ranking' }"
+                                    @click="selectedTab = 'ranking'">Ranking</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'score' }"
+                                    @click="selectedTab = 'score'">Score</a>
                             </div>
                             <div class="results-found">
                                 <div class="col-12">
@@ -166,7 +169,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="" v-for="nft in nfts" :key="nft.tokenId">
+                                    <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
                                             <!-- style="height: 235px!important;" -->
@@ -244,7 +247,7 @@
                                 </div>
                                 <div id="page_links" class="pt-3">
                                     <nav aria-label="Page navigation example">
-                                        <ul class="pagination" :class="{ disabled_pagination : isSearchActive }">
+                                        <ul class="pagination" :class="{ disabled_pagination: isSearchActive }">
                                             <li class="page-item">
                                                 <button @click="loadMoreData" class="page-link">More</button>
                                             </li>
@@ -318,8 +321,16 @@ export default {
     data() {
         return {
             nfts: [],
+            selectedNfts: {
+                'hv': [],
+                'watchlist': [],
+                'ranking': [],
+                'score': [],
+
+            },
             collectionData: null,
             selectedTab: 'hv',
+
             currentPage: 1,
             limit: 100,
             totalPages: 0,
@@ -335,14 +346,11 @@ export default {
         };
     },
     watch: {
-        selectedTab(){
-            
-        },
-        nfts() {
-            if (this.nfts.length > 0) {
-                this.selectedID = this.nfts[0].tokenId;
+        selectedTab() {
 
-            }
+        },
+        selectedNfts() {
+            console.log('trigger');
         }
     },
     computed: {
@@ -391,13 +399,13 @@ export default {
         async fetchNFTs() {
             this.isLoading = true;
             this.nfts = [];
+            this.selectedNfts[this.selectedTab] = [];
 
             try {
                 const response = await axios.get('https://forge.e2app.asia/api/getnftapi');
                 const nftsData = response.data;
-
                 nftsData.forEach(nft => {
-                    this.nfts.push({
+                    this.selectedNfts[this.selectedTab].push({
                         tokenId: nft.t_id,
                         image: nft.image,
                         price: null,
@@ -410,6 +418,11 @@ export default {
                         now: nft.current_season
                     });
                 });
+                console.log(this.selectedNfts[this.selectedTab]);
+                if (this.selectedNfts[this.selectedTab].length > 0) {
+                    this.selectedID = this.selectedNfts[this.selectedTab][0].tokenId;
+
+                }
 
                 if (nftsData.length > 0) {
                     const lastNft = nftsData[nftsData.length - 1];
@@ -554,9 +567,10 @@ export default {
 </script>
 
 <style>
-.disabled_pagination{
+.disabled_pagination {
     display: none !important;
 }
+
 .dropdown-menu {
     min-width: 45rem;
 }
@@ -825,5 +839,4 @@ export default {
     footer {
         padding-bottom: 20px;
     }
-}
-</style>
+}</style>
