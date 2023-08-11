@@ -335,6 +335,9 @@ export default {
         };
     },
     watch: {
+        selectedTab(){
+            
+        },
         nfts() {
             if (this.nfts.length > 0) {
                 this.selectedID = this.nfts[0].tokenId;
