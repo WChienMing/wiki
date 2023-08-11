@@ -13,7 +13,8 @@ body {
 }
 
 .main-content {
-  padding: 0px 100px;
+  padding: 0px 40px;
+  /* padding: 0px 100px; */
 }
 
 a {

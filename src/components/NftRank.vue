@@ -107,8 +107,8 @@ export default {
 
             this.socket.on("serverTime", function (data) {
                 // console.log(data);
-                var dd = data[0]['content'];
-                var games = JSON.parse(JSON.parse(dd).data).games;
+                var games = data;
+                // var games = JSON.parse(JSON.parse(dd).data).games;
                 // console.log(games);
                 if (games) {
                     self.switchList(games);
