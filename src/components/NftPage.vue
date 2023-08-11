@@ -133,9 +133,16 @@
                         </div>
                     </div>
                 </div> -->
+
                 <div class="w-100 main-content" id="main-content" style="background: #fff!important;padding-top: 56px;">
                     <div class="row justify-content-center">
                         <div class="results col-md-6 col-12 nft-list nft-item" id="content">
+                            <div class="tab">
+                                <a class="tablinks" :class="{'active':selectedTab=='hv'}" @click="selectedTab='hv'">HV</a>
+                                <a class="tablinks" :class="{'active':selectedTab=='watchlist'}" @click="selectedTab='watchlist'">Watchlist</a>
+                                <a class="tablinks" :class="{'active':selectedTab=='ranking'}" @click="selectedTab='ranking'">Ranking</a>
+                                <a class="tablinks" :class="{'active':selectedTab=='score'}" @click="selectedTab='score'">Score</a>
+                            </div>
                             <div class="results-found">
                                 <div class="col-12">
                                     <div id="activefilters" class="align-items-left mb-3"></div>
@@ -165,7 +172,7 @@
                                             <!-- style="height: 235px!important;" -->
                                             <div class="row justify-content-start align-items-center">
                                                 <div class="col-1 text-center">
-                                                    <div class="pricetop ml-0">{{ nft.tokenId }}</div>
+                                                    <div class="pricetop ml-0">{{ nft.s3 }}</div>
                                                 </div>
                                                 <div class="col-2 d-flex">
                                                     <div class="position-relative" style="height: 42px;width: 42px">
@@ -182,28 +189,38 @@
                                                         <!-- <div class="box-new">
                                                                 <div class="text">Score: {{ nft.score }}</div>
                                                             </div> -->
-                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's1' }">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's1' }">
                                                             <div class="text">S1-{{ nft.s1 }}</div>
                                                         </div>
-                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's2' }">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's2' }">
                                                             <div class="text">S2-{{ nft.s2 }}</div>
                                                         </div>
-                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's3' }">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's3' }">
                                                             <div class="text">S3-{{ nft.s3 }}</div>
                                                         </div>
-                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's4' }">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's4' }">
                                                             <div class="text">S4-{{ nft.s4 }}</div>
                                                         </div>
-                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's5' }">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's5' }">
                                                             <div class="text">S5-{{ nft.s5 }}</div>
                                                         </div>
-                                                        <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's6' }">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's6' }">
                                                             <div class="text">S6-{{ nft.s6 }}</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
+                                                    <div class="new-marketprice">
+                                                        <img src="" alt="">
+                                                        <span>0.00 ETH</span>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -302,6 +319,7 @@ export default {
         return {
             nfts: [],
             collectionData: null,
+            selectedTab: 'hv',
             currentPage: 1,
             limit: 100,
             totalPages: 0,
