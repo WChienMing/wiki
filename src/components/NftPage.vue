@@ -244,7 +244,7 @@
                                 </div>
                                 <div id="page_links" class="pt-3">
                                     <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
+                                        <ul class="pagination" :class="{ disabled_pagination : isSearchActive }">
                                             <li class="page-item">
                                                 <button @click="loadMoreData" class="page-link">More</button>
                                             </li>
@@ -346,14 +346,14 @@ export default {
         }
     },
     computed: {
-        visiblePages() {
-            if (this.isSearchActive) {
-                return [1];
-            }
-            const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
-            const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
-            return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-        },
+        // visiblePages() {
+        //     if (this.isSearchActive) {
+        //         return [1];
+        //     }
+        //     const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
+        //     const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
+        //     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+        // },
     },
     methods: {
 
@@ -554,6 +554,9 @@ export default {
 </script>
 
 <style>
+.disabled_pagination{
+    display: none !important;
+}
 .dropdown-menu {
     min-width: 45rem;
 }
