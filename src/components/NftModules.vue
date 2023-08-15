@@ -12,8 +12,8 @@
                             style="display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;height: 100%;">
                             <div class="liner" v-for="_state in states" :key="_state.name">
                                 <a class="details" href="#">
-                                    <h2>{{ _state.name }}</h2>
-                                    <div class="text">{{ _state.value }}</div>
+                                    <h2 style="font-size: 13px !important;">{{ _state.name }}</h2>
+                                    <div class="text" style="font-size: 12px !important;">{{ _state.value }}</div>
                                 </a>
                             </div>
                         </div>
