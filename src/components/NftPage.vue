@@ -226,6 +226,9 @@
                                                         <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                     </div>
                                                 </div>
+                                                <div class="col-1">
+                                                    <button @click="saveId(nft.tokenId)">S</button>
+                                                </div>
                                             </div>
                                             <!-- <div class="topside">
                                                 <div class="pricetop">#{{ nft.tokenId }}</div>
@@ -356,7 +359,81 @@ export default {
 
     },
     methods: {
+        saveId(id) {
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
 
+            db.transaction(function(tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
+                tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
+                    if (result.rows.length === 0) {
+                        // The ID doesn't exist in the table, so insert it
+                        tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id]);
+                        console.log('ID inserted:', id);
+                    } else {
+                        console.log('ID already exists:', id);
+                    }
+                });
+            });
+        },
+
+        async Watchlist() {
+
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
+            const savedIds = [];
+            
+            db.transaction(tx => {
+                tx.executeSql('SELECT id FROM ids', [], (tx, result) => {
+                    const rows = result.rows;
+                    for (let i = 0; i < rows.length; i++) {
+                    const savedId = rows.item(i).id;
+                    savedIds.push(savedId);
+                    }
+                    this.fetchNFTsBySavedIds(savedIds);
+                });
+            });
+
+        },
+        async fetchNFTsBySavedIds(savedIds) {
+            const response = await axios.get(`https://forge.e2app.asia/api/getwatchlist?ids=${savedIds}`);
+            const nftsData = response.data;
+
+            if (nftsData.length > 0) {
+                nftsData.forEach(nft => {
+                    this.selectedNfts["watchlist"].push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
+                    });
+                });
+
+
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = nftsData[nftsData.length - 1].s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = nftsData[nftsData.length - 1].s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = nftsData[nftsData.length - 1].s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = nftsData[nftsData.length - 1].s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = nftsData[nftsData.length - 1].s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = nftsData[nftsData.length - 1].s6;
+                    }
+                }
+            }
+        },
         handleCheckboxChange(event) {
             const trait = event.target.value;
             if (event.target.checked) {
@@ -561,6 +638,7 @@ export default {
     },
     mounted() {
         this.fetchNFTs();
+        this.Watchlist();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
     },
 };
