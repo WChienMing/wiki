@@ -1,6 +1,11 @@
-@font-face {
-  font-family: Plus Jakarta Sans;
+/* @font-face {
+  font-family: Inter;
   src: url('./fonts/PlusJakartaSans.ttf');
+} */
+
+@font-face {
+  font-family: Inter;
+  src: url('./fonts/Inter-Regular.ttf');
 }
 
 body {
@@ -8,7 +13,8 @@ body {
 }
 
 .main-content {
-  padding: 0px 100px;
+  padding: 0px 40px;
+  /* padding: 0px 100px; */
 }
 
 a {
@@ -31,6 +37,22 @@ td {
   background-color: #fff;
   position: relative;
   border-radius: 4px;
+}
+
+.table-header {
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  border-top: 1px solid #E9E9E9;
+  border-bottom: 1px solid #E9E9E9;
+  padding: 16px 0px;
+  margin: 0px 5px;
+
+
 }
 
 @media screen and (max-width: 480px) {
@@ -84,7 +106,7 @@ td {
   display: block;
   width: 100%;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   border-radius: 8px;
   padding: 16px;
   /* background-image: url('../pic/Rectangle\ 999.png'); */
@@ -93,6 +115,7 @@ td {
   background-size: cover;
   background-position: center;
   color: #1C1D22 !important;
+  border: none;
 
 }
 
@@ -103,23 +126,26 @@ hr {
 .plots .details h2 {
   width: 100%;
   text-align: center;
-  font-family: Plus Jakarta Sans;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0em;
+  font-family: Inter;
+  line-height: 14px;
   text-align: center;
-  color: #1C1D22 !important;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 0em;
+
+  color: #0983F1 !important;
 
 }
 
 .plots .details .text {
-  font-family: Plus Jakarta Sans;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+  font-family: Inter;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 14px;
   letter-spacing: 0em;
   text-align: center;
+
   color: #1C1D22 !important;
 
 }
@@ -154,7 +180,7 @@ hr {
 }
 
 .group-title a {
-  font-family: Plus Jakarta Sans;
+  font-family: Inter;
   font-size: 16px;
   font-weight: 700;
   line-height: 24px;
@@ -166,7 +192,7 @@ hr {
 
 .child-title a.collapsed {
   background-color: #fff;
-  font-family: Plus Jakarta Sans;
+  font-family: Inter;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -181,7 +207,7 @@ hr {
 
 .child-title a {
   background-color: #F1F5FF;
-  font-family: Plus Jakarta Sans;
+  font-family: Inter;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -196,7 +222,7 @@ hr {
 
 .child-title a:active {
   background-color: #1D1F21;
-  font-family: Plus Jakarta Sans;
+  font-family: Inter;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -238,7 +264,7 @@ hr {
 }
 
 .list-item-vessel {
-  font-family: Plus Jakarta Sans;
+  font-family: Inter;
   /* background: #151718 !important; */
   background: #fff !important;
   font-size: 16px;
@@ -246,60 +272,168 @@ hr {
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  border-radius: 8px !important;
+  padding: 10px 0px;
+  margin-bottom: 0px;
+  border-radius: 0px !important;
   height: auto;
+  border: none;
+  border-bottom: 1px solid #F1F1F1;
 }
 
-.list-item-vessel .image img {
+.list-item-vessel .image {
+  position: absolute;
+  height: 100%;
   width: 100%;
 }
 
+.list-item-vessel .image img {
+  width: auto;
+  height: 100%;
+  border-radius: 4px;
+}
+
 .amp .title {
-  background-color: #0983F1;
-  color: white !important;
-  padding: 8px 12px;
+  /* background-color: #0983F1; */
+  color: #fff !important;
+  /* padding: 8px 12px; */
+  width: auto;
   margin: 0px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
 }
 
-.amp .title h2 {
-  font-family: Plus Jakarta Sans;
+.amp.details {
+  padding: 10px 14px;
+  border-radius: 4px;
+  border: 1px solid #F1F1F1;
+  margin-bottom: 8px;
+  font-family: Inter;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   letter-spacing: 0em;
-  text-align: center;
-  text-transform: capitalize;
+  text-align: start;
 
-  color: white !important;
 }
 
-.hidden{
+.amp-bg {
+  margin-left: -4px;
+  margin-right: -4px;
+}
+
+.amp-bg .col-6 {
+  padding-left: 4px;
+  padding-right: 4px;
+
+}
+
+.amp-bg .active:nth-child(1) .amp {
+  background-color: #F8B66F;
+}
+
+.amp-bg .active:nth-child(2) .amp {
+  background-color: #FFBF02;
+}
+
+.amp-bg .active:nth-child(3) .amp {
+  background-color: #009400;
+}
+
+.amp-bg .active:nth-child(4) .amp {
+  background-color: #1C68DF;
+}
+
+.new-marketprice {
+  border: 1px solid #F1F1F1;
+  background-color: #EBF2F8;
+  padding: 10px;
+  display: flex;
+  border-radius: 4px;
+}
+
+.new-marketprice img {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+
+.new-marketprice span {
+  /* font-family: Plus Jakarta Sans; */
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  white-space: nowrap;
+
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.text-black {
+  color: #000 !important;
+}
+
+.tablinks {
+  color: #0C1015;
+  margin: 0px 56px;
+  padding: 16px 0px 14px 0px;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+
+}
+
+.tablinks.active {
+  color: #0983F1 !important;
+  border-bottom: 3px solid #0983F1;
+}
+
+.amp .title h2 {
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  text-transform: capitalize;
+  color: #000 !important;
+}
+
+.hidden {
   opacity: 0;
 }
 
-.amp .text {
-  padding: 8px 12px;
-  font-family: Plus Jakarta Sans;
+.amp .text p {
+  flex-grow: 1;
+  /* padding: 8px 12px; */
+  font-family: Inter;
+  margin-left: 12px;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   letter-spacing: 0em;
-  text-align: center;
+  text-transform: capitalize;
+  text-align: left;
+  color: #fff !important;
 
 }
 
 .pricetop {
-  font-family: Plus Jakarta Sans;
+  font-family: Inter;
   font-size: 16px !important;
   font-weight: 600;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   color: #303030;
+  margin-left: 16px;
   /* color: #F1F1F3; */
   position: relative !important;
 
@@ -309,22 +443,122 @@ hr {
   /* background-color: #37383B; */
   background-color: #EBF2F8;
   padding: 4px 6px 4px 6px;
-  border-radius: 8px;
-  font-family: Plus Jakarta Sans;
+  border-radius: 4px;
+  font-family: Inter;
   font-size: 12px;
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0em;
-  text-align: left;
+  text-align: center;
   display: inline-block;
+  min-width: 50px;
 
   color: #0983F1;
 
 }
 
-.box-new.rank {
+.box-new.rank.active {
   background-color: #0983F1 !important;
   color: #fff !important;
+
+}
+
+.box-new.rank {
+  /* background-color: #0983F1 !important; */
+  background-color: #EBF2F8 !important;
+  color: #888A8B !important;
+
+}
+
+.descrip-box {
+  padding: 16px 40px;
+}
+
+.descrip-child1 {
+  border-radius: 4px;
+  border: 1px solid #E9E9E9
+}
+
+.liner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border-right: 1px solid #E9E9E9;
+}
+
+.liner:nth-child(4),
+.liner:nth-child(8) {
+  border-right: none;
+}
+
+.descrip-container {
+  /* border: 1px solid #EAEAEA; */
+  background-color: #FDFDFD;
+  padding: 16px 11px;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  margin: 0px;
+
+}
+
+.container-header {
+  display: flex;
+  padding: 10px 14px;
+  border-bottom: 1px solid #F1F1F1;
+  border-radius: 4px;
+}
+
+.container-header img {
+  height: 20px;
+  width: 20px;
+  margin-right: 14px;
+}
+
+.container-header span {
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000;
+
+
+}
+
+.attributes {
+  padding-bottom: 16px;
+}
+
+.attributes h2 {
+  font-family: Inter;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1E1E1E;
+  margin-bottom: 0px;
+
+}
+
+.attributes .text {
+  height: 48px;
+  background: #F1F1F1;
+  border-radius: 4px;
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #1C1D22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+
 
 }
 

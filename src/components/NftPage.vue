@@ -17,13 +17,15 @@
             </div>
         </nav> -->
         <div class="position-relative">
-            <div v-if="$root.isFetching" class="position-fixed h-100 w-100 top-0 d-flex align-items-center justify-content-center" style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999;">
+            <div v-if="$root.isFetching"
+                class="position-fixed h-100 w-100 top-0 d-flex align-items-center justify-content-center"
+                style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999;">
                 <div class="text-center" style="color:black">Loading...</div>
 
             </div>
             <div class="d-flex align-items-center main-content">
                 <div style="width: 260px;">
-                    <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="60%">
+                    <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="45%">
                 </div>
                 <div class="row flex-grow-1" style="display: flex; justify-content: space-between; align-items: center;">
                     <!-- <div class="menubox">
@@ -135,9 +137,19 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="w-100 main-content" id="main-content" style="background: #f0f0f0!important;padding-top: 56px;">
+
+                <div class="w-100 main-content" id="main-content" style="background: #fff!important;padding-top: 56px;">
                     <div class="row justify-content-center">
                         <div class="results col-md-6 col-12 nft-list nft-item" id="content">
+                            <div class="tab">
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'hv' }" @click="selectedTab = 'hv'">HV</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'watchlist' }"
+                                    @click="selectedTab = 'watchlist'">Watchlist</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'ranking' }"
+                                    @click="selectedTab = 'ranking'">Ranking</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'price' }"
+                                    @click="selectedTab = 'price'">Pricelist</a>
+                            </div>
                             <div class="results-found">
                                 <div class="col-12">
                                     <div id="activefilters" class="align-items-left mb-3"></div>
@@ -151,33 +163,76 @@
 
                             <div class="list-wrapper" v-else>
                                 <div id="results" class=" align-items-center mb-3">
-                                    <div class="" v-for="nft in nfts" :key="nft.tokenId">
+                                    <div class="table-header">
+                                        <div class="row ">
+                                            <div class="col-1 text-center">Rank</div>
+                                            <div class="col-2">HV</div>
+                                            <div class="col-6">Season Ranking</div>
+                                            <div class="col-3">Price</div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
                                             <!-- style="height: 235px!important;" -->
-                                            <div class="row">
-                                                <div class="col-xl-2 col-md-3 col-4">
-                                                    <div class="image"><img :src="nft.image" alt="NFT"></div>
+                                            <div class="row justify-content-start align-items-center">
+                                                <div class="col-1 text-center">
+                                                    <div class="pricetop ml-0">{{ nft.s3 }}</div>
                                                 </div>
-                                                <div class="col-xl-10 col-md-9 col-8">
-                                                    <div class="d-flex flex-column h-100">
-                                                        <!-- <div class="flex-grow-1"></div> -->
+                                                <div class="col-2 d-flex">
+                                                    <div class="position-relative" style="height: 42px;width: 42px">
+                                                        <div class="image"><img :src="nft.image" alt="NFT"></div>
+                                                    </div>
+                                                    <div class="">
                                                         <div class="pricetop">#{{ nft.tokenId }}</div>
-                                                        <!-- <div class="marketprice" v-html="nft.price"></div> -->
-                                                        <div class="flex-grow-1"></div>
-                                                        <div>
-                                                            <div class="box-new">
-                                                                <div class="text">Score: {{ nft.score }}</div>
-                                                            </div>
-                                                            <div class="box-new rank ml-2">
-                                                                <div class="text">Rank: {{ nft.rank }}</div>
-                                                            </div>
+                                                    </div>
 
+                                                </div>
+                                                <div class="col-6 d-flex">
+                                                    <div class="flex-grow-1"
+                                                        style="width: 100%;overflow-x: scroll;white-space: nowrap;">
+                                                        <!-- <div class="box-new">
+                                                                <div class="text">Score: {{ nft.score }}</div>
+                                                            </div> -->
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's1' }">
+                                                            <div class="text">S1-{{ nft.s1 }}</div>
                                                         </div>
-                                                        <div class="flex-grow-1"></div>
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's2' }">
+                                                            <div class="text">S2-{{ nft.s2 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's3' }">
+                                                            <div class="text">S3-{{ nft.s3 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's4' }">
+                                                            <div class="text">S4-{{ nft.s4 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's5' }">
+                                                            <div class="text">S5-{{ nft.s5 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's6' }">
+                                                            <div class="text">S6-{{ nft.s6 }}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-2">
+                                                    <!-- <div class="marketprice" v-html="nft.price"></div> -->
+                                                    <div class="new-marketprice" v-if="nft.price">
+                                                        <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp" alt="NFT Image">
+                                                        <img v-else-if="nft.icon === 'opensea.webp'" src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                        <span>{{ nft.price }} {{ nft.floor_currency }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-1" v-if="selectedTab !== 'watchlist'">
+                                                    <button @click="saveId(nft.tokenId)">S</button>
+                                                </div>
                                             </div>
                                             <!-- <div class="topside">
                                                 <div class="pricetop">#{{ nft.tokenId }}</div>
@@ -197,7 +252,16 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div id="page_links" class="pt-3" v-if="!isFiltered && !isLoading">
+                                <div id="page_links" class="pt-3">
+                                    <nav aria-label="Page navigation example" v-if="selectedTab !== 'watchlist'">
+                                        <ul class="pagination" :class="{ disabled_pagination: isSearchActive }">
+                                            <li class="page-item">
+                                                <button @click="loadMoreData" class="page-link">More</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- <div id="page_links" class="pt-3" v-if="!isFiltered && !isLoading">
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination">
                                             <li class="page-item">
@@ -226,7 +290,7 @@
                                             </li>
                                         </ul>
                                     </nav>
-                                </div>
+                                </div> -->
                                 <!-- <div id="page_links" class="pt-3" v-if="isFiltered">
                                 <nav aria-label="Page navigation example">
                                 <ul class="pagination" style="justify-content: right!important;">
@@ -253,7 +317,7 @@
 import axios from 'axios';
 // import Header from '../components/HeaderSection.vue';
 import NftDetails from './NftModules.vue'
-import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, MO_API_KEY, API_URL } from '../main.js';
+import { HV_MTL, MO_API_KEY } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -264,7 +328,15 @@ export default {
     data() {
         return {
             nfts: [],
+            selectedNfts: {
+                'hv': [],
+                'watchlist': [],
+                'ranking': [],
+                'price': [],
+            },
             collectionData: null,
+            selectedTab: 'hv',
+
             currentPage: 1,
             limit: 100,
             totalPages: 0,
@@ -276,25 +348,19 @@ export default {
             isFiltered: false,
             selectedTraits: [],
             selectedID: null,
+            lastTId: null,
         };
     },
     watch: {
-        nfts() {
-            if (this.nfts.length > 0) {
-                this.selectedID = this.nfts[0].tokenId;
+        selectedTab() {
 
-            }
+        },
+        selectedNfts() {
+            console.log('trigger');
         }
     },
     computed: {
-        visiblePages() {
-            if (this.isSearchActive) {
-                return [1];
-            }
-            const start = this.currentPage - 2 < 1 ? 1 : this.currentPage - 2;
-            const end = start + 4 > this.totalPages ? this.totalPages : start + 4;
-            return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-        },
+
     },
     methods: {
         async openElectronWindow() {
@@ -303,6 +369,122 @@ export default {
                 console.log(response.data); // 这里将输出 "Electron window opened!"
             } catch (error) {
                 console.error('Failed to open Electron window:', error);
+            }
+        },
+        saveId(id) {
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
+            const vm = this;
+            db.transaction(function(tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
+                tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
+                    if (result.rows.length === 0) {
+                        tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id]);
+                        vm.fetchNFTsBySavedIds(id);
+                        console.log('ID inserted:', id);
+                    } else {
+                        console.log('ID already exists:', id);
+                    }
+                });
+            });
+        },
+
+        async Watchlist() {
+
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
+            const savedIds = [];
+            
+            db.transaction(tx => {
+                tx.executeSql('SELECT id FROM ids', [], (tx, result) => {
+                    const rows = result.rows;
+                    for (let i = 0; i < rows.length; i++) {
+                    const savedId = rows.item(i).id;
+                    savedIds.push(savedId);
+                    }
+                    this.fetchNFTsBySavedIds(savedIds);
+                });
+            });
+
+        },
+        async fetchNFTsBySavedIds(savedIds) {
+            const response = await axios.get(`https://forge.e2app.asia/api/getwatchlist?ids=${savedIds}`);
+            const nftsData = response.data;
+
+            if (nftsData.length > 0) {
+                nftsData.forEach(nft => {
+                    this.selectedNfts["watchlist"].push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
+                    });
+                });
+
+
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = nftsData[nftsData.length - 1].s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = nftsData[nftsData.length - 1].s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = nftsData[nftsData.length - 1].s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = nftsData[nftsData.length - 1].s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = nftsData[nftsData.length - 1].s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = nftsData[nftsData.length - 1].s6;
+                    }
+                }
+            }
+        },
+        async fetchNFTsByPriceList() {
+            const response = await axios.get(`https://forge.e2app.asia/api/getpricelist`);
+            const nftsData = response.data.data;
+ 
+            if (nftsData.length > 0) {
+                nftsData.forEach(nft => {
+                    this.selectedNfts["price"].push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
+                    });
+                });
+
+
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = nftsData[nftsData.length - 1].s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = nftsData[nftsData.length - 1].s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = nftsData[nftsData.length - 1].s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = nftsData[nftsData.length - 1].s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = nftsData[nftsData.length - 1].s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = nftsData[nftsData.length - 1].s6;
+                    }
+                }
             }
         },
         handleCheckboxChange(event) {
@@ -329,299 +511,147 @@ export default {
         removeSpaces(str) {
             return str.replace(/\s+/g, '');
         },
-        fetchCollectionData() {
-            const options = {
-                method: 'GET',
-                url: 'https://api.opensea.io/api/v1/collection/hv-mtl',
-                headers: { 'X-API-KEY': OPENSEA_API_KEY }
-            };
-
-            axios.request(options)
-                .then(response => {
-                    this.collectionData = response.data.collection;
-                    console.log(this.collectionData)
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+        async loadMoreData() {
+            if (this.lastTId === null) {
+                await this.fetchNFTs();
+            } else {
+                await this.fetchMoreNFTs();
+            }
         },
-        async fetchNFTs(tokenIds = null) {
+        async fetchNFTs() {
             this.isLoading = true;
             this.nfts = [];
+            this.selectedNfts[this.selectedTab] = [];
 
-            if (tokenIds) {
-                const chunks = [];
-                while (tokenIds.length) {
-                    chunks.push(tokenIds.splice(0, 20));
+            try {
+                const response = await axios.get('https://forge.e2app.asia/api/getnftapi');
+                const nftsData = response.data;
+                nftsData.forEach(nft => {
+                    this.selectedNfts[this.selectedTab].push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
+                    });
+                });
+                console.log(this.selectedNfts[this.selectedTab]);
+                if (this.selectedNfts[this.selectedTab].length > 0) {
+                    this.selectedID = this.selectedNfts[this.selectedTab][0].tokenId;
+
                 }
 
-                const promises = chunks.map(chunk => {
-                    const tokenIdsStr = chunk.join('&token_ids=');
-                    return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIdsStr}`, {
-                        headers: {
-                            'X-API-KEY': OPENSEA_API_KEY
-                        }
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = lastNft.s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = lastNft.s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = lastNft.s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = lastNft.s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = lastNft.s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = lastNft.s6;
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error fetching NFT data:', error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+        async fetchMoreNFTs() {
+
+            const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?start=${this.lastTId}`);
+            const nftsData = response.data;
+
+            if (nftsData.length > 0) {
+                // Append the new data to this.nfts
+                nftsData.forEach(nft => {
+                    this.selectedNfts[this.selectedTab].push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
                     });
                 });
 
-                try {
-                    const responses = await Promise.all(promises);
-                    let allAssets = [];
-                    responses.forEach(response => {
-                        const assets = response.data.assets;
-                        assets.forEach(asset => {
-                            const tokenId = asset.token_id;
 
-                            if (!this.nfts.some(nft => nft.tokenId === tokenId)) {
-                                this.nfts.push({
-                                    tokenId: tokenId,
-                                    image: asset.image_url,
-                                    price: null
-                                });
-                                allAssets.push(tokenId);
-                            }
-                        });
-                    });
-
-                    allAssets.forEach(asset => {
-                        axios.get(`${API_URL}/getwiki?id=${asset}`)
-                            .then((priceResponse) => {
-                                const listing = priceResponse.data.data[0];
-                                const tokenId = listing.vessel;
-                                const currentPrice = listing.floor;
-                                const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-
-                                if (nft && !nft.price) {
-                                    nft.price = listing.marketplace_image !== ''
-                                        ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
-                                        : currentPrice + ' ' + listing.floor_currency;
-
-                                    nft.rank = listing.rank;
-                                    nft.score = listing.score;
-                                }
-                            })
-                            .catch((error) => {
-                                console.error('获取价格信息时出错：', error);
-                            });
-                    });
-
-                    // const priceChunks = [];
-                    // while (allAssets.length) {
-                    //     priceChunks.push(allAssets.splice(0, 20));
-                    // }
-
-                    // const pricePromises = priceChunks.map(chunk => {
-                    //     const tokenIds = chunk.map(asset => 'token_ids=' + asset).join('&');
-                    //     return axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                    //         headers: {
-                    //             accept: 'application/json',
-                    //             'X-API-KEY': OPENSEA_API_KEY
-                    //         }
-                    //     });
-                    // });
-
-                    // const priceResponses = await Promise.all(pricePromises);
-
-                    // priceResponses.forEach(response => {
-                    //     const listings = response.data.orders;
-                    //     listings.forEach(listing => {
-                    //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                    //         const currentPrice = listing.current_price;
-                    //         const eth = currentPrice / 1e18;
-                    //         const nftIndex = this.nfts.findIndex(nft => nft.tokenId === tokenId);
-                    //         if (nftIndex !== -1) {
-                    //             this.nfts[nftIndex].price = `${eth} ETH`;
-                    //             console.log(`Token ID11: ${tokenId}, Current Price: ${eth}`);
-                    //         }
-                    //     });
-                    // });
-
-                } catch (error) {
-                    console.error('Error fetching NFT data:', error);
-                } finally {
-                    this.isLoading = false;
+                if (nftsData.length > 0) {
+                    const lastNft = nftsData[nftsData.length - 1];
+                    if (lastNft.current_season === 's1') {
+                        this.lastTId = nftsData[nftsData.length - 1].s1;
+                    } else if (lastNft.current_season === 's2') {
+                        this.lastTId = nftsData[nftsData.length - 1].s2;
+                    } else if (lastNft.current_season === 's3') {
+                        this.lastTId = nftsData[nftsData.length - 1].s3;
+                    } else if (lastNft.current_season === 's4') {
+                        this.lastTId = nftsData[nftsData.length - 1].s4;
+                    } else if (lastNft.current_season === 's5') {
+                        this.lastTId = nftsData[nftsData.length - 1].s5;
+                    } else if (lastNft.current_season === 's6') {
+                        this.lastTId = nftsData[nftsData.length - 1].s6;
+                    }
                 }
             } else {
-                let startToken = (this.currentPage - 1) * this.limit + 1;
-                axios
-                    .get(`https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getNFTsForCollection?contractAddress=${this.contractAddress}&startToken=${startToken}&limit=${this.limit}&withMetadata=true`)
-                    .then((response) => {
-
-                        const nftsId = response.data.nfts.map(nft => parseInt(nft.id.tokenId, 16));
-                        const tokenIdsChunks = [];
-                        while (nftsId.length > 0) {
-                            tokenIdsChunks.push(nftsId.splice(0, 20));
-                        }
-                        const promises = tokenIdsChunks.map(chunk => {
-                            const tokenIds = chunk.join('&token_ids=');
-                            return axios.get(`https://api.opensea.io/api/v1/assets?asset_contract_address=${this.contractAddress}&token_ids=${tokenIds}`, {
-                                headers: {
-                                    'X-API-KEY': OPENSEA_API_KEY
-                                }
-                            });
-                        });
-
-
-                        axios.all(promises)
-                            .then(axios.spread((...responses) => {
-                                responses.forEach(response => {
-                                    const assets = response.data.assets;
-                                    this.nfts.push(
-                                        ...assets.map(asset => ({
-                                            tokenId: asset.token_id,
-                                            image: asset.image_url,
-                                            price: null
-                                        }))
-                                    );
-
-
-                                    assets.forEach(asset => {
-                                        axios.get(`${API_URL}/getwiki?id=${asset.token_id}`)
-                                            .then((priceResponse) => {
-                                                const listing = priceResponse.data.data[0];
-                                                const tokenId = listing.vessel;
-                                                const currentPrice = listing.floor;
-                                                const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                                                if (nft && !nft.price) {
-                                                    nft.price = listing.marketplace_image !== ''
-                                                        ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
-                                                        : currentPrice + ' ' + listing.floor_currency;
-                                                    nft.rank = listing.rank;
-                                                    nft.score = listing.score;
-
-                                                    // console.log(`Token ID: ${tokenId}, Current Price: ${currentPrice}`);
-                                                }
-                                            })
-                                            .catch((error) => {
-                                                console.error('获取价格信息时出错：', error);
-                                            });
-                                    });
-
-                                    // const tokenIds = assets.map(asset => 'token_ids=' + asset.token_id).join('&');
-                                    // console.log(asset.token_id)
-                                    // axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&${tokenIds}`, {
-                                    //     headers: {
-                                    //         accept: 'application/json',
-                                    //         'X-API-KEY': OPENSEA_API_KEY
-                                    //     }
-                                    // })
-                                    // .then((priceResponse) => {
-                                    //     const listings = priceResponse.data.orders;
-
-                                    //     listings.forEach(listing => {
-                                    //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                                    //         const currentPrice = listing.current_price;
-
-                                    //         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                                    //         if (nft && !nft.price) {
-                                    //             let wei = currentPrice;
-                                    //             let eth = wei / 1e18;
-
-                                    //             nft.price = eth + ' ETH';
-                                    //             console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
-                                    //         }
-                                    //     });
-                                    // })
-                                    // .catch((error) => {
-                                    //     console.error('获取价格信息时出错：', error);
-                                    // });
-                                });
-                                this.nfts.sort((a, b) => a.tokenId - b.tokenId);
-                            }))
-                            .catch((error) => {
-                                console.error('获取NFT数据时出错：', error);
-                            });
-                    })
-                    .catch((error) => {
-                        console.error('获取NFT数据时出错：', error);
-                    })
-                    .finally(() => {
-                        this.isLoading = false;
-                    });
+                // No more data to load
             }
         },
+
         async searchNFTById() {
-            if (this.searchId.trim() === '') {
-                this.isSearchActive = false;
-                this.fetchNFTs();
-                return;
-            }
 
             this.isLoading = true;
             this.isSearchActive = true;
 
-
             try {
-                const response = await axios.get(
-                    `https://api.opensea.io/api/v1/asset/${this.contractAddress}/${this.searchId}`, {
-                    headers: {
-                        'X-API-KEY': OPENSEA_API_KEY,
-                    },
-                }
-                );
-                const asset = response.data;
-                this.nfts = [];
-                this.nfts.push({
-                    tokenId: asset.token_id,
-                    image: asset.image_url,
-                    price: null
-                });
+                const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?search=${this.searchId}`);
+                const nftsData = response.data;
 
-                axios.get(`${API_URL}/getwiki?id=${asset.token_id}`)
-                    .then((priceResponse) => {
-                        const listing = priceResponse.data.data[0];
-                        const tokenId = listing.vessel;
-                        const currentPrice = listing.floor;
-                        const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                        if (nft && !nft.price) {
-                            nft.price = listing.marketplace_image !== ''
-                                ? `<img src="${require('@/assets/icon/' + listing.marketplace_image)}">` + currentPrice + ' ' + listing.floor_currency
-                                : currentPrice + ' ' + listing.floor_currency;
-                            nft.rank = listing.rank;
-                            nft.score = listing.score;
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('获取价格信息时出错：', error);
+                this.selectedNfts["hv"] = [];
+                nftsData.forEach(nft => {
+                    this.selectedNfts["hv"].push({
+                        tokenId: nft.t_id,
+                        image: nft.image,
+                        s1: nft.s1,
+                        s2: nft.s2,
+                        s3: nft.s3,
+                        s4: nft.s4,
+                        s5: nft.s5,
+                        s6: nft.s6,
+                        now: nft.current_season,
+                        price: nft.price,
+                        floor_currency: nft.floor_currency,
+                        icon: nft.marketplace_image
                     });
-                // axios.get(`https://api.opensea.io/v2/orders/ethereum/seaport/listings?asset_contract_address=${this.contractAddress}&token_ids=${asset.token_id}`, {
-                //     headers: {
-                //         accept: 'application/json',
-                //         'X-API-KEY': OPENSEA_API_KEY
-                //     }
-                // })
-                // .then((priceResponse) => {
-                //     const listings = priceResponse.data.orders;
 
-                //     listings.forEach(listing => {
-                //         const tokenId = listing.maker_asset_bundle.assets[0].token_id;
-                //         const currentPrice = listing.current_price;
-
-                //         // Find the corresponding NFT in the nfts array and update its price.
-                //         const nft = this.nfts.find(nft => nft.tokenId === tokenId);
-                //         if (nft && !nft.price) {
-                //             let wei = currentPrice;
-                //             let eth = wei / 1e18;
-
-                //             nft.price = eth + ' ETH';
-                //             console.log(`Token ID: ${tokenId}, Current Price: ${eth}`);
-                //         }
-                //     });
-                // })
-                // .catch((error) => {
-                //     console.error('获取价格信息时出错：', error);
-                // });
+                });
+                
             } catch (error) {
                 console.error('搜索NFT时出错：', error);
             } finally {
                 this.isLoading = false;
             }
         },
-        gotoPage(page) {
-            this.currentPage = page;
-            this.fetchNFTs();
-        },
-
         searchNftByTraits(searchQueries) {
 
             this.isLoading = true;
@@ -661,13 +691,18 @@ export default {
     },
     mounted() {
         this.fetchNFTs();
-        this.fetchCollectionData();
+        this.Watchlist();
+        this.fetchNFTsByPriceList();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
     },
 };
 </script>
 
 <style>
+.disabled_pagination {
+    display: none !important;
+}
+
 .dropdown-menu {
     min-width: 45rem;
 }
@@ -936,5 +971,4 @@ export default {
     footer {
         padding-bottom: 20px;
     }
-}
-</style>
+}</style>
