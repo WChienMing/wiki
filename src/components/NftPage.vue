@@ -27,13 +27,13 @@
                 <div style="width: 260px;">
                     <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="45%">
                 </div>
-                <div class="row flex-grow-1" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="row flex-grow-1 justify-content-start">
                     <!-- <div class="menubox">
                     <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
                 </div> -->
                     <div class="col-12 col-md-5 wrapper3">
                         <div class="searchbar">
-                            <div class="search-form" >
+                            <div class="search-form">
                                 <form @submit.prevent="searchNFTById">
                                     <div class="form-group">
                                         <input class="form-control" type="text" placeholder="Search by HV-MTL ID"
@@ -41,17 +41,13 @@
                                     </div>
 
                                 </form>
-                                
                             </div>
                             <!-- <div class="menubox">
                         <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span
                                 style="float:left; margin:16px;">Search</span></div>
                     </div> -->
                         </div>
-                        
-                    </div>
-                    <div class="box-new">
-                        <div class="text" @click="openElectronWindow">Companion</div>
+
                     </div>
                 </div>
 
@@ -231,7 +227,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-1" v-if="selectedTab !== 'watchlist'">
-                                                    <button @click="saveId(nft.tokenId)">S</button>
+                                                    <button @click="saveId(nft.tokenId)" class="ellipse">
+                                                        <i class="gg-bookmark" style="color: #0983F1 !important;"></i> 
+                                                    </button>
+                                                    <!-- <button class="custom-button"> -->
+                                                        <!-- <div class="ellipse">
+                                                            <div class="bookmark">
+                                                            <i class="gg-bookmark" style="color: #0983F1 !important;"></i> 
+                                                        </div> -->
+                                                        <!-- </div> -->
+                                                        
+                                                    <!-- </button> -->
                                                 </div>
                                             </div>
                                             <!-- <div class="topside">
@@ -253,7 +259,7 @@
                                     </div>
                                 </div>
                                 <div id="page_links" class="pt-3">
-                                    <nav aria-label="Page navigation example" v-if="selectedTab !== 'watchlist'">
+                                    <nav aria-label="Page navigation example" v-if="selectedTab == 'hv'">
                                         <ul class="pagination" :class="{ disabled_pagination: isSearchActive }">
                                             <li class="page-item">
                                                 <button @click="loadMoreData" class="page-link">More</button>
@@ -261,45 +267,7 @@
                                         </ul>
                                     </nav>
                                 </div>
-                                <!-- <div id="page_links" class="pt-3" v-if="!isFiltered && !isLoading">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                                <a href="#" class="page-link"
-                                                    :class="{ disabled: currentPage === 1 || isSearchActive }"
-                                                    @click.prevent="isSearchActive ? null : gotoPage(1)">First</a>
-                                            </li>
-                                            <li class="page-item" v-if="visiblePages[0] > 1">
-                                                <a href="#" class="page-link" :class="{ disabled: isSearchActive }"
-                                                    @click.prevent="isSearchActive ? null : gotoPage(visiblePages[0] - 1)">...</a>
-                                            </li>
-                                            <li class="page-item" v-for="page in visiblePages" :key="page">
-                                                <a href="#" class="page-link"
-                                                    :class="{ active: currentPage === page, disabled: isSearchActive }"
-                                                    @click.prevent="isSearchActive ? null : gotoPage(page)">{{ page }}</a>
-                                            </li>
-                                            <li class="page-item"
-                                                v-if="visiblePages[visiblePages.length - 1] < totalPages && !isSearchActive">
-                                                <a href="#" class="page-link" :class="{ disabled: isSearchActive }"
-                                                    @click.prevent="isSearchActive ? null : gotoPage(visiblePages[visiblePages.length - 1] + 1)">...</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link"
-                                                    :class="{ disabled: currentPage === totalPages || isSearchActive }"
-                                                    @click.prevent="isSearchActive ? null : gotoPage(totalPages)">Last</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div> -->
-                                <!-- <div id="page_links" class="pt-3" v-if="isFiltered">
-                                <nav aria-label="Page navigation example">
-                                <ul class="pagination" style="justify-content: right!important;">
-                                    <li class="page-item">
-                                    <a href="#" class="page-link">Read more</a>
-                                    </li>
-                                </ul>
-                                </nav>
-                            </div> -->
+
                             </div>
                         </div>
                         <div class="col-md-6 col-12 nft-list">
@@ -363,14 +331,6 @@ export default {
 
     },
     methods: {
-        async openElectronWindow() {
-            try {
-                const response = await axios.get('http://localhost:3000/open-electron');
-                console.log(response.data); // 这里将输出 "Electron window opened!"
-            } catch (error) {
-                console.error('Failed to open Electron window:', error);
-            }
-        },
         saveId(id) {
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
             const vm = this;
@@ -426,24 +386,6 @@ export default {
                         icon: nft.marketplace_image
                     });
                 });
-
-
-                if (nftsData.length > 0) {
-                    const lastNft = nftsData[nftsData.length - 1];
-                    if (lastNft.current_season === 's1') {
-                        this.lastTId = nftsData[nftsData.length - 1].s1;
-                    } else if (lastNft.current_season === 's2') {
-                        this.lastTId = nftsData[nftsData.length - 1].s2;
-                    } else if (lastNft.current_season === 's3') {
-                        this.lastTId = nftsData[nftsData.length - 1].s3;
-                    } else if (lastNft.current_season === 's4') {
-                        this.lastTId = nftsData[nftsData.length - 1].s4;
-                    } else if (lastNft.current_season === 's5') {
-                        this.lastTId = nftsData[nftsData.length - 1].s5;
-                    } else if (lastNft.current_season === 's6') {
-                        this.lastTId = nftsData[nftsData.length - 1].s6;
-                    }
-                }
             }
         },
         async fetchNFTsByPriceList() {
@@ -467,24 +409,6 @@ export default {
                         icon: nft.marketplace_image
                     });
                 });
-
-
-                if (nftsData.length > 0) {
-                    const lastNft = nftsData[nftsData.length - 1];
-                    if (lastNft.current_season === 's1') {
-                        this.lastTId = nftsData[nftsData.length - 1].s1;
-                    } else if (lastNft.current_season === 's2') {
-                        this.lastTId = nftsData[nftsData.length - 1].s2;
-                    } else if (lastNft.current_season === 's3') {
-                        this.lastTId = nftsData[nftsData.length - 1].s3;
-                    } else if (lastNft.current_season === 's4') {
-                        this.lastTId = nftsData[nftsData.length - 1].s4;
-                    } else if (lastNft.current_season === 's5') {
-                        this.lastTId = nftsData[nftsData.length - 1].s5;
-                    } else if (lastNft.current_season === 's6') {
-                        this.lastTId = nftsData[nftsData.length - 1].s6;
-                    }
-                }
             }
         },
         handleCheckboxChange(event) {
@@ -699,6 +623,48 @@ export default {
 </script>
 
 <style>
+
+.ellipse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0px;
+    width: 36px;
+    height: 36px;
+    left: 0;
+    top: 0;
+    background: #EBF2F8;
+    border-radius: 50%;
+}
+
+.gg-bookmark,
+.gg-bookmark::after {
+ display: block;
+ box-sizing: border-box;
+}
+
+.gg-bookmark {
+ border: 2px solid;
+ border-bottom: 0;
+ overflow: hidden;
+ position: relative;
+ transform: scale(var(--ggs,1));
+ width: 14px;
+ height: 20px
+}
+
+.gg-bookmark::after {
+ content: "";
+ position: absolute;
+ width: 12px;
+ height: 12px;
+ border-top: 2px solid;
+ border-right: 2px solid;
+ transform: rotate(-45deg);
+ top: 12px;
+ left: -1px
+} 
+
 .disabled_pagination {
     display: none !important;
 }
