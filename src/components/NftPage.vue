@@ -673,7 +673,9 @@ export default {
 
             this.isLoading = true;
             this.isSearchActive = true;
-
+            if (this.searchId == ""){
+                this.isSearchActive = false;
+            }
             try {
                 const response = await axios.get(`https://forge.e2app.asia/api/getnftapi?search=${this.searchId}`);
                 const nftsData = response.data;
