@@ -19,7 +19,7 @@
         <div class="position-relative">
             <div v-if="$root.isFetching"
                 class="position-fixed h-100 w-100 top-0 d-flex align-items-center justify-content-center"
-                style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999;">
+                style="background-color: rgba(0, 0, 0, 0.2); z-index: 9999; top: 0;right: 0;bottom: 0;left: 0;">
                 <div class="text-center" style="color:black">Loading...</div>
 
             </div>
