@@ -361,8 +361,8 @@ export default {
         async getNftInfo(tokenIDs) {
             let chunks = [];
             var self = this;
-            chunks = tokenIDs.splice(0, 25);
-            // console.log(tokenIDs);
+            chunks = tokenIDs.splice(0, 20);
+            // console.log("b", tokenIDs);
 
             let tokenIdsStr = chunks.join('&token_ids=');
             const options = {
@@ -388,6 +388,7 @@ export default {
 
                         })
                     });
+                    self.tmpList.sort((a, b) => a.rank - b.rank);
                     if (tokenIDs.length > 0) {
                         self.getNftInfo(tokenIDs);
                     }
@@ -437,6 +438,7 @@ export default {
                 self.tmpList.forEach(el => {
                     tokenIDs.push(el.mechId);
                 });
+                // console.log("a", tokenIDs);
                 self.getNftInfo(tokenIDs);
             }
         },
