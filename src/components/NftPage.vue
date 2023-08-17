@@ -136,9 +136,10 @@
 
                 <div class="w-100 main-content" id="main-content" style="background: #fff!important;padding-top: 56px;">
                     <div class="row justify-content-center">
-                        <div class="results col-md-6 col-12 nft-list nft-item" id="content">
+                        <div class="results col-md-7 col-12 nft-list nft-item" id="content">
                             <div class="tab">
-                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'hv' }" @click="selectedTab = 'hv'">HV</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'hv' }"
+                                    @click="selectedTab = 'hv'">HV</a>
                                 <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'watchlist' }"
                                     @click="selectedTab = 'watchlist'">Watchlist</a>
                                 <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'ranking' }"
@@ -221,22 +222,24 @@
                                                 <div class="col-2">
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
                                                     <div class="new-marketprice" v-if="nft.price">
-                                                        <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp" alt="NFT Image">
-                                                        <img v-else-if="nft.icon === 'opensea.webp'" src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                        <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp"
+                                                            alt="NFT Image">
+                                                        <img v-else-if="nft.icon === 'opensea.webp'"
+                                                            src="../assets/icon/opensea.webp" alt="NFT Image">
                                                         <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-1" v-if="selectedTab !== 'watchlist'">
                                                     <button @click="saveId(nft.tokenId)" class="ellipse">
-                                                        <i class="gg-bookmark" style="color: #0983F1 !important;"></i> 
+                                                        <i class="gg-bookmark" style="color: #0983F1 !important;"></i>
                                                     </button>
                                                     <!-- <button class="custom-button"> -->
-                                                        <!-- <div class="ellipse">
+                                                    <!-- <div class="ellipse">
                                                             <div class="bookmark">
                                                             <i class="gg-bookmark" style="color: #0983F1 !important;"></i> 
                                                         </div> -->
-                                                        <!-- </div> -->
-                                                        
+                                                    <!-- </div> -->
+
                                                     <!-- </button> -->
                                                 </div>
                                             </div>
@@ -270,7 +273,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-6 col-12 nft-list">
+                        <div class="col-md-5 col-12 nft-list">
                             <NftDetails :selectedID="selectedID"></NftDetails>
                         </div>
                     </div>
@@ -285,7 +288,8 @@
 import axios from 'axios';
 // import Header from '../components/HeaderSection.vue';
 import NftDetails from './NftModules.vue'
-import { HV_MTL, MO_API_KEY } from '../main.js';
+import { io } from "socket.io-client";
+import { OPENSEA_API_KEY, HV_MTL, MO_API_KEY } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -304,6 +308,11 @@ export default {
             },
             collectionData: null,
             selectedTab: 'hv',
+
+            connection: null,
+            socket: null,
+            itemID: 0,
+            tmpList: [],
 
             currentPage: 1,
             limit: 100,
@@ -324,6 +333,7 @@ export default {
 
         },
         selectedNfts() {
+            // this.checkItem();
             console.log('trigger');
         }
     },
@@ -331,10 +341,125 @@ export default {
 
     },
     methods: {
+        intitialItem() {
+            this.dataList.forEach((item) => {
+                if (item["show"] == null) {
+                    item["show"] = true;
+                }
+            });
+        },
+        checkItem() {
+            this.dataList.forEach((item) => {
+                if (!item["show"]) {
+                    console.log("trigger");
+                    setTimeout(function () {
+                        item["show"] = true;
+                    }, 10);
+                }
+            });
+        },
+        async getNftInfo(tokenIDs) {
+            let chunks = [];
+            var self = this;
+            chunks = tokenIDs.splice(0, 25);
+            // console.log(tokenIDs);
+
+            let tokenIdsStr = chunks.join('&token_ids=');
+            const options = {
+                method: 'GET',
+                url: `https://api.opensea.io/api/v1/assets?asset_contract_address=${HV_MTL}&token_ids=${tokenIdsStr}`,
+                headers: { 'X-API-KEY': OPENSEA_API_KEY }
+            };
+
+            axios.request(options)
+                .then(response => {
+                    const assets = response.data.assets;
+                    assets.forEach(asset => {
+                        const tokenId = asset.token_id;
+                        self.tmpList.forEach(nft => {
+                            if (nft.mechId == tokenId) {
+                                nft['image'] = asset.image_thumbnail_url;
+                                nft['s3'] = nft.rank;
+                                nft['tokenId'] = nft.mechId;
+                                // console.log(nft);
+
+                            }
+
+
+                        })
+                    });
+                    if (tokenIDs.length > 0) {
+                        self.getNftInfo(tokenIDs);
+                    }
+                    else {
+                        self.selectedNfts['ranking'] = self.tmpList;
+                    }
+                    console.log(self.selectedNfts['ranking']);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        switchList(data) {
+            var self = this;
+            var _list = [];
+            if (!(data.toString() === this.selectedNfts['ranking'].toString())) {
+                data.forEach((el) => {
+                    // console.log(el);
+                    var tmp = el;
+                    var isDuplicate = false;
+                    for (let i = 0; i < self.selectedNfts['ranking'].length; i++) {
+                        if (tmp.id == self.selectedNfts['ranking'][i]["id"]) {
+                            isDuplicate = true;
+                        }
+                    }
+
+                    if (!isDuplicate) {
+
+                        self.itemID += 1;
+                        tmp["itemID"] = self.itemID;
+                        tmp["show"] = false;
+                        _list.unshift(tmp);
+                        // self.getNftInfo();
+                    }
+                    // console.log(JSON.parse(el.contract_detail));
+                });
+                _list.sort(function (a, b) {
+                    if (parseInt(a.score) < parseInt(b.score)) {
+                        return 1;
+                    }
+                    if (parseInt(a.score) > parseInt(b.score)) {
+                        return -1;
+                    }
+                });
+                self.tmpList = _list;
+                let tokenIDs = [];
+                self.tmpList.forEach(el => {
+                    tokenIDs.push(el.mechId);
+                });
+                self.getNftInfo(tokenIDs);
+            }
+        },
+        initialSocket() {
+            this.socket = io("http://172.104.48.242:4567");
+            var self = this;
+
+            this.socket.on("serverTime", function (data) {
+                // console.log(data);
+                var games = data;
+                // var games = JSON.parse(JSON.parse(dd).data).games;
+                // console.log(games);
+                if (games) {
+                    self.switchList(games);
+
+                }
+
+            });
+        },
         saveId(id) {
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
             const vm = this;
-            db.transaction(function(tx) {
+            db.transaction(function (tx) {
                 tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
                 tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
                     if (result.rows.length === 0) {
@@ -352,13 +477,13 @@ export default {
 
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
             const savedIds = [];
-            
+
             db.transaction(tx => {
                 tx.executeSql('SELECT id FROM ids', [], (tx, result) => {
                     const rows = result.rows;
                     for (let i = 0; i < rows.length; i++) {
-                    const savedId = rows.item(i).id;
-                    savedIds.push(savedId);
+                        const savedId = rows.item(i).id;
+                        savedIds.push(savedId);
                     }
                     this.fetchNFTsBySavedIds(savedIds);
                 });
@@ -391,7 +516,7 @@ export default {
         async fetchNFTsByPriceList() {
             const response = await axios.get(`https://forge.e2app.asia/api/getpricelist`);
             const nftsData = response.data.data;
- 
+
             if (nftsData.length > 0) {
                 nftsData.forEach(nft => {
                     this.selectedNfts["price"].push({
@@ -569,7 +694,7 @@ export default {
                     });
 
                 });
-                
+
             } catch (error) {
                 console.error('搜索NFT时出错：', error);
             } finally {
@@ -614,6 +739,7 @@ export default {
         }
     },
     mounted() {
+        this.initialSocket();
         this.fetchNFTs();
         this.Watchlist();
         this.fetchNFTsByPriceList();
@@ -623,7 +749,6 @@ export default {
 </script>
 
 <style>
-
 .ellipse {
     display: flex;
     justify-content: center;
@@ -639,31 +764,31 @@ export default {
 
 .gg-bookmark,
 .gg-bookmark::after {
- display: block;
- box-sizing: border-box;
+    display: block;
+    box-sizing: border-box;
 }
 
 .gg-bookmark {
- border: 2px solid;
- border-bottom: 0;
- overflow: hidden;
- position: relative;
- transform: scale(var(--ggs,1));
- width: 14px;
- height: 20px
+    border: 2px solid;
+    border-bottom: 0;
+    overflow: hidden;
+    position: relative;
+    transform: scale(var(--ggs, 1));
+    width: 14px;
+    height: 20px
 }
 
 .gg-bookmark::after {
- content: "";
- position: absolute;
- width: 12px;
- height: 12px;
- border-top: 2px solid;
- border-right: 2px solid;
- transform: rotate(-45deg);
- top: 12px;
- left: -1px
-} 
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid;
+    border-right: 2px solid;
+    transform: rotate(-45deg);
+    top: 12px;
+    left: -1px
+}
 
 .disabled_pagination {
     display: none !important;

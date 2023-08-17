@@ -2,6 +2,9 @@
     <div class="descrip-box">
         <div class=" align-items-center">
             <div class=" plots">
+                <div class="vote">
+                    Total vote: {{ score }}
+                </div>
                 <div class="d-flex descrip-child1 mx-0">
                     <div class="col-3 px-0">
                         <img :src="imageUrl" class="deed-image mb-0">
@@ -156,6 +159,7 @@ export default {
             traits: [],
             amps: [],
             imageUrl: '',
+            score: 0,
             openSeaFloorPrice: null,
             owners: [],
             events: [],
@@ -206,6 +210,7 @@ export default {
             this.$root.isFetching = true;
             axios.get(`${API_URL}gettiles?id=${this.urlId}`)
                 .then(response => {
+                    this.score = response.data.score;
                     this.tiles = response.data.tiles;
                     this.traits = response.data.traits;
                     this.states = response.data.state;
