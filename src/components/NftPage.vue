@@ -169,7 +169,7 @@
                                         <div class="row ">
                                             <div class="col-1 text-center">Rank</div>
                                             <div class="col-2">HV</div>
-                                            <div class="col-9" v-if="selectedTab == 'ranking'">Scores</div>
+                                            <div class="col-9" v-if="selectedTab == 'ranking'">Today votes</div>
                                             <div class="col-6" v-else>Season Ranking</div>
                                             <div class="col-3" v-if="selectedTab != 'ranking'">Price</div>
 
