@@ -23,13 +23,13 @@
                 <div class="text-center" style="color:black">Loading...</div>
 
             </div>
-            <div class="d-flex align-items-center main-content py-4">
+            <div class="d-flex align-items-center justify-content-between main-content py-4">
                 <div style="width: 260px;">
-                    <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="45%">
+                    <img class="d-block" src="../assets/logo.png" alt="" width="45%">
                 </div>
-
-
+                <button class="btn btn-primary" @click="openElectronWindow">Companion</button>
             </div>
+
             <div class="d-flex align-items-start" method="get" style="">
 
                 <input type="hidden" name="page" id="currentPage" value="1">
@@ -361,6 +361,14 @@ export default {
 
     },
     methods: {
+        async openElectronWindow() {
+            try {
+                const response = await axios.get('http://localhost:3000/open-electron');
+                console.log(response.data); // 这里将输出 "Electron window opened!"
+            } catch (error) {
+                console.error('Failed to open Electron window:', error);
+            }
+        },
         intitialItem() {
             this.dataList.forEach((item) => {
                 if (item["show"] == null) {
