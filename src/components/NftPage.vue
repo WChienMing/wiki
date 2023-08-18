@@ -23,36 +23,15 @@
                 <div class="text-center" style="color:black">Loading...</div>
 
             </div>
-            <div class="d-flex align-items-center main-content">
+            <div class="d-flex align-items-center main-content py-4">
                 <div style="width: 260px;">
                     <img class="d-block mr-auto" src="../assets/logo.png" alt="" width="45%">
                 </div>
-                <div class="row flex-grow-1 justify-content-start">
-                    <!-- <div class="menubox">
-                    <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
-                </div> -->
-                    <div class="col-12 col-md-5 wrapper3">
-                        <div class="searchbar">
-                            <div class="search-form">
-                                <form @submit.prevent="searchNFTById">
-                                    <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Search by HV-MTL ID"
-                                            aria-label="Suche" name="quicksearch" v-model="searchId">
-                                    </div>
 
-                                </form>
-                            </div>
-                            <!-- <div class="menubox">
-                        <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span
-                                style="float:left; margin:16px;">Search</span></div>
-                    </div> -->
-                        </div>
-
-                    </div>
-                </div>
 
             </div>
             <div class="d-flex align-items-start" method="get" style="">
+
                 <input type="hidden" name="page" id="currentPage" value="1">
                 <!--<div class="w-360px sidebar sticky-top">
                     <div class="wrapper center-block ">
@@ -134,9 +113,35 @@
                     </div>
                 </div> -->
 
-                <div class="w-100 main-content" id="main-content" style="background: #fff!important;padding-top: 56px;">
+                <div class="w-100 main-content pt-0" id="main-content" style="background: #fff!important;">
+
                     <div class="row justify-content-center">
                         <div class="results col-md-7 col-12 nft-list nft-item" id="content">
+                            <div class="row flex-grow-1 justify-content-start">
+                                <!-- <div class="menubox">
+                    <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
+                </div> --> <div class="col-12 col-md-1"></div>
+                                <div class="col-12 col-md-7 wrapper3">
+                                    <div class="searchbar">
+                                        <div class="search-form">
+                                            <form @submit.prevent="searchNFTById">
+                                                <div class="form-group">
+                                                    <img src="../assets/icon/search.png">
+                                                    <input class="form-control" type="text"
+                                                        placeholder="Search by HV-MTL ID" aria-label="Suche"
+                                                        name="quicksearch" v-model="searchId">
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- <div class="menubox">
+                        <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span
+                                style="float:left; margin:16px;">Search</span></div>
+                    </div> -->
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="tab">
                                 <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'hv' }"
                                     @click="selectedTab = 'hv'">HV</a>
@@ -164,8 +169,9 @@
                                         <div class="row ">
                                             <div class="col-1 text-center">Rank</div>
                                             <div class="col-2">HV</div>
-                                            <div class="col-6">Season Ranking</div>
-                                            <div class="col-3">Price</div>
+                                            <div class="col-9" v-if="selectedTab == 'ranking'">Scores</div>
+                                            <div class="col-6" v-else>Season Ranking</div>
+                                            <div class="col-3" v-if="selectedTab != 'ranking'">Price</div>
 
                                         </div>
 
@@ -187,7 +193,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="col-6 d-flex">
+                                                <div class="col-6 d-flex" v-if="selectedTab != 'ranking'">
                                                     <div class="flex-grow-1"
                                                         style="width: 100%;overflow-x: scroll;white-space: nowrap;">
                                                         <!-- <div class="box-new">
@@ -219,7 +225,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-8 d-flex" v-else>
+                                                    <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's1' }">
+                                                        <div class="text">{{ nft.score }}</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-2" v-if="selectedTab != 'ranking'">
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
                                                     <div class="new-marketprice" v-if="nft.price">
                                                         <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp"
@@ -269,7 +281,8 @@
                                             </li>
                                         </ul>
                                     </nav>
-                                    <nav aria-label="Page navigation example" v-if="selectedTab == 'price' && this.pricepage !== ''">
+                                    <nav aria-label="Page navigation example"
+                                        v-if="selectedTab == 'price' && this.pricepage !== ''">
                                         <ul class="pagination" :class="{ disabled_pagination: isSearchActive }">
                                             <li class="page-item">
                                                 <button @click="loadMorePrice" class="page-link">More</button>
@@ -529,9 +542,9 @@ export default {
             const meta = response.data.meta;
 
 
-            if (meta.totalPages != meta.currentPage && meta.totalPages > meta.currentPage){
+            if (meta.totalPages != meta.currentPage && meta.totalPages > meta.currentPage) {
                 this.pricepage = meta.currentPage + 1;
-            }else{
+            } else {
                 this.pricepage = '';
             }
 
@@ -693,7 +706,7 @@ export default {
 
             this.isLoading = true;
             this.isSearchActive = true;
-            if (this.searchId == ""){
+            if (this.searchId == "") {
                 this.isSearchActive = false;
             }
             try {
@@ -1086,4 +1099,5 @@ export default {
     footer {
         padding-bottom: 20px;
     }
-}</style>
+}
+</style>
