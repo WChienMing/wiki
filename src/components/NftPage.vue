@@ -655,7 +655,7 @@ export default {
                         icon: nft.marketplace_image
                     });
                 });
-                console.log(this.selectedNfts[this.selectedTab]);
+                // console.log(this.selectedNfts[this.selectedTab]);
                 if (this.selectedNfts[this.selectedTab].length > 0) {
                     this.selectedID = this.selectedNfts[this.selectedTab][0].tokenId;
 
