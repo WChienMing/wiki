@@ -232,13 +232,14 @@
                                                 </div>
                                                 <div class="col-2" v-if="selectedTab != 'ranking'">
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
-                                                    <div class="new-marketprice" v-if="nft.price">
-                                                        <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp"
-                                                            alt="NFT Image">
-                                                        <img v-else-if="nft.icon === 'opensea.webp'"
-                                                            src="../assets/icon/opensea.webp" alt="NFT Image">
-                                                        <span>{{ nft.price }} {{ nft.floor_currency }}</span>
-                                                    </div>
+                                                    <a :href="getMarketURL(nft)" target="_blank" rel="noopener noreferrer">
+                                                        <div class="new-marketprice" v-if="nft.price">
+                                                            <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'opensea.webp'" src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <span>{{ nft.price }} {{ nft.floor_currency }}</span>
+                                                        </div>
+                                                    </a>
+                                                    
                                                 </div>
                                                 <div class="col-1" v-if="selectedTab !== 'watchlist'">
                                                     <button @click="saveId(nft.tokenId)" class="ellipse">
@@ -361,6 +362,16 @@ export default {
 
     },
     methods: {
+        getMarketURL(nft) {
+            const id = nft.tokenId;
+            if (nft.icon === 'blur.webp') {
+                return `https://blur.io/asset/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
+            } else if (nft.icon === 'opensea.webp') {
+                return `https://opensea.io/assets/ethereum/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
+            } else {
+                return '#';
+            }
+        },
         intitialItem() {
             this.dataList.forEach((item) => {
                 if (item["show"] == null) {
