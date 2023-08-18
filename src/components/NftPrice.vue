@@ -136,11 +136,11 @@
                                                         </div>
                                                     </a>
                                                 </div>
-                                                <div class="col-1" v-if="selectedTab !== 'watchlist'">
+                                                <!-- <div class="col-1" v-if="selectedTab !== 'watchlist'">
                                                     <button @click="saveId(nft.tokenId)" class="ellipse">
                                                         <i class="gg-bookmark" style="color: #0983F1 !important;"></i>
                                                     </button>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </a>
                                     </div>
