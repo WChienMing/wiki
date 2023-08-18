@@ -312,7 +312,7 @@ import axios from 'axios';
 // import Header from '../components/HeaderSection.vue';
 import NftDetails from './NftModules.vue'
 import { io } from "socket.io-client";
-import { OPENSEA_API_KEY, HV_MTL, MO_API_KEY } from '../main.js';
+import { HV_MTL, MO_API_KEY } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -399,49 +399,6 @@ export default {
                     }, 10);
                 }
             });
-        },
-        async getNftInfo(tokenIDs) {
-            let chunks = [];
-            var self = this;
-            chunks = tokenIDs.splice(0, 20);
-            // console.log("b", tokenIDs);
-
-            let tokenIdsStr = chunks.join('&token_ids=');
-            const options = {
-                method: 'GET',
-                url: `https://api.opensea.io/api/v1/assets?asset_contract_address=${HV_MTL}&token_ids=${tokenIdsStr}`,
-                headers: { 'X-API-KEY': OPENSEA_API_KEY }
-            };
-
-            axios.request(options)
-                .then(response => {
-                    const assets = response.data.assets;
-                    assets.forEach(asset => {
-                        const tokenId = asset.token_id;
-                        self.tmpList.forEach(nft => {
-                            if (nft.mechId == tokenId) {
-                                nft['image'] = asset.image_thumbnail_url;
-                                nft['s3'] = nft.rank;
-                                nft['tokenId'] = nft.mechId;
-                                // console.log(nft);
-
-                            }
-
-
-                        })
-                    });
-                    self.tmpList.sort((a, b) => a.rank - b.rank);
-                    if (tokenIDs.length > 0) {
-                        self.getNftInfo(tokenIDs);
-                    }
-                    else {
-                        self.selectedNfts['ranking'] = self.tmpList;
-                    }
-                    console.log(self.selectedNfts['ranking']);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
         },
         switchList(data) {
             var self = this;
