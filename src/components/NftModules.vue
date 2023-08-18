@@ -3,7 +3,7 @@
         <div class=" align-items-center">
             <div class=" plots">
                 <div class="vote">
-                    Today votes: {{ score }}
+                    Today votes: {{ (score === null || score === 0) ? '-' : score }}
                 </div>
                 <div class="d-flex descrip-child1 mx-0">
                     <div class="col-3 px-0">
@@ -145,8 +145,8 @@
     
 <script>
 import axios from 'axios';
-import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, API_URL } from '../main.js';
-
+// import { OPENSEA_API_KEY, ALCHEMY_API_KEY, HV_MTL, API_URL } from '../main.js';
+import { API_URL } from '../main.js';
 export default {
     name: 'NftDetails',
     props: ['selectedID'],
@@ -216,6 +216,7 @@ export default {
                     this.states = response.data.state;
                     this.amps = response.data.amp;
                     this.$root.isFetching = false;
+                    this.imageUrl = response.data.image;
                 })
                 .catch(error => {
                     console.error(error);
@@ -288,84 +289,84 @@ export default {
             this.urlId = id;
         },
 
-        fetchTraits() {
-            const options = {
-                method: 'GET',
-                url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
-                params: { include_orders: 'false' },
-                headers: { 'X-API-KEY': OPENSEA_API_KEY },
-            };
+        // fetchTraits() {
+        //     const options = {
+        //         method: 'GET',
+        //         url: `https://api.opensea.io/api/v1/asset/${HV_MTL}/${this.urlId}`,
+        //         params: { include_orders: 'false' },
+        //         headers: { 'X-API-KEY': OPENSEA_API_KEY },
+        //     };
 
-            const openSeaFloorPriceOptions = {
-                method: 'GET',
-                url: `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getFloorPrice`,
-                params: { contractAddress: HV_MTL },
-                headers: { accept: 'application/json' },
-            };
+        //     const openSeaFloorPriceOptions = {
+        //         method: 'GET',
+        //         url: `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getFloorPrice`,
+        //         params: { contractAddress: HV_MTL },
+        //         headers: { accept: 'application/json' },
+        //     };
 
-            const ownersOptions = {
-                method: 'GET',
-                url: `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getOwnersForToken`,
-                params: { contractAddress: HV_MTL, tokenId: this.urlId },
-                headers: { accept: 'application/json' },
-            };
+        //     const ownersOptions = {
+        //         method: 'GET',
+        //         url: `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API_KEY}/getOwnersForToken`,
+        //         params: { contractAddress: HV_MTL, tokenId: this.urlId },
+        //         headers: { accept: 'application/json' },
+        //     };
 
-            const fetchTraitsPromise = axios.request(options);
-            const openSeaFloorPricePromise = axios.request(openSeaFloorPriceOptions);
-            const ownersPromise = axios.request(ownersOptions);
+        //     const fetchTraitsPromise = axios.request(options);
+        //     const openSeaFloorPricePromise = axios.request(openSeaFloorPriceOptions);
+        //     const ownersPromise = axios.request(ownersOptions);
 
-            axios
-                .all([fetchTraitsPromise, openSeaFloorPricePromise, ownersPromise])
-                .then(
-                    axios.spread((traitsResponse, floorPriceResponse, ownersResponse) => {
-                        // this.traits = traitsResponse.data.traits;
-                        this.imageUrl = traitsResponse.data.image_url;
+        //     axios
+        //         .all([fetchTraitsPromise, openSeaFloorPricePromise, ownersPromise])
+        //         .then(
+        //             axios.spread((traitsResponse, floorPriceResponse, ownersResponse) => {
+        //                 // this.traits = traitsResponse.data.traits;
+        //                 this.imageUrl = traitsResponse.data.image_url;
 
-                        const openSeaFloorPrice = floorPriceResponse.data.openSea.floorPrice;
-                        this.openSeaFloorPrice = openSeaFloorPrice;
+        //                 const openSeaFloorPrice = floorPriceResponse.data.openSea.floorPrice;
+        //                 this.openSeaFloorPrice = openSeaFloorPrice;
 
-                        const owners = ownersResponse.data.owners;
-                        this.owners = owners;
-                    })
-                )
-                .catch((error) => {
-                    console.error(error);
-                });
-        },
-        fetchEvents() {
-            if (this.isFetching || this.noMoreData) return;
+        //                 const owners = ownersResponse.data.owners;
+        //                 this.owners = owners;
+        //             })
+        //         )
+        //         .catch((error) => {
+        //             console.error(error);
+        //         });
+        // },
+        // fetchEvents() {
+        //     if (this.isFetching || this.noMoreData) return;
 
-            this.isFetching = true;
+        //     this.isFetching = true;
 
-            const eventsOptions = {
-                method: 'GET',
-                url: 'https://api.opensea.io/api/v1/events',
-                params: {
-                    only_opensea: 'true',
-                    token_id: this.urlId,
-                    asset_contract_address: HV_MTL,
-                    event_type: 'transfer',
-                    cursor: this.nextCursor,
-                },
-                headers: { 'X-API-KEY': OPENSEA_API_KEY },
-            };
+        //     const eventsOptions = {
+        //         method: 'GET',
+        //         url: 'https://api.opensea.io/api/v1/events',
+        //         params: {
+        //             only_opensea: 'true',
+        //             token_id: this.urlId,
+        //             asset_contract_address: HV_MTL,
+        //             event_type: 'transfer',
+        //             cursor: this.nextCursor,
+        //         },
+        //         headers: { 'X-API-KEY': OPENSEA_API_KEY },
+        //     };
 
-            axios
-                .request(eventsOptions)
-                .then(response => {
-                    this.events = [...this.events, ...response.data.asset_events];
-                    this.nextCursor = response.data.next;
-                    this.isFetching = false;
+        //     axios
+        //         .request(eventsOptions)
+        //         .then(response => {
+        //             this.events = [...this.events, ...response.data.asset_events];
+        //             this.nextCursor = response.data.next;
+        //             this.isFetching = false;
 
-                    if (!response.data.next) {
-                        this.noMoreData = true;
-                    }
+        //             if (!response.data.next) {
+        //                 this.noMoreData = true;
+        //             }
 
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        // },
         handleScroll(e) {
             const { target: { scrollTop, clientHeight, scrollHeight } } = e;
 
@@ -379,8 +380,8 @@ export default {
             console.log(this.selectedID);
             this.urlId = this.selectedID;
             // this.getUrlId();
-            this.fetchTraits();
-            this.fetchEvents();
+            // this.fetchTraits();
+            // this.fetchEvents();
             this.fetchTiles();
             this.$nextTick(() => {
                 // const activityDiv = document.querySelector('.item-activity');

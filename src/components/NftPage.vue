@@ -120,7 +120,8 @@
                             <div class="row flex-grow-1 justify-content-start">
                                 <!-- <div class="menubox">
                     <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
-                </div> --> <div class="col-12 col-md-1"></div>
+                </div> -->
+                                <div class="col-12 col-md-1"></div>
                                 <div class="col-12 col-md-7 wrapper3">
                                     <div class="searchbar">
                                         <div class="search-form">
@@ -234,12 +235,14 @@
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
                                                     <a :href="getMarketURL(nft)" target="_blank" rel="noopener noreferrer">
                                                         <div class="new-marketprice" v-if="nft.price">
-                                                            <img v-if="nft.icon === 'blur.webp'" src="../assets/icon/blur.webp" alt="NFT Image">
-                                                            <img v-else-if="nft.icon === 'opensea.webp'" src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <img v-if="nft.icon === 'blur.webp'"
+                                                                src="../assets/icon/blur.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'opensea.webp'"
+                                                                src="../assets/icon/opensea.webp" alt="NFT Image">
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
-                                                    
+
                                                 </div>
                                                 <div class="col-1" v-if="selectedTab !== 'watchlist'">
                                                     <button @click="saveId(nft.tokenId)" class="ellipse">
@@ -367,7 +370,8 @@ export default {
                 const response = await axios.get('http://hv-mtl.info:5000/open-electron');
                 console.log(response.data); // 这里将输出 "Electron window opened!"
             } catch (error) {
-                console.error('Failed to open Electron window:', error);}
+                console.error('Failed to open Electron window:', error);
+            }
         },
         getMarketURL(nft) {
             const id = nft.tokenId;
@@ -442,53 +446,66 @@ export default {
         switchList(data) {
             var self = this;
             var _list = [];
-            if (!(data.toString() === this.selectedNfts['ranking'].toString())) {
-                data.forEach((el) => {
-                    // console.log(el);
-                    var tmp = el;
-                    var isDuplicate = false;
-                    for (let i = 0; i < self.selectedNfts['ranking'].length; i++) {
-                        if (tmp.id == self.selectedNfts['ranking'][i]["id"]) {
-                            isDuplicate = true;
-                        }
+            // if (!(data.toString() === this.selectedNfts['ranking'].toString())) {
+            data.forEach((el) => {
+                // console.log(el);
+                var tmp = el;
+                var isDuplicate = false;
+                for (let i = 0; i < self.selectedNfts['ranking'].length; i++) {
+                    if (tmp.id == self.selectedNfts['ranking'][i]["id"]) {
+                        isDuplicate = true;
+                        self.selectedNfts['ranking'][i] = tmp;
+                        // console.log(tmp);
                     }
+                }
 
-                    if (!isDuplicate) {
+                if (!isDuplicate) {
 
-                        self.itemID += 1;
-                        tmp["itemID"] = self.itemID;
-                        tmp["show"] = false;
-                        _list.unshift(tmp);
-                        // self.getNftInfo();
-                    }
-                    // console.log(JSON.parse(el.contract_detail));
-                });
-                _list.sort(function (a, b) {
-                    if (parseInt(a.score) < parseInt(b.score)) {
-                        return 1;
-                    }
-                    if (parseInt(a.score) > parseInt(b.score)) {
-                        return -1;
-                    }
-                });
+                    self.itemID += 1;
+                    tmp["itemID"] = self.itemID;
+                    tmp["show"] = false;
+                    _list.unshift(tmp);
+                    // self.getNftInfo();
+                }
+                // console.log(JSON.parse(el.contract_detail));
+            });
+            _list.sort(function (a, b) {
+                if (parseInt(a.score) < parseInt(b.score)) {
+                    return 1;
+                }
+                if (parseInt(a.score) > parseInt(b.score)) {
+                    return -1;
+                }
+            });
+            if (_list.length > 0) {
                 self.tmpList = _list;
-                let tokenIDs = [];
-                self.tmpList.forEach(el => {
-                    tokenIDs.push(el.mechId);
-                });
-                // console.log("a", tokenIDs);
-                self.getNftInfo(tokenIDs);
+
             }
+            let tokenIDs = [];
+            self.tmpList.forEach(el => {
+
+                el['image'] = 'https://media.mdvmm.xyz/evo1/transparent/png/1024px/' + el.mechImg;
+                el['s3'] = el.rank;
+                el['tokenId'] = el.mechId;
+                // console.log(nft);
+                tokenIDs.push(el.mechId);
+            });
+
+            self.tmpList.sort((a, b) => a.rank - b.rank);
+            self.selectedNfts['ranking'] = self.tmpList;
+            // console.log(self.selectedNfts['ranking']);
+            // self.getNftInfo(tokenIDs);
+            // }
         },
         initialSocket() {
-            this.socket = io("http://172.104.48.242:4567");
+            this.socket = io("https://hv-mtl.info");
             var self = this;
 
             this.socket.on("serverTime", function (data) {
                 // console.log(data);
                 var games = data;
                 // var games = JSON.parse(JSON.parse(dd).data).games;
-                // console.log(games);
+                console.log(games.length);
                 if (games) {
                     self.switchList(games);
 
@@ -643,7 +660,7 @@ export default {
                         icon: nft.marketplace_image
                     });
                 });
-                console.log(this.selectedNfts[this.selectedTab]);
+                // console.log(this.selectedNfts[this.selectedTab]);
                 if (this.selectedNfts[this.selectedTab].length > 0) {
                     this.selectedID = this.selectedNfts[this.selectedTab][0].tokenId;
 
@@ -781,15 +798,15 @@ export default {
                     })
                 )
             )
-            .then(responses => {
-                const combinedResults = responses.flatMap(response => response.data.result);
-                const tokenIds = combinedResults.map(result => result.token_id);
-                this.fetchNFTs(tokenIds);
-            })
-            .catch(error => {
-                console.error('获取NFT数据时出错：', error);
-                this.isLoading = false;
-            });
+                .then(responses => {
+                    const combinedResults = responses.flatMap(response => response.data.result);
+                    const tokenIds = combinedResults.map(result => result.token_id);
+                    this.fetchNFTs(tokenIds);
+                })
+                .catch(error => {
+                    console.error('获取NFT数据时出错：', error);
+                    this.isLoading = false;
+                });
         }
     },
     mounted() {
