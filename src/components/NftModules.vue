@@ -3,7 +3,7 @@
         <div class=" align-items-center">
             <div class=" plots">
                 <div class="vote">
-                    Total vote: {{ score }}
+                    Today votes: {{ score }}
                 </div>
                 <div class="d-flex descrip-child1 mx-0">
                     <div class="col-3 px-0">

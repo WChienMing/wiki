@@ -5,6 +5,7 @@ import NftPage from './components/NftPage.vue';
 import NftDetails from './components/NftDetails.vue';
 import Sediment from './components/Sediment.vue';
 import Strategy from './components/Strategy.vue';
+import NftPrice from './components/NftPrice.vue';
 
 
 Vue.use(VueRouter);
@@ -15,6 +16,7 @@ const routes = [
   { path: '/nftDetails', component: NftDetails },
   { path: '/Sediment', component: Sediment },
   { path: '/Strategy', component: Strategy },
+  { path: '/price', component: NftPrice },
 ];
 
 const router = new VueRouter({

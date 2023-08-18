@@ -144,13 +144,13 @@
                             </div>
                             <div class="tab">
                                 <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'hv' }"
-                                    @click="selectedTab = 'hv'">HV</a>
+                                    @click="selectedTab = 'hv'">Seasonal</a>
+                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'ranking' }"
+                                    @click="selectedTab = 'ranking'">Daily</a>
                                 <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'watchlist' }"
                                     @click="selectedTab = 'watchlist'">Watchlist</a>
-                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'ranking' }"
-                                    @click="selectedTab = 'ranking'">Ranking</a>
-                                <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'price' }"
-                                    @click="selectedTab = 'price'">Pricelist</a>
+                                <!-- <a class="tablinks cursor-pointer" :class="{ 'active': selectedTab == 'price' }"
+                                    @click="selectedTab = 'price'">Pricelist</a> -->
                             </div>
                             <div class="results-found">
                                 <div class="col-12">
@@ -174,7 +174,6 @@
                                             <div class="col-3" v-if="selectedTab != 'ranking'">Price</div>
 
                                         </div>
-
                                     </div>
                                     <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
@@ -764,15 +763,15 @@ export default {
                     })
                 )
             )
-                .then(responses => {
-                    const combinedResults = responses.flatMap(response => response.data.result);
-                    const tokenIds = combinedResults.map(result => result.token_id);
-                    this.fetchNFTs(tokenIds);
-                })
-                .catch(error => {
-                    console.error('获取NFT数据时出错：', error);
-                    this.isLoading = false;
-                });
+            .then(responses => {
+                const combinedResults = responses.flatMap(response => response.data.result);
+                const tokenIds = combinedResults.map(result => result.token_id);
+                this.fetchNFTs(tokenIds);
+            })
+            .catch(error => {
+                console.error('获取NFT数据时出错：', error);
+                this.isLoading = false;
+            });
         }
     },
     mounted() {
