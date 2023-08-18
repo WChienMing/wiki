@@ -269,6 +269,13 @@
                                             </li>
                                         </ul>
                                     </nav>
+                                    <nav aria-label="Page navigation example" v-if="selectedTab == 'price' && this.pricepage !== ''">
+                                        <ul class="pagination" :class="{ disabled_pagination: isSearchActive }">
+                                            <li class="page-item">
+                                                <button @click="loadMorePrice" class="page-link">More</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
 
                             </div>
@@ -326,6 +333,7 @@ export default {
             selectedTraits: [],
             selectedID: null,
             lastTId: null,
+            pricepage: '',
         };
     },
     watch: {
@@ -516,8 +524,16 @@ export default {
             }
         },
         async fetchNFTsByPriceList() {
-            const response = await axios.get(`https://forge.e2app.asia/api/getpricelist`);
+            const response = await axios.get(`https://forge.e2app.asia/api/getpricelist?page=${this.pricepage}`);
             const nftsData = response.data.data;
+            const meta = response.data.meta;
+
+
+            if (meta.totalPages != meta.currentPage && meta.totalPages > meta.currentPage){
+                this.pricepage = meta.currentPage + 1;
+            }else{
+                this.pricepage = '';
+            }
 
             if (nftsData.length > 0) {
                 nftsData.forEach(nft => {
@@ -568,6 +584,10 @@ export default {
             } else {
                 await this.fetchMoreNFTs();
             }
+        },
+        async loadMorePrice() {
+            // console.log("page", this.pricepage);
+            await this.fetchNFTsByPriceList();
         },
         async fetchNFTs() {
             this.isLoading = true;
