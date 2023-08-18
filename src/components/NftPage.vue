@@ -364,7 +364,7 @@ export default {
     methods: {
         async openElectronWindow() {
             try {
-                const response = await axios.get('https://hv-mtl.info/open-electron');
+                const response = await axios.get('http://hv-mtl.info:5000/open-electron');
                 console.log(response.data); // 这里将输出 "Electron window opened!"
             } catch (error) {
                 console.error('Failed to open Electron window:', error);}
