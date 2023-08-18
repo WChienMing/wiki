@@ -493,7 +493,7 @@ export default {
             }
         },
         initialSocket() {
-            this.socket = io("http://172.104.48.242:4567");
+            this.socket = io("https://hv-mtl.info");
             var self = this;
 
             this.socket.on("serverTime", function (data) {
