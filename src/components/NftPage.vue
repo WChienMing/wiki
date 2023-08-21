@@ -405,13 +405,11 @@ export default {
             var _list = [];
             // if (!(data.toString() === this.selectedNfts['ranking'].toString())) {
             data.forEach((el) => {
-                // console.log(el);
                 var tmp = el;
                 var isDuplicate = false;
                 for (let i = 0; i < self.selectedNfts['ranking'].length; i++) {
                     if (tmp.id == self.selectedNfts['ranking'][i]["id"]) {
                         isDuplicate = true;
-                        self.selectedNfts['ranking'][i] = tmp;
                         // console.log(tmp);
                     }
                 }
@@ -421,11 +419,14 @@ export default {
                     self.itemID += 1;
                     tmp["itemID"] = self.itemID;
                     tmp["show"] = false;
-                    _list.unshift(tmp);
-                    // self.getNftInfo();
                 }
-                // console.log(JSON.parse(el.contract_detail));
+
+                tmp['image'] = 'https://media.mdvmm.xyz/evo1/transparent/png/1024px/' + el.mechImg;
+                tmp['s3'] = tmp.rank;
+                tmp['tokenId'] = tmp.mechId;
+                _list.push(tmp);
             });
+            
             _list.sort(function (a, b) {
                 if (parseInt(a.score) < parseInt(b.score)) {
                     return 1;
@@ -434,25 +435,10 @@ export default {
                     return -1;
                 }
             });
-            if (_list.length > 0) {
-                self.tmpList = _list;
 
-            }
-            let tokenIDs = [];
-            self.tmpList.forEach(el => {
-
-                el['image'] = 'https://media.mdvmm.xyz/evo1/transparent/png/1024px/' + el.mechImg;
-                el['s3'] = el.rank;
-                el['tokenId'] = el.mechId;
-                // console.log(nft);
-                tokenIDs.push(el.mechId);
-            });
-
-            self.tmpList.sort((a, b) => a.rank - b.rank);
-            self.selectedNfts['ranking'] = self.tmpList;
+            _list.sort((a, b) => a.rank - b.rank);
+            self.selectedNfts['ranking'] = _list;
             // console.log(self.selectedNfts['ranking']);
-            // self.getNftInfo(tokenIDs);
-            // }
         },
         initialSocket() {
             this.socket = io("https://hv-mtl.info");
@@ -462,7 +448,7 @@ export default {
                 // console.log(data);
                 var games = data;
                 // var games = JSON.parse(JSON.parse(dd).data).games;
-                console.log(games.length);
+                // console.log(games);
                 if (games) {
                     self.switchList(games);
 
