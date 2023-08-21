@@ -117,10 +117,7 @@
 
                     <div class="row justify-content-center">
                         <div class="results col-md-7 col-12 nft-list nft-item" id="content">
-                            <div class="row flex-grow-1 justify-content-start">
-                                <!-- <div class="menubox">
-                    <div class="filter-btn" id="filter-menu"><span style="float:left; margin-left:10px;">Filter</span></div>
-                </div> -->
+                            <div class="row flex-grow-1 justify-content-start" v-if="selectedTab == 'hv'">
                                 <div class="col-12 col-md-1"></div>
                                 <div class="col-12 col-md-7 wrapper3">
                                     <div class="searchbar">
@@ -135,10 +132,6 @@
 
                                             </form>
                                         </div>
-                                        <!-- <div class="menubox">
-                        <div class="filter-btn" id="filter-menu" @click="searchNFTById"><span
-                                style="float:left; margin:16px;">Search</span></div>
-                    </div> -->
                                     </div>
 
                                 </div>
@@ -165,7 +158,7 @@
                             </div>
 
                             <div class="list-wrapper" v-else>
-                                <div id="results" class=" align-items-center mb-3">
+                                <div id="results" class=" align-items-center mb-3" v-if="selectedTab != 'watchlist'">
                                     <div class="table-header">
                                         <div class="row ">
                                             <div class="col-1 text-center">Rank</div>
@@ -229,8 +222,8 @@
                                                     <div class="box-new rank ml-2" :class="{ 'active': nft.now === 's1' }">
                                                         <div class="text">{{ nft.score }}</div>
                                                     </div>
-
                                                 </div>
+
                                                 <div class="col-2" v-if="selectedTab != 'ranking'">
                                                     <!-- <div class="marketprice" v-html="nft.price"></div> -->
                                                     <a :href="getMarketURL(nft)" target="_blank" rel="noopener noreferrer">
@@ -244,35 +237,71 @@
                                                     </a>
 
                                                 </div>
-                                                <div class="col-1" v-if="selectedTab !== 'watchlist'">
+                                                <div class="col-1" v-if="selectedTab !== 'watchlist' && !isIdSaved(nft.tokenId)">
                                                     <button @click="saveId(nft.tokenId)" class="ellipse">
                                                         <i class="gg-bookmark" style="color: #0983F1 !important;"></i>
                                                     </button>
-                                                    <!-- <button class="custom-button"> -->
-                                                    <!-- <div class="ellipse">
-                                                            <div class="bookmark">
-                                                            <i class="gg-bookmark" style="color: #0983F1 !important;"></i> 
-                                                        </div> -->
-                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="results" class=" align-items-center mb-3" v-if="selectedTab == 'watchlist'">
+                                    <div class="table-header">
+                                        <div class="row ">
+                                            <div class="col-2">HV</div>
+                                            <div class="col-8">Season Ranking</div>
+                                            <div class="col-2">Price</div>
 
-                                                    <!-- </button> -->
-                                                </div>
-                                            </div>
-                                            <!-- <div class="topside">
-                                                <div class="pricetop">#{{ nft.tokenId }}</div>
-                                                <div class="marketprice" v-html="nft.price"></div>
-                                            </div>
-                                            <div class="image"><img :src="nft.image" alt="NFT"></div>
-                                            <div class="bottomside">
-                                                <div class="basics">
-                                                    <div class="box">
-                                                        <div class="text">Rank: {{ nft.rank }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
+                                        <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
+                                            :class="{ 'active': selectedID == nft.tokenId }">
+                                            <!-- style="height: 235px!important;" -->
+                                            <div class="row justify-content-start align-items-center">
+                                                <div class="col-2 d-flex">
+                                                    <div class="position-relative" style="height: 42px;width: 42px">
+                                                        <div class="image"><img :src="nft.image" alt="NFT"></div>
                                                     </div>
-                                                    <div class="box">
-                                                        <div class="text">Score: {{ nft.score }}</div>
+                                                    <div class="">
+                                                        <div class="pricetop">#{{ nft.tokenId }}</div>
                                                     </div>
                                                 </div>
-                                            </div> -->
+                                                <div class="col-8 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <div v-for="i in 6" :key="i" class="box-new rank ml-2"
+                                                            :class="{ 'active': `s${i}` === nft.now }"
+                                                            v-show="i <= parseInt(nft.now.substr(1))">
+                                                            <div class="text">S{{ i }}-{{ nft[`s${i}`] }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2">
+                                                            <div class="text">SP-{{ nft.season_score }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's1' }">
+                                                            <div class="text">S1-{{ nft.s1 }}</div>
+                                                        </div>
+                                                        <div class="box-new rank ml-2"
+                                                            :class="{ 'active': nft.now === 's2' }">
+                                                            <div class="text">S2-{{ nft.s2 }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <a :href="getMarketURL(nft)" target="_blank" rel="noopener noreferrer">
+                                                        <div class="new-marketprice" v-if="nft.price">
+                                                            <img v-if="nft.icon === 'blur.webp'"
+                                                                src="../assets/icon/blur.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'opensea.webp'"
+                                                                src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <span>{{ nft.price }} {{ nft.floor_currency }}</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>
@@ -350,6 +379,7 @@ export default {
             selectedID: null,
             lastTId: null,
             pricepage: '',
+            savedIds: [],
         };
     },
     watch: {
@@ -365,6 +395,22 @@ export default {
 
     },
     methods: {
+        isIdSaved(tokenId) {
+            return this.savedIds.includes(tokenId);
+        },
+        fetchSavedIds() {
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
+            const vm = this;
+            db.transaction(function(tx) {
+            tx.executeSql('SELECT id FROM ids', [], (tx, results) => {
+                var len = results.rows.length;
+                vm.savedIds = [];
+                for (var i = 0; i < len; i++) {
+                vm.savedIds.push(results.rows.item(i).id);
+                }
+            });
+            });
+        },
         async openElectronWindow() {
             try {
                 const response = await axios.get('http://hv-mtl.info:5000/open-electron');
@@ -456,23 +502,28 @@ export default {
 
             });
         },
-        saveId(id) {
+        async saveId(id) {
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
             const vm = this;
-            db.transaction(function (tx) {
+            await new Promise(resolve => {
+            db.transaction(function(tx) {
                 tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
                 tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
-                    if (result.rows.length === 0) {
-                        tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id]);
-                        vm.fetchNFTsBySavedIds(id);
-                        console.log('ID inserted:', id);
-                    } else {
-                        console.log('ID already exists:', id);
-                    }
+                if (result.rows.length === 0) {
+                    tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id], () => {
+                    vm.savedIds.push(id);
+                    console.log('ID inserted:', id);
+                    resolve();
+                    });
+                } else {
+                    console.log('ID already exists:', id);
+                    resolve();
+                }
                 });
             });
+            });
+            vm.fetchNFTsBySavedIds(id);
         },
-
         async Watchlist() {
 
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
@@ -757,6 +808,7 @@ export default {
         this.fetchNFTs();
         this.Watchlist();
         this.fetchNFTsByPriceList();
+        this.fetchSavedIds();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
     },
 };
