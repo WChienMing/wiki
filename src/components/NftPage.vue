@@ -232,6 +232,8 @@
                                                                 src="../assets/icon/blur.webp" alt="NFT Image">
                                                             <img v-else-if="nft.icon === 'opensea.webp'"
                                                                 src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'looksrare.svg'"
+                                                                src="../assets/icon/looksrare.svg" alt="NFT Image">
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
@@ -250,7 +252,10 @@
                                     <div class="table-header">
                                         <div class="row ">
                                             <div class="col-2">HV</div>
-                                            <div class="col-8">Season Ranking</div>
+                                            <div class="col-2">Season Ranking</div>
+                                            <div class="col-2">Season Points</div>
+                                            <div class="col-2">Daily Ranking</div>
+                                            <div class="col-2">Daily Votes</div>
                                             <div class="col-2">Price</div>
 
                                         </div>
@@ -268,25 +273,37 @@
                                                         <div class="pricetop">#{{ nft.tokenId }}</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-8 d-flex">
+                                                <div class="col-2 d-flex">
                                                     <div class="flex-grow-1">
-                                                        <div v-for="i in 6" :key="i" class="box-new rank ml-2"
-                                                            :class="{ 'active': `s${i}` === nft.now }"
-                                                            v-show="i <= parseInt(nft.now.substr(1))">
-                                                            <div class="text">S{{ i }}-{{ nft[`s${i}`] }}</div>
-                                                        </div>
-                                                        <div class="box-new rank ml-2">
-                                                            <div class="text">SP-{{ nft.season_score }}</div>
+                                                        <div class="box-new rank ml-2 active">
+                                                            <div class="text">
+                                                                {{ nft.now.toUpperCase() }}-{{ nft[nft.now] }}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-2 d-flex">
                                                     <div class="flex-grow-1">
-                                                        <div class="box-new rank ml-2"
-                                                            :class="{ 'active': nft.now === 's1' }">
-                                                            <div class="text">S1-{{ nft.s1 }}</div>
+                                                        <div class="ml-2">
+                                                            <div class="text" style="font-weight: 300;">
+                                                                {{ nft.season_score }}
+                                                            </div>
                                                         </div>
-                                                        <div class="box-new rank ml-2"
-                                                            :class="{ 'active': nft.now === 's2' }">
-                                                            <div class="text">S2-{{ nft.s2 }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <div class="ml-2">
+                                                            <div class="text" style="font-weight: 300;">
+                                                                {{ nft.daily_rank }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <div class="ml-2">
+                                                            <div class="text" style="font-weight: 600;">{{ nft.daily_score }}</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -425,8 +442,10 @@ export default {
                 return `https://blur.io/asset/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
             } else if (nft.icon === 'opensea.webp') {
                 return `https://opensea.io/assets/ethereum/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
+            } else if (nft.icon === 'looksrare.svg') {
+                return `https://looksrare.org/collections/0x4b15a9c28034dC83db40CD810001427d3BD7163D/${id}`;
             } else {
-                return '#';
+                return "#";
             }
         },
         intitialItem() {
@@ -537,6 +556,10 @@ export default {
                         savedIds.push(savedId);
                     }
                     this.fetchNFTsBySavedIds(savedIds);
+
+                    setInterval(async () => {
+                        await this.fetchAdditionalInfo(savedIds);
+                    }, 20000);
                 });
             });
 
@@ -545,9 +568,9 @@ export default {
             const response = await axios.get(`https://forge.e2app.asia/api/getwatchlist?ids=${savedIds}`);
             const nftsData = response.data;
 
-            if (nftsData.length > 0) {
-                nftsData.forEach(nft => {
-                    this.selectedNfts["watchlist"].push({
+            if (nftsData && nftsData.length > 0) {
+                nftsData.forEach((nft) => {
+                    const newItem = {
                         tokenId: nft.t_id,
                         image: nft.image,
                         s1: nft.s1,
@@ -559,10 +582,32 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
-                    });
+                        icon: nft.marketplace_image,
+                        season_score: nft.season_score,
+                        daily_rank: nft.daily_rank,
+                        daily_score: nft.daily_score
+                    };
+                    this.selectedNfts["watchlist"].push(newItem);
                 });
             }
+        },
+
+        async fetchAdditionalInfo(savedIds) {
+           
+            const response = await axios.get(`https://forge.e2app.asia/api/getwatchlistdata?ids=${savedIds}`);
+            const additionalData = response.data;
+
+            additionalData.forEach(additionalItem => {
+                this.selectedNfts["watchlist"].forEach(watchlistItem => {
+                if (watchlistItem.tokenId === additionalItem.t_id) {
+                    watchlistItem.season_score = additionalItem.season_score;
+                    watchlistItem.daily_rank = additionalItem.daily_rank;
+                    watchlistItem.daily_score = additionalItem.daily_score;
+                }
+                });
+                // console.log(additionalItem);
+            });
+            
         },
         async fetchNFTsByPriceList() {
             const response = await axios.get(`https://forge.e2app.asia/api/getpricelist?page=${this.pricepage}`);
