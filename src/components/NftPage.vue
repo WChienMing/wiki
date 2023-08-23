@@ -129,7 +129,6 @@
                                                         placeholder="Search by HV-MTL ID" aria-label="Suche"
                                                         name="quicksearch" v-model="searchId">
                                                 </div>
-
                                             </form>
                                         </div>
                                     </div>
@@ -239,10 +238,11 @@
                                                     </a>
 
                                                 </div>
-                                                <div class="col-1" v-if="selectedTab !== 'watchlist' && !isIdSaved(nft.tokenId)">
-                                                    <button @click="saveId(nft.tokenId)" class="ellipse">
-                                                        <i class="gg-bookmark" style="color: #0983F1 !important;"></i>
-                                                    </button>
+                                                <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmark.png" style="cursor: pointer;"  @click="saveId(nft.tokenId)">
+                                                </div>
+                                                <div class="col-1" v-else-if="isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmarked.png" style="cursor: pointer;"  @click="deleteId(nft.tokenId)">
                                                 </div>
                                             </div>
                                         </a>
@@ -255,11 +255,12 @@
                                             <div class="col-2">Season Ranking</div>
                                             <div class="col-2">Season Points</div>
                                             <div class="col-2">Daily Ranking</div>
-                                            <div class="col-2">Daily Votes</div>
+                                            <div class="col-1">Daily Votes</div>
                                             <div class="col-2">Price</div>
-
+                                            <div class="col-2"></div>
                                         </div>
                                     </div>
+                                    <p style="text-align: right; color: black;">0:00</p>
                                     <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
@@ -300,7 +301,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2 d-flex">
+                                                <div class="col-1 d-flex">
                                                     <div class="flex-grow-1">
                                                         <div class="ml-2">
                                                             <div class="text" style="font-weight: 600;">{{ nft.daily_score }}</div>
@@ -317,6 +318,12 @@
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
+                                                </div>
+                                                <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmark.png" style="cursor: pointer;"  @click="saveId(nft.tokenId)">
+                                                </div>
+                                                <div class="col-1" v-else-if="isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmarked.png" style="cursor: pointer;"  @click="deleteId(nft.tokenId)">
                                                 </div>
                                             </div>
                                         </a>
@@ -358,7 +365,6 @@ import axios from 'axios';
 // import Header from '../components/HeaderSection.vue';
 import NftDetails from './NftModules.vue'
 import { io } from "socket.io-client";
-import { HV_MTL, MO_API_KEY } from '../main.js';
 
 export default {
     name: 'NftPage',
@@ -386,7 +392,6 @@ export default {
             currentPage: 1,
             limit: 100,
             totalPages: 0,
-            contractAddress: HV_MTL,
             totalSupply: 28078,
             isLoading: false,
             searchId: '',
@@ -542,6 +547,33 @@ export default {
             });
             });
             vm.fetchNFTsBySavedIds(id);
+        },
+        async deleteId(id) {
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
+            const vm = this;
+
+            await new Promise(resolve => {
+                db.transaction(function(tx) {
+                    tx.executeSql('DELETE FROM ids WHERE id = ?', [id], (tx, result) => {
+                        if (result.rowsAffected > 0) {
+                            // 从 savedIds 数组中移除 ID
+                            const index = vm.savedIds.indexOf(id);
+                            if (index !== -1) {
+                                vm.savedIds.splice(index, 1);
+                            }
+                            const watchlistIndex = vm.selectedNfts["watchlist"].findIndex(item => item.tokenId === id);
+                            if (watchlistIndex !== -1) {
+                                vm.selectedNfts["watchlist"].splice(watchlistIndex, 1);
+                            }
+
+                            console.log('ID deleted:', id);
+                        } else {
+                            console.log('ID does not exist:', id);
+                        }
+                        resolve();
+                    });
+                });
+            });
         },
         async Watchlist() {
 
@@ -811,42 +843,6 @@ export default {
                 this.isLoading = false;
             }
         },
-        searchNftByTraits(searchQueries) {
-
-            this.isLoading = true;
-            this.nfts = [];
-
-            if (!Array.isArray(searchQueries)) {
-                searchQueries = [searchQueries];
-            }
-
-            Promise.all(
-                searchQueries.map(searchQuery =>
-                    axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
-                        params: {
-                            chain: 'eth',
-                            format: 'decimal',
-                            addresses: [`${HV_MTL}`],
-                            q: searchQuery,
-                            filter: 'attributes'
-                        },
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-API-Key': MO_API_KEY,
-                        }
-                    })
-                )
-            )
-                .then(responses => {
-                    const combinedResults = responses.flatMap(response => response.data.result);
-                    const tokenIds = combinedResults.map(result => result.token_id);
-                    this.fetchNFTs(tokenIds);
-                })
-                .catch(error => {
-                    console.error('获取NFT数据时出错：', error);
-                    this.isLoading = false;
-                });
-        }
     },
     mounted() {
         this.initialSocket();
@@ -860,47 +856,6 @@ export default {
 </script>
 
 <style>
-.ellipse {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 0px;
-    width: 36px;
-    height: 36px;
-    left: 0;
-    top: 0;
-    background: #EBF2F8;
-    border-radius: 50%;
-}
-
-.gg-bookmark,
-.gg-bookmark::after {
-    display: block;
-    box-sizing: border-box;
-}
-
-.gg-bookmark {
-    border: 2px solid;
-    border-bottom: 0;
-    overflow: hidden;
-    position: relative;
-    transform: scale(var(--ggs, 1));
-    width: 14px;
-    height: 20px
-}
-
-.gg-bookmark::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-top: 2px solid;
-    border-right: 2px solid;
-    transform: rotate(-45deg);
-    top: 12px;
-    left: -1px
-}
-
 .disabled_pagination {
     display: none !important;
 }
