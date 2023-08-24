@@ -239,10 +239,10 @@
 
                                                 </div>
                                                 <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
-                                                    <img src="../assets/icon/bookmark.png" style="cursor: pointer;"  @click="saveId(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmark.png" class="bookmark"  @click="saveId(nft.tokenId)">
                                                 </div>
                                                 <div class="col-1" v-else-if="isIdSaved(nft.tokenId)">
-                                                    <img src="../assets/icon/bookmarked.png" style="cursor: pointer;"  @click="deleteId(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmarked.png" class="bookmark"  @click="deleteId(nft.tokenId)">
                                                 </div>
                                             </div>
                                         </a>
@@ -260,7 +260,7 @@
                                             <div class="col-2"></div>
                                         </div>
                                     </div>
-                                    <p style="text-align: right; color: black;">0:00</p>
+                                    <p style="text-align: right; color: black; margin-top: 0.1rem; margin-bottom: 0.1rem;">0:00</p>
                                     <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
@@ -320,10 +320,10 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
-                                                    <img src="../assets/icon/bookmark.png" style="cursor: pointer;"  @click="saveId(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmark.png" class="bookmark"  @click="saveId(nft.tokenId)">
                                                 </div>
                                                 <div class="col-1" v-else-if="isIdSaved(nft.tokenId)">
-                                                    <img src="../assets/icon/bookmarked.png" style="cursor: pointer;"  @click="deleteId(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmarked.png" class="bookmark"  @click="deleteId(nft.tokenId)">
                                                 </div>
                                             </div>
                                         </a>
@@ -561,11 +561,10 @@ export default {
                             if (index !== -1) {
                                 vm.savedIds.splice(index, 1);
                             }
-                            const watchlistIndex = vm.selectedNfts["watchlist"].findIndex(item => item.tokenId === id);
-                            if (watchlistIndex !== -1) {
-                                vm.selectedNfts["watchlist"].splice(watchlistIndex, 1);
-                            }
-
+                            // const watchlistIndex = vm.selectedNfts["watchlist"].findIndex(item => item.tokenId === id);
+                            // if (watchlistIndex !== -1) {
+                            //     vm.selectedNfts["watchlist"].splice(watchlistIndex, 1);
+                            // }
                             console.log('ID deleted:', id);
                         } else {
                             console.log('ID does not exist:', id);
@@ -597,6 +596,7 @@ export default {
 
         },
         async fetchNFTsBySavedIds(savedIds) {
+            
             const response = await axios.get(`https://forge.e2app.asia/api/getwatchlist?ids=${savedIds}`);
             const nftsData = response.data;
 
@@ -856,6 +856,11 @@ export default {
 </script>
 
 <style>
+.bookmark{
+    max-width: 24px;  
+    height: auto;
+    cursor: pointer;
+}
 .disabled_pagination {
     display: none !important;
 }
