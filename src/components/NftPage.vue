@@ -257,10 +257,10 @@
                                             <div class="col-2">Daily Ranking</div>
                                             <div class="col-1">Daily Votes</div>
                                             <div class="col-2">Price</div>
-                                            <div class="col-2"></div>
+                                            <div class="col-1"></div>
                                         </div>
                                     </div>
-                                    <p style="text-align: right; color: black; margin-top: 0.1rem; margin-bottom: 0.1rem;">0:00</p>
+                                    <p v-if="hasData" style="text-align: right; color: rgb(71 60 60 / 72%); margin-top: 0.1rem; margin-bottom: 0.1rem;">{{ countdown }}s ago</p>
                                     <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
@@ -402,6 +402,8 @@ export default {
             lastTId: null,
             pricepage: '',
             savedIds: [],
+            countdown: 0,
+            hasData: false,
         };
     },
     watch: {
@@ -530,23 +532,30 @@ export default {
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
             const vm = this;
             await new Promise(resolve => {
-            db.transaction(function(tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
-                tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
-                if (result.rows.length === 0) {
-                    tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id], () => {
-                    vm.savedIds.push(id);
-                    console.log('ID inserted:', id);
-                    resolve();
+                db.transaction(function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
+                    tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
+                        if (result.rows.length === 0) {
+                            tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id], () => {
+                                vm.savedIds.push(id);
+                                console.log('ID inserted:', id);
+
+                                // 检查是否这是第一个插入的 id
+                                if (vm.savedIds.length === 1) {
+                                    vm.fetchNFTsBySavedIds(id, "run");
+                                } else {
+                                    vm.fetchNFTsBySavedIds(id, "norun");
+                                }
+
+                                resolve();
+                            });
+                        } else {
+                            console.log('ID already exists:', id);
+                            resolve();
+                        }
                     });
-                } else {
-                    console.log('ID already exists:', id);
-                    resolve();
-                }
                 });
             });
-            });
-            vm.fetchNFTsBySavedIds(id);
         },
         async deleteId(id) {
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
@@ -561,10 +570,16 @@ export default {
                             if (index !== -1) {
                                 vm.savedIds.splice(index, 1);
                             }
-                            // const watchlistIndex = vm.selectedNfts["watchlist"].findIndex(item => item.tokenId === id);
-                            // if (watchlistIndex !== -1) {
-                            //     vm.selectedNfts["watchlist"].splice(watchlistIndex, 1);
-                            // }
+                            const watchlistIndex = vm.selectedNfts["watchlist"].findIndex(item => item.tokenId === id);
+                            if (watchlistIndex !== -1) {
+                                vm.selectedNfts["watchlist"].splice(watchlistIndex, 1);
+                            }
+
+                            // 检查是否这是最后一个被删除的 id
+                            if (vm.savedIds.length === 0) {
+                                vm.hasData = false;
+                            }
+
                             console.log('ID deleted:', id);
                         } else {
                             console.log('ID does not exist:', id);
@@ -574,6 +589,7 @@ export default {
                 });
             });
         },
+
         async Watchlist() {
 
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
@@ -586,16 +602,12 @@ export default {
                         const savedId = rows.item(i).id;
                         savedIds.push(savedId);
                     }
-                    this.fetchNFTsBySavedIds(savedIds);
-
-                    setInterval(async () => {
-                        await this.fetchAdditionalInfo(savedIds);
-                    }, 20000);
+                    this.fetchNFTsBySavedIds(savedIds, "run");
                 });
             });
 
         },
-        async fetchNFTsBySavedIds(savedIds) {
+        async fetchNFTsBySavedIds(savedIds, text) {
             
             const response = await axios.get(`https://forge.e2app.asia/api/getwatchlist?ids=${savedIds}`);
             const nftsData = response.data;
@@ -619,8 +631,14 @@ export default {
                         daily_rank: nft.daily_rank,
                         daily_score: nft.daily_score
                     };
+                    this.hasData = true;
                     this.selectedNfts["watchlist"].push(newItem);
                 });
+
+                if(text == "run"){
+                    this.setApiCallAndCountdown();
+                }
+                
             }
         },
 
@@ -843,6 +861,24 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        setApiCallAndCountdown() {
+            if(this.hasData){
+                
+                this.countdown = 0;
+                
+                const timer = setInterval(() => {
+                    this.countdown += 1;
+
+                    if (this.countdown >= 21) {
+                        this.fetchAdditionalInfo(this.savedIds);
+                        clearInterval(timer);
+                        this.setApiCallAndCountdown();
+                    }
+                }, 1000);
+            }
+            
+        }
     },
     mounted() {
         this.initialSocket();
@@ -851,6 +887,8 @@ export default {
         this.fetchNFTsByPriceList();
         this.fetchSavedIds();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
+        this.setApiCallAndCountdown();
+  
     },
 };
 </script>
