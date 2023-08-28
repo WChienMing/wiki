@@ -602,6 +602,7 @@ export default {
                         const savedId = rows.item(i).id;
                         savedIds.push(savedId);
                     }
+                    
                     this.fetchNFTsBySavedIds(savedIds, "run");
                 });
             });
