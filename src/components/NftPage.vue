@@ -174,7 +174,7 @@
                                             <!-- style="height: 235px!important;" -->
                                             <div class="row justify-content-start align-items-center">
                                                 <div class="col-1 text-center">
-                                                    <div class="pricetop ml-0">{{ nft.s3 }}</div>
+                                                    <div class="pricetop ml-0">{{ nft.s4 }}</div>
                                                 </div>
                                                 <div class="col-2 d-flex">
                                                     <div class="position-relative" style="height: 42px;width: 42px">
