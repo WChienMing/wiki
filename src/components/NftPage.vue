@@ -174,7 +174,7 @@
                                             <!-- style="height: 235px!important;" -->
                                             <div class="row justify-content-start align-items-center">
                                                 <div class="col-1 text-center">
-                                                    <div class="pricetop ml-0">{{ nft.s4 }}</div>
+                                                    <div class="pricetop ml-0">{{ nft.rank }}</div>
                                                 </div>
                                                 <div class="col-2 d-flex">
                                                     <div class="position-relative" style="height: 42px;width: 42px">
@@ -233,6 +233,8 @@
                                                                 src="../assets/icon/opensea.webp" alt="NFT Image">
                                                             <img v-else-if="nft.icon === 'looksrare.svg'"
                                                                 src="../assets/icon/looksrare.svg" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'magically_logo.webp'" 
+                                                                src="../assets/icon/magically_logo.webp" alt="NFT Image">
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
@@ -315,6 +317,10 @@
                                                                 src="../assets/icon/blur.webp" alt="NFT Image">
                                                             <img v-else-if="nft.icon === 'opensea.webp'"
                                                                 src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'looksrare.svg'"
+                                                                src="../assets/icon/looksrare.svg" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'magically_logo.webp'" 
+                                                                src="../assets/icon/magically_logo.webp" alt="NFT Image">
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
@@ -451,7 +457,9 @@ export default {
                 return `https://opensea.io/assets/ethereum/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
             } else if (nft.icon === 'looksrare.svg') {
                 return `https://looksrare.org/collections/0x4b15a9c28034dC83db40CD810001427d3BD7163D/${id}`;
-            } else {
+            } else if (nft.icon === 'magically_logo.webp') {
+                return `https://magically.gg/collection/0x4b15a9c28034dc83db40cd810001427d3bd7163d`;
+            }else {
                 return "#";
             }
         },
@@ -686,7 +694,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
                 });
             }
@@ -747,7 +756,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
                 });
                 // console.log(this.selectedNfts[this.selectedTab]);
@@ -800,7 +810,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
                 });
 
@@ -851,7 +862,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
 
                 });
