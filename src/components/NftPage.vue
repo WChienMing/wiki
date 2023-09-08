@@ -1,3 +1,4 @@
+
 <template>
     <div>
         <!-- <Header /> -->
@@ -130,7 +131,6 @@
                                                         placeholder="Search by HV-MTL ID" aria-label="Suche"
                                                         name="quicksearch" v-model="searchId">
                                                 </div>
-
                                             </form>
                                         </div>
                                     </div>
@@ -176,7 +176,7 @@
                                             <!-- style="height: 235px!important;" -->
                                             <div class="row justify-content-start align-items-center">
                                                 <div class="col-1 text-center">
-                                                    <div class="pricetop ml-0">{{ nft.s3 }}</div>
+                                                    <div class="pricetop ml-0">{{ nft.rank }}</div>
                                                 </div>
                                                 <div class="col-2 d-flex">
                                                     <div class="position-relative" style="height: 42px;width: 42px">
@@ -233,15 +233,20 @@
                                                                 src="../assets/icon/blur.webp" alt="NFT Image">
                                                             <img v-else-if="nft.icon === 'opensea.webp'"
                                                                 src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'looksrare.svg'"
+                                                                src="../assets/icon/looksrare.svg" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'magically_logo.webp'" 
+                                                                src="../assets/icon/magically_logo.webp" alt="NFT Image">
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
 
                                                 </div>
-                                                <div class="col-1" v-if="selectedTab !== 'watchlist' && !isIdSaved(nft.tokenId)">
-                                                    <button @click="saveId(nft.tokenId)" class="ellipse">
-                                                        <i class="gg-bookmark" style="color: #0983F1 !important;"></i>
-                                                    </button>
+                                                <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmark.png" class="bookmark"  @click="saveId(nft.tokenId)">
+                                                </div>
+                                                <div class="col-1" v-else-if="isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmarked.png" class="bookmark"  @click="deleteId(nft.tokenId)">
                                                 </div>
                                             </div>
                                         </a>
@@ -251,11 +256,15 @@
                                     <div class="table-header">
                                         <div class="row ">
                                             <div class="col-2">HV</div>
-                                            <div class="col-8">Season Ranking</div>
+                                            <div class="col-2">Season Ranking</div>
+                                            <div class="col-2">Season Points</div>
+                                            <div class="col-2">Daily Ranking</div>
+                                            <div class="col-1">Daily Votes</div>
                                             <div class="col-2">Price</div>
-
+                                            <div class="col-1"></div>
                                         </div>
                                     </div>
+                                    <p v-if="hasData" style="text-align: right; color: rgb(71 60 60 / 72%); margin-top: 0.1rem; margin-bottom: 0.1rem;">{{ countdown }}s ago</p>
                                     <div class="" v-for="nft in selectedNfts[selectedTab]" :key="nft.tokenId">
                                         <a v-on:click="selectedID = nft.tokenId" class=" list list-item-vessel"
                                             :class="{ 'active': selectedID == nft.tokenId }">
@@ -269,25 +278,37 @@
                                                         <div class="pricetop">#{{ nft.tokenId }}</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-8 d-flex">
+                                                <div class="col-2 d-flex">
                                                     <div class="flex-grow-1">
-                                                        <div v-for="i in 6" :key="i" class="box-new rank ml-2"
-                                                            :class="{ 'active': `s${i}` === nft.now }"
-                                                            v-show="i <= parseInt(nft.now.substr(1))">
-                                                            <div class="text">S{{ i }}-{{ nft[`s${i}`] }}</div>
-                                                        </div>
-                                                        <div class="box-new rank ml-2">
-                                                            <div class="text">SP-{{ nft.season_score }}</div>
+                                                        <div class="box-new rank ml-2 active">
+                                                            <div class="text">
+                                                                {{ nft.now.toUpperCase() }}-{{ nft[nft.now] }}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-2 d-flex">
                                                     <div class="flex-grow-1">
-                                                        <div class="box-new rank ml-2"
-                                                            :class="{ 'active': nft.now === 's1' }">
-                                                            <div class="text">S1-{{ nft.s1 }}</div>
+                                                        <div class="ml-2">
+                                                            <div class="text" style="font-weight: 300;">
+                                                                {{ nft.season_score }}
+                                                            </div>
                                                         </div>
-                                                        <div class="box-new rank ml-2"
-                                                            :class="{ 'active': nft.now === 's2' }">
-                                                            <div class="text">S2-{{ nft.s2 }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <div class="ml-2">
+                                                            <div class="text" style="font-weight: 300;">
+                                                                {{ nft.daily_rank }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-1 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <div class="ml-2">
+                                                            <div class="text" style="font-weight: 600;">{{ nft.daily_score }}</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -298,9 +319,19 @@
                                                                 src="../assets/icon/blur.webp" alt="NFT Image">
                                                             <img v-else-if="nft.icon === 'opensea.webp'"
                                                                 src="../assets/icon/opensea.webp" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'looksrare.svg'"
+                                                                src="../assets/icon/looksrare.svg" alt="NFT Image">
+                                                            <img v-else-if="nft.icon === 'magically_logo.webp'" 
+                                                                src="../assets/icon/magically_logo.webp" alt="NFT Image">
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
+                                                </div>
+                                                <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmark.png" class="bookmark"  @click="saveId(nft.tokenId)">
+                                                </div>
+                                                <div class="col-1" v-else-if="isIdSaved(nft.tokenId)">
+                                                    <img src="../assets/icon/bookmarked.png" class="bookmark"  @click="deleteId(nft.tokenId)">
                                                 </div>
                                             </div>
                                         </a>
@@ -342,7 +373,6 @@ import axios from 'axios';
 // import Header from '../components/HeaderSection.vue';
 import NftDetails from './NftModules.vue'
 import { io } from "socket.io-client";
-import { HV_MTL, MO_API_KEY } from '../main.js';
 import Companion from './Companion.vue';
 
 
@@ -374,7 +404,6 @@ export default {
             currentPage: 1,
             limit: 100,
             totalPages: 0,
-            contractAddress: HV_MTL,
             totalSupply: 28078,
             isLoading: false,
             searchId: '',
@@ -385,6 +414,8 @@ export default {
             lastTId: null,
             pricepage: '',
             savedIds: [],
+            countdown: 0,
+            hasData: false,
         };
     },
     watch: {
@@ -430,8 +461,12 @@ export default {
                 return `https://blur.io/asset/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
             } else if (nft.icon === 'opensea.webp') {
                 return `https://opensea.io/assets/ethereum/0x4b15a9c28034dc83db40cd810001427d3bd7163d/${id}`;
-            } else {
-                return '#';
+            } else if (nft.icon === 'looksrare.svg') {
+                return `https://looksrare.org/collections/0x4b15a9c28034dC83db40CD810001427d3BD7163D/${id}`;
+            } else if (nft.icon === 'magically_logo.webp') {
+                return `https://magically.gg/collection/0x4b15a9c28034dc83db40cd810001427d3bd7163d`;
+            }else {
+                return "#";
             }
         },
         intitialItem() {
@@ -511,24 +546,64 @@ export default {
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
             const vm = this;
             await new Promise(resolve => {
-            db.transaction(function(tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
-                tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
-                if (result.rows.length === 0) {
-                    tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id], () => {
-                    vm.savedIds.push(id);
-                    console.log('ID inserted:', id);
-                    resolve();
+                db.transaction(function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS ids (id)');
+                    tx.executeSql('SELECT id FROM ids WHERE id = ?', [id], (tx, result) => {
+                        if (result.rows.length === 0) {
+                            tx.executeSql('INSERT INTO ids (id) VALUES (?)', [id], () => {
+                                vm.savedIds.push(id);
+                                console.log('ID inserted:', id);
+
+                                // 检查是否这是第一个插入的 id
+                                if (vm.savedIds.length === 1) {
+                                    vm.fetchNFTsBySavedIds(id, "run");
+                                } else {
+                                    vm.fetchNFTsBySavedIds(id, "norun");
+                                }
+
+                                resolve();
+                            });
+                        } else {
+                            console.log('ID already exists:', id);
+                            resolve();
+                        }
                     });
-                } else {
-                    console.log('ID already exists:', id);
-                    resolve();
-                }
                 });
             });
-            });
-            vm.fetchNFTsBySavedIds(id);
         },
+        async deleteId(id) {
+            const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
+            const vm = this;
+
+            await new Promise(resolve => {
+                db.transaction(function(tx) {
+                    tx.executeSql('DELETE FROM ids WHERE id = ?', [id], (tx, result) => {
+                        if (result.rowsAffected > 0) {
+                            // 从 savedIds 数组中移除 ID
+                            const index = vm.savedIds.indexOf(id);
+                            if (index !== -1) {
+                                vm.savedIds.splice(index, 1);
+                            }
+                            const watchlistIndex = vm.selectedNfts["watchlist"].findIndex(item => item.tokenId === id);
+                            if (watchlistIndex !== -1) {
+                                vm.selectedNfts["watchlist"].splice(watchlistIndex, 1);
+                            }
+
+                            // 检查是否这是最后一个被删除的 id
+                            if (vm.savedIds.length === 0) {
+                                vm.hasData = false;
+                            }
+
+                            console.log('ID deleted:', id);
+                        } else {
+                            console.log('ID does not exist:', id);
+                        }
+                        resolve();
+                    });
+                });
+            });
+        },
+
         async Watchlist() {
 
             const db = openDatabase('mydb', '1.0', 'My Web SQL Database', 2 * 1024 * 1024);
@@ -541,18 +616,20 @@ export default {
                         const savedId = rows.item(i).id;
                         savedIds.push(savedId);
                     }
-                    this.fetchNFTsBySavedIds(savedIds);
+                    
+                    this.fetchNFTsBySavedIds(savedIds, "run");
                 });
             });
 
         },
-        async fetchNFTsBySavedIds(savedIds) {
+        async fetchNFTsBySavedIds(savedIds, text) {
+            
             const response = await axios.get(`https://forge.e2app.asia/api/getwatchlist?ids=${savedIds}`);
             const nftsData = response.data;
 
-            if (nftsData.length > 0) {
-                nftsData.forEach(nft => {
-                    this.selectedNfts["watchlist"].push({
+            if (nftsData && nftsData.length > 0) {
+                nftsData.forEach((nft) => {
+                    const newItem = {
                         tokenId: nft.t_id,
                         image: nft.image,
                         s1: nft.s1,
@@ -564,10 +641,38 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
-                    });
+                        icon: nft.marketplace_image,
+                        season_score: nft.season_score,
+                        daily_rank: nft.daily_rank,
+                        daily_score: nft.daily_score
+                    };
+                    this.hasData = true;
+                    this.selectedNfts["watchlist"].push(newItem);
                 });
+
+                if(text == "run"){
+                    this.setApiCallAndCountdown();
+                }
+                
             }
+        },
+
+        async fetchAdditionalInfo(savedIds) {
+           
+            const response = await axios.get(`https://forge.e2app.asia/api/getwatchlistdata?ids=${savedIds}`);
+            const additionalData = response.data;
+
+            additionalData.forEach(additionalItem => {
+                this.selectedNfts["watchlist"].forEach(watchlistItem => {
+                if (watchlistItem.tokenId === additionalItem.t_id) {
+                    watchlistItem.season_score = additionalItem.season_score;
+                    watchlistItem.daily_rank = additionalItem.daily_rank;
+                    watchlistItem.daily_score = additionalItem.daily_score;
+                }
+                });
+                // console.log(additionalItem);
+            });
+            
         },
         async fetchNFTsByPriceList() {
             const response = await axios.get(`https://forge.e2app.asia/api/getpricelist?page=${this.pricepage}`);
@@ -595,7 +700,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
                 });
             }
@@ -656,7 +762,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
                 });
                 // console.log(this.selectedNfts[this.selectedTab]);
@@ -709,7 +816,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
                 });
 
@@ -760,7 +868,8 @@ export default {
                         now: nft.current_season,
                         price: nft.price,
                         floor_currency: nft.floor_currency,
-                        icon: nft.marketplace_image
+                        icon: nft.marketplace_image,
+                        rank: nft.rank
                     });
 
                 });
@@ -771,41 +880,23 @@ export default {
                 this.isLoading = false;
             }
         },
-        searchNftByTraits(searchQueries) {
 
-            this.isLoading = true;
-            this.nfts = [];
+        setApiCallAndCountdown() {
+            if(this.hasData){
+                
+                this.countdown = 0;
+                
+                const timer = setInterval(() => {
+                    this.countdown += 1;
 
-            if (!Array.isArray(searchQueries)) {
-                searchQueries = [searchQueries];
+                    if (this.countdown >= 21) {
+                        this.fetchAdditionalInfo(this.savedIds);
+                        clearInterval(timer);
+                        this.setApiCallAndCountdown();
+                    }
+                }, 1000);
             }
-
-            Promise.all(
-                searchQueries.map(searchQuery =>
-                    axios.get('https://deep-index.moralis.io/api/v2/nft/search', {
-                        params: {
-                            chain: 'eth',
-                            format: 'decimal',
-                            addresses: [`${HV_MTL}`],
-                            q: searchQuery,
-                            filter: 'attributes'
-                        },
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-API-Key': MO_API_KEY,
-                        }
-                    })
-                )
-            )
-                .then(responses => {
-                    const combinedResults = responses.flatMap(response => response.data.result);
-                    const tokenIds = combinedResults.map(result => result.token_id);
-                    this.fetchNFTs(tokenIds);
-                })
-                .catch(error => {
-                    console.error('获取NFT数据时出错：', error);
-                    this.isLoading = false;
-                });
+            
         }
     },
     mounted() {
@@ -815,52 +906,18 @@ export default {
         this.fetchNFTsByPriceList();
         this.fetchSavedIds();
         this.totalPages = Math.ceil(this.totalSupply / this.limit);
+        this.setApiCallAndCountdown();
+  
     },
 };
 </script>
 
 <style>
-.ellipse {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 0px;
-    width: 36px;
-    height: 36px;
-    left: 0;
-    top: 0;
-    background: #EBF2F8;
-    border-radius: 50%;
+.bookmark{
+    max-width: 24px;  
+    height: auto;
+    cursor: pointer;
 }
-
-.gg-bookmark,
-.gg-bookmark::after {
-    display: block;
-    box-sizing: border-box;
-}
-
-.gg-bookmark {
-    border: 2px solid;
-    border-bottom: 0;
-    overflow: hidden;
-    position: relative;
-    transform: scale(var(--ggs, 1));
-    width: 14px;
-    height: 20px
-}
-
-.gg-bookmark::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-top: 2px solid;
-    border-right: 2px solid;
-    transform: rotate(-45deg);
-    top: 12px;
-    left: -1px
-}
-
 .disabled_pagination {
     display: none !important;
 }
