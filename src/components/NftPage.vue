@@ -27,7 +27,8 @@
                 <div style="width: 260px;">
                     <img class="d-block" src="../assets/logo.png" alt="" width="45%">
                 </div>
-                <button class="btn btn-primary" @click="openElectronWindow">Companion</button>
+                <button class="btn btn-primary" @click="showDropdown = !showDropdown">Companion</button>
+                <Companion v-if="showDropdown"/>
             </div>
 
             <div class="d-flex align-items-start" method="get" style="">
@@ -342,15 +343,19 @@ import axios from 'axios';
 import NftDetails from './NftModules.vue'
 import { io } from "socket.io-client";
 import { HV_MTL, MO_API_KEY } from '../main.js';
+import Companion from './Companion.vue';
+
 
 export default {
     name: 'NftPage',
     components: {
         // Header,
-        NftDetails
+        NftDetails,
+        Companion
     },
     data() {
         return {
+            showDropdown: false,
             nfts: [],
             selectedNfts: {
                 'hv': [],
