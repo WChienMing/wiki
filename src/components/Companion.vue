@@ -86,6 +86,40 @@
                 </tr>
             </table>
         </div>
+
+        <div v-if="currentTable === 6" id="decorations-container">
+            <table>
+                <tr class="blue-header">
+                    <th>Level</th>
+                    <th>Energy</th>
+                    <th>Time</th>
+                    <th>Energy Output</th>
+                </tr>
+                <tr v-for="item in tiles_up" :key="item.name">
+                    <td>{{ item.tile_level }}</td>
+                    <td>{{ item.energy_cost }}</td>
+                    <td>{{ item.time_required }}</td>
+                    <td>{{ item.energy_output }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div v-if="currentTable === 7" id="decorations-container">
+            <table>
+                <tr class="blue-header">
+                    <th>Tile</th>
+                    <th>Energy</th>
+                    <th>Time</th>
+                    <th>Total Energy</th>
+                </tr>
+                <tr v-for="item in tiles_qu" :key="item.name">
+                    <td>{{ item.tile_quantity }}</td>
+                    <td>{{ item.energy_cost }}</td>
+                    <td>{{ item.construction_time }}</td>
+                    <td>{{ item.total_energy }}</td>
+                </tr>
+            </table>
+        </div>
         
         <!-- ... (the rest of the tables remain the same) -->
 
@@ -106,6 +140,8 @@ export default {
             quarterly_points: [],
             portal_level: [],
             object: [],
+            tiles_up: [],
+            tiles_qu: [],
         };
     },
     created() {
@@ -118,21 +154,25 @@ export default {
                 axios.get(`${API_URL}vote`),
                 axios.get(`${API_URL}quarterly_points`),
                 axios.get(`${API_URL}portal_level`),
-                axios.get(`${API_URL}object`)
-            ]).then(axios.spread((tiles, vote, quarterly_points, portal_level, object) => {
+                axios.get(`${API_URL}object`),
+                axios.get(`${API_URL}tiles_up`),
+                axios.get(`${API_URL}tiles_qu`)
+            ]).then(axios.spread((tiles, vote, quarterly_points, portal_level, object, tiles_up, tiles_qu) => {
                 this.tiles = tiles.data;
                 this.vote = vote.data;
                 this.quarterly_points = quarterly_points.data;
                 this.portal_level = portal_level.data;
                 this.object = object.data;
+                this.tiles_up = tiles_up.data;
+                this.tiles_qu = tiles_qu.data;
             })).catch(error => {
                 console.error(error);
             });
         },
         changeTable(direction) {
             this.currentTable += direction;
-            if (this.currentTable < 1) this.currentTable = 5;
-            if (this.currentTable > 5) this.currentTable = 1;
+            if (this.currentTable < 1) this.currentTable = 7;
+            if (this.currentTable > 7) this.currentTable = 1;
         },
         getCurrentTableTitle() {
             switch (this.currentTable) {
@@ -141,6 +181,8 @@ export default {
                 case 3: return "Quarterly Points";
                 case 4: return "Portal Level";
                 case 5: return "Decorations";
+                case 6: return "Upgrade Tiles";
+                case 7: return "Build Tiles";
                 default: return "";
             }
         }
