@@ -369,6 +369,10 @@ hr {
   background-color: #501cdf;
 }
 
+.amp-bg .active:nth-child(6) .amp {
+  background-color: #7b67b3;
+}
+
 .new-marketprice {
   border: 1px solid #F1F1F1;
   background-color: #EBF2F8;
