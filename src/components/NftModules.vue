@@ -2,8 +2,13 @@
     <div class="descrip-box">
         <div class=" align-items-center">
             <div class=" plots">
-                <div class="vote">
-                    Today votes: {{ (score === null || score === 0) ? '-' : score }}
+                <div class="col-md-12 d-flex justify-content-center">
+                    <div class="vote col-md-6 text-center mr-3">
+                        Today votes: {{ (score === null || score === 0) ? '-' : score }}
+                    </div>
+                    <div class="vote col-md-6 text-center ml-3">
+                        Shard: {{ (shard === null || shard === 0) ? '-' : shard }}
+                    </div>
                 </div>
                 <div class="d-flex descrip-child1 mx-0">
                     <div class="col-3 px-0">
@@ -160,6 +165,7 @@ export default {
             amps: [],
             imageUrl: '',
             score: 0,
+            shard: 0,
             openSeaFloorPrice: null,
             owners: [],
             events: [],
@@ -211,6 +217,7 @@ export default {
             axios.get(`${API_URL}gettiles?id=${this.urlId}`)
                 .then(response => {
                     this.score = response.data.score;
+                    this.shard = response.data.shard;
                     this.tiles = response.data.tiles;
                     this.traits = response.data.traits;
                     this.states = response.data.state;

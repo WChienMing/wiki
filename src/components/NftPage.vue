@@ -260,7 +260,8 @@
                                             <div class="col-2">Season Points</div>
                                             <div class="col-2">Daily Ranking</div>
                                             <div class="col-1">Daily Votes</div>
-                                            <div class="col-2">Price</div>
+                                            <div class="col-1">Price</div>
+                                            <div class="col-1">Shard</div>
                                             <div class="col-1"></div>
                                         </div>
                                     </div>
@@ -307,12 +308,12 @@
                                                 </div>
                                                 <div class="col-1 d-flex">
                                                     <div class="flex-grow-1">
-                                                        <div class="ml-2">
+                                                        <div class="ml-1">
                                                             <div class="text" style="font-weight: 600;">{{ nft.daily_score }}</div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-1">
                                                     <a :href="getMarketURL(nft)" target="_blank" rel="noopener noreferrer">
                                                         <div class="new-marketprice" v-if="nft.price">
                                                             <img v-if="nft.icon === 'blur.webp'"
@@ -326,6 +327,13 @@
                                                             <span>{{ nft.price }} {{ nft.floor_currency }}</span>
                                                         </div>
                                                     </a>
+                                                </div>
+                                                <div class="col-1 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <div class="ml-1">
+                                                            <div class="text" style="font-weight: 600;">{{ nft.shard_rank }}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-1" v-if="!isIdSaved(nft.tokenId)">
                                                     <img src="../assets/icon/bookmark.png" class="bookmark"  @click="saveId(nft.tokenId)">
@@ -644,7 +652,8 @@ export default {
                         icon: nft.marketplace_image,
                         season_score: nft.season_score,
                         daily_rank: nft.daily_rank,
-                        daily_score: nft.daily_score
+                        daily_score: nft.daily_score,
+                        shard_rank: nft.shard_rank
                     };
                     this.hasData = true;
                     this.selectedNfts["watchlist"].push(newItem);
@@ -668,6 +677,7 @@ export default {
                     watchlistItem.season_score = additionalItem.season_score;
                     watchlistItem.daily_rank = additionalItem.daily_rank;
                     watchlistItem.daily_score = additionalItem.daily_score;
+                    watchlistItem.shard_rank = additionalItem.shard_rank;
                 }
                 });
                 // console.log(additionalItem);
