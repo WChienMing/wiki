@@ -10,10 +10,9 @@
                         Shard: {{ (shard === null || shard === 0) ? '-' : shard }}
                     </div>
                 </div>
-                <div class="d-flex descrip-child1 mx-0">
+                <!-- <div class="d-flex descrip-child1 mx-0">
                     <div class="col-3 px-0">
                         <img :src="imageUrl" class="deed-image mb-0">
-
                     </div>
                     <div class="col-9 px-0">
                         <div class="nopaddingmobile justify-content-start align-items-center"
@@ -26,7 +25,28 @@
                             </div>
                         </div>
                     </div>
-
+                </div> -->
+                <div class="d-flex descrip-child1 mx-0">
+                    <div class="col-4 px-0" style="position: relative;">
+                        <img :src="imageUrl" class="deed-image mb-0" style="width: 100%;height: 100%;object-fit: cover; display: block;">
+                    </div>
+                    <div class="col-8 px-0 d-flex flex-column">
+                        <div class="mb-2" v-if="leaderboardState">
+                            <a class="details" href="#">
+                            <h2 style="font-size: 13px !important;">{{ leaderboardState.name }}</h2>
+                            <div class="text" style="font-size: 12px !important;">{{ leaderboardState.value }}</div>
+                            </a>
+                        </div>
+                        <div class="nopaddingmobile justify-content-start align-items-center flex-grow-1" 
+                            style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; height: 100%;">
+                            <div class="liner" v-for="_state in nonLeaderboardStates" :key="_state.name">
+                            <a class="details" href="#">
+                                <h2 style="font-size: 13px !important;">{{ _state.name }}</h2>
+                                <div class="text" style="font-size: 12px !important;">{{ _state.value }}</div>
+                            </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mx-0" style="padding: 16px 0px">
                     <div class="col-lg-12 col-md-12 px-0">
@@ -188,6 +208,13 @@ export default {
                 rows.push(this.tiles.slice(i, i + 21));
             }
             return rows;
+        },
+        leaderboardState() {
+            return this.states.find(state => state.name === 'Leaderboard');
+        },
+
+        nonLeaderboardStates() {
+            return this.states.filter(state => state.name !== 'Leaderboard');
         },
     },
     mounted() {
