@@ -7,12 +7,13 @@ import Sediment from './components/Sediment.vue';
 import Strategy from './components/Strategy.vue';
 import NftPrice from './components/NftPrice.vue';
 import Companion from './components/Companion.vue';
+import HelloWorld from './components/HelloWorld.vue';
 
 
 Vue.use(VueRouter);
 
 const routes = [
-  // { path: '/', component: MainPage },
+  { path: '/test_vuex', component: HelloWorld },
   { path: '/', component: NftPage },
   { path: '/nftDetails', component: NftDetails },
   { path: '/Sediment', component: Sediment },

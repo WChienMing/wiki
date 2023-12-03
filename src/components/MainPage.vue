@@ -145,7 +145,7 @@ import axios from 'axios';
 import Header from '../components/HeaderSection.vue';
 import { OPENSEA_API_KEY, HV_MTL } from '../main.js';
 import NftRank from './NftRank.vue';
-
+import { mapState } from 'vuex';
 
 import Swiper from 'swiper';
 import 'swiper/css/swiper.css';
@@ -258,6 +258,7 @@ export default {
       this.createSwiper();
     })
   },
+
 };
 </script>
 

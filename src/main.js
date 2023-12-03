@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router';
+import store from './store';
 
 import './assets/css/fontawesome/css/fontawesome.css';
 import './assets/css/fontawesome/css/brands.css';
@@ -31,6 +32,7 @@ new Vue({
       isFetching: true
     }
   },
+  store,
   router,
   render: h => h(App),
 }).$mount('#app')
